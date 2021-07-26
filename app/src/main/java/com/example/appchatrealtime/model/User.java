@@ -1,4 +1,4 @@
-package com.example.appchatrealtime;
+package com.example.appchatrealtime.model;
 
 import android.text.TextUtils;
 import android.util.Patterns;

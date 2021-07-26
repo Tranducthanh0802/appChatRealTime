@@ -1,4 +1,4 @@
-package com.example.appchatrealtime;
+package com.example.appchatrealtime.views;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.appchatrealtime.databinding.LoginFragmentBinding;
 import com.example.appchatrealtime.databinding.RegisterFragmentBinding;
 
 public class Register_fragment extends Fragment {

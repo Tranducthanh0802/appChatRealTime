@@ -1,10 +1,10 @@
 package com.example.appchatrealtime;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.appchatrealtime.views.Login_fragment;
 
 public class MainActivity extends AppCompatActivity {
 

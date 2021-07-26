@@ -1,4 +1,4 @@
-package com.example.appchatrealtime;
+package com.example.appchatrealtime.model;
 
 import androidx.annotation.NonNull;
 
@@ -8,7 +8,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class firebase {
@@ -22,7 +21,7 @@ public class firebase {
 
     }
 
-    public List<User> getUser(String key,List<User> list) {
+    public List<User> getUser(String key, List<User> list) {
         databaseReference=firebaseDatabase.getReference().child(key);
         ValueEventListener postListener =new ValueEventListener() {
             @Override

@@ -5,7 +5,7 @@
         <import type="android.view.View"/>
         <variable
             name="LoginViewModel"
-            type="com.example.appchatrealtime.LoginViewModel" />
+            type="com.example.appchatrealtime.viewmodels.LoginViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

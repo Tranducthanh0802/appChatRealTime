@@ -1,14 +1,11 @@
-package com.example.appchatrealtime;
+package com.example.appchatrealtime.viewmodels;
 
-import android.util.Log;
-
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
-import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
+
+import com.example.appchatrealtime.model.User;
+import com.example.appchatrealtime.model.firebase;
 
 import java.util.ArrayList;
 import java.util.List;
