@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1097719306671",
+    "firebase_url": "https://chatapp-1ecca-default-rtdb.firebaseio.com",
+    "project_id": "chatapp-1ecca",
+    "storage_bucket": "chatapp-1ecca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097719306671:android:f0feca3812be17a79af75a",
+        "android_client_info": {
+          "package_name": "com.example.appchatrealtime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1097719306671-shgh01r6b7elmijm1s1qa6n9p668nnlh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdYluIQUNY0cUVWFpTdwfVTr0mwdWsEtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1097719306671-shgh01r6b7elmijm1s1qa6n9p668nnlh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

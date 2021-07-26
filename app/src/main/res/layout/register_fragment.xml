@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+   >
+    <data>
+        <variable
+            name="register"
+            type="com.example.appchatrealtime.RegisterViewModel" />
+    </data>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_21sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            >
+            <ImageView
+                android:layout_width="@dimen/_33sdp"
+                android:layout_height="@dimen/_44sdp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="@string/dk"
+                android:textSize="@dimen/sizeNameFrag"
+                android:textColor="@color/blueDark"
+                android:textStyle="bold"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:layout_marginRight="@dimen/_21sdp"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hovaten"
+                    android:textSize="@dimen/text"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:hint="@string/hinthovaten"
+
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/edit" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="@string/email"
+                    android:textSize="@dimen/text" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:drawableRight="@drawable/ic_baseline_mail_outline_24"
+                    android:hint="@string/hintgmail"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/edit" />
+
+                <TextView
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/matkhau"
+                    android:textSize="@dimen/text"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:hint="@string/hintmk"
+                    android:textSize="@dimen/edit"
+                    android:textColor="@color/black"
+                    android:inputType="textEmailAddress"
+                    android:drawableRight="@drawable/key"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    >
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/toidongy"
+                        android:textSize="@dimen/text"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/chinhsach"
+                        android:textColor="@color/blueDark"
+                        android:layout_marginLeft="@dimen/_3sdp"
+                       android:textSize="@dimen/text"
+                        />
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/va"
+                        android:textColor="@color/blueDark"
+                        android:layout_marginLeft="@dimen/_3sdp"
+                       android:textSize="@dimen/text"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dieukhoan"
+                        android:textColor="@color/blueDark"
+                        android:layout_marginLeft="@dimen/_3sdp"
+                       android:textSize="@dimen/text"
+                        />
+
+                </LinearLayout>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:textSize="@dimen/button"
+                    android:text="@string/dangnhap_Button"
+                    android:background="@drawable/button_"
+                    android:textColor="@color/white"
+                    />
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/_25sdp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/chuacotaikhoan"
+                        android:textSize="@dimen/text"
+                        android:gravity="bottom"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/dkngay"
+                        android:textSize="@dimen/text"
+                        android:textColor="@color/blueDark"
+                        android:gravity="bottom"/>
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+</layout>
