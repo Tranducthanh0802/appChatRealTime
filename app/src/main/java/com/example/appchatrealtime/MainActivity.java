@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appchatrealtime.views.Login_fragment;
+import com.example.appchatrealtime.views.TopicFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.frame, Login_fragment.newInstance()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame, TopicFragment.newInstance()).commit();
 
     }
 }

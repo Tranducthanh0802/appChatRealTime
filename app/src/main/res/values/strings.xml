@@ -17,6 +17,17 @@
     <string name="hintmk">******</string>
     <string name="hovaten">HỌ VÀ TÊN</string>
     <string name="hinthovaten">Tran Van A</string>
+    <string name="luu">lưu</string>
+    <string name="chinhsualuutt">Chỉnh sửa lưu thông tin</string>
+    <string name="tinnhan">Tin nhắn</string>
+<string name="tktinnhan">Tìm kiếm tin nhắn..</string>
+<string name="banbe">Bạn bè</string>
+<string name="trangcanhan">Trang cá nhân</string>
+<string name="nhaptinnhan">Nhập tin nhắn</string>
+<string name="taotinnhan">tạo tin nhắn</string>
+<string name="tatca">tất cả</string>
+<string name="yeucau">yêu cầu</string>
+<string name="time">18:09</string>
 
 
 </resources>

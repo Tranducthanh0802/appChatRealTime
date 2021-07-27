@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.appchatrealtime.databinding.LoginFragmentBinding;
+import com.example.appchatrealtime.viewmodels.LoginViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
 public class Login_fragment extends Fragment {
+    LoginViewModel loginViewModel;
     public static Login_fragment newInstance() {
 
         Bundle args = new Bundle();
@@ -30,7 +34,16 @@ public class Login_fragment extends Fragment {
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         LoginFragmentBinding binding = LoginFragmentBinding.inflate(inflater, container, false);
         //set binding variables here
+
         return binding.getRoot();
 
     }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        loginViewModel= new ViewModelProvider(getActivity()).get(LoginViewModel.class);
+    }
+
+
 }
