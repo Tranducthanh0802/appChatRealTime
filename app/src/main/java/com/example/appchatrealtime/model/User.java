@@ -7,87 +7,99 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 public class User {
-    private String Email;
-    private String Password;
-    private String FullName;
-    private String PhoneNumber;
-    private String Date;
-    private String LinkPhoto;
+    private String email;
+    private String password;
+    private String fullName;
+    private String phoneNumber;
+    private String date;
+    private String linkPhoto;
 
     public User() {
     }
 
+    public User(String email, String password, String fullName) {
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+        this.phoneNumber="";
+        this.date="";
+        this.linkPhoto="";
+    }
+
     public User(String email, String password) {
-        Email = email;
-        Password = password;
-        FullName = "";
-        PhoneNumber = "";
-        Date = "";
-        LinkPhoto = "";
+        this.email = email;
+        this.password = password;
+        this.fullName = "";
+        this.phoneNumber="";
+        this.date="";
+        this.linkPhoto="";
     }
 
     public User(String email, String password, String fullName, String phoneNumber, String date, String linkPhoto) {
-        Email = email;
-        Password = password;
-        FullName = fullName;
-        PhoneNumber = phoneNumber;
-        Date = date;
-        LinkPhoto = linkPhoto;
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.date = date;
+        this.linkPhoto = linkPhoto;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public String getFullName() {
-        return FullName;
+        return fullName;
     }
 
     public void setFullName(String fullName) {
-        FullName = fullName;
+        this.fullName = fullName;
     }
 
     public String getPhoneNumber() {
-        return PhoneNumber;
+        return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        PhoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getDate() {
-        return Date;
+        return date;
     }
 
     public void setDate(String date) {
-        Date = date;
+        this.date = date;
     }
 
     public String getLinkPhoto() {
-        return LinkPhoto;
+        return linkPhoto;
     }
 
     public void setLinkPhoto(String linkPhoto) {
-        LinkPhoto = linkPhoto;
+        this.linkPhoto = linkPhoto;
     }
 
     public boolean IsValidEmail(){
-        return !TextUtils.isEmpty(Email) && Patterns.EMAIL_ADDRESS.matcher(Email).matches();
+        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
     public boolean IsValidPassword(){
-        return !TextUtils.isEmpty(Password) && Password.length()>=6;
+        return !TextUtils.isEmpty(password) && password.length()>=6;
+    }
+    public boolean IsValidFUllName(){
+        return !TextUtils.isEmpty(fullName) ;
     }
 
 }

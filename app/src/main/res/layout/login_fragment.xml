@@ -5,7 +5,7 @@
     <data>
         <import type="android.view.View"/>
         <variable
-            name="LoginViewModel"
+            name="viewmodel"
             type="com.example.appchatrealtime.viewmodels.LoginViewModel" />
     </data>
     <RelativeLayout
@@ -69,7 +69,7 @@
                 android:drawableRight="@drawable/ic_baseline_mail_outline_24"
                 android:hint="@string/hintgmail"
                 android:inputType="textEmailAddress"
-                android:text="@={LoginViewModel.Email}"
+                android:text="@={viewmodel.Email}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/edit" />
 
@@ -90,7 +90,7 @@
                 android:textColor="@color/black"
                 android:inputType="textPassword"
                 android:drawableRight="@drawable/key"
-                android:text="@={LoginViewModel.Password}"
+                android:text="@={viewmodel.Password}"
                 />
             <TextView
                 android:layout_width="match_parent"
@@ -105,7 +105,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{LoginViewModel.message}"
+                android:visibility="@{viewmodel.isShowMessage ? View.VISIBLE : View.GONE }"
+                android:text="@{viewmodel.message}"
                 android:textColor="@color/red"/>
 
             <Button
@@ -114,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/button_"
-                android:onClick="@{()->LoginViewModel.onClickLogin()}"
+                android:onClick="@{()-> viewmodel.onClickLogin()}"
                 android:text="@string/dangnhap_Button"
                 android:textColor="@color/white"
                 android:textSize="@dimen/button" />

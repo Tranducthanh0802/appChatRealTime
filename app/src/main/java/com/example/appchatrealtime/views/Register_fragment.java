@@ -7,9 +7,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.appchatrealtime.R;
+import com.example.appchatrealtime.databinding.LoginFragmentBinding;
 import com.example.appchatrealtime.databinding.RegisterFragmentBinding;
+import com.example.appchatrealtime.viewmodels.LoginViewModel;
+import com.example.appchatrealtime.viewmodels.RegisterViewModel;
 
 public class Register_fragment extends Fragment {
     public static Register_fragment newInstance() {
@@ -24,8 +30,12 @@ public class Register_fragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull  LayoutInflater inflater, @Nullable  ViewGroup container, @Nullable  Bundle savedInstanceState) {
-        RegisterFragmentBinding registerFragmentBinding= RegisterFragmentBinding.inflate(inflater,container,false);
-
-        return registerFragmentBinding.getRoot();
+        RegisterFragmentBinding binding = DataBindingUtil.inflate(
+                inflater, R.layout.register_fragment, container, false);
+        View view = binding.getRoot();
+        RegisterViewModel registerFragmentBinding=new ViewModelProvider(getActivity()).get(RegisterViewModel.class);
+        binding.setLifecycleOwner(getActivity());
+        binding.setRegister(registerFragmentBinding);
+        return view;
     }
 }
