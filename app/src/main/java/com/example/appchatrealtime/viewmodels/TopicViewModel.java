@@ -5,7 +5,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.Bindable;
 import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -31,7 +30,6 @@ public class TopicViewModel extends ViewModel {
     public Message message;
     private String id_sender;
     private String id_receive="1";
-    @Bindable
     public Boolean isBold ;
     MutableLiveData<ArrayList<TopicViewModel>> arrayListMutableLiveData=new MutableLiveData<>();
     private ArrayList<TopicViewModel> arrayList;
