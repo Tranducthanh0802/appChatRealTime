@@ -1,37 +1,34 @@
 package com.example.appchatrealtime.model;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class firebase {
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
-    List<User> list;
+    public FirebaseDatabase firebaseDatabase;
+    public DatabaseReference databaseReference;
+
+
+    public DatabaseReference getDatabaseReference() {
+        return databaseReference=firebaseDatabase.getReference();
+    }
 
     public firebase() {
         firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference=firebaseDatabase.getReference();
+    }
 
-
+    public firebase(DatabaseReference databaseReference) {
+        this.databaseReference = databaseReference;
     }
 
     public DatabaseReference getDatabaseReference(String key) {
-        return databaseReference=firebaseDatabase.getReference().child("User");
+        return databaseReference=firebaseDatabase.getReference().child(key);
     }
 
     public void setDatabaseReference(DatabaseReference databaseReference) {
         this.databaseReference = databaseReference;
     }
+
 
 
 
