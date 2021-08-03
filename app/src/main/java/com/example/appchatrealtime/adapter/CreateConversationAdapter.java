@@ -7,47 +7,48 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appchatrealtime.R;
-import com.example.appchatrealtime.databinding.TopicAdapterBinding;
-import com.example.appchatrealtime.model.ListMessage;
-import com.example.appchatrealtime.respository.CustomListerner;
-import com.example.appchatrealtime.viewmodels.TopicViewModel;
+import com.example.appchatrealtime.databinding.CreateconversationAdapterBinding;
+import com.example.appchatrealtime.viewmodels.CreateConversationViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder>  implements CustomListerner, Filterable {
-    private ArrayList<TopicViewModel> arrayList;
-    private ArrayList<TopicViewModel> filteredGroups;
+public class CreateConversationAdapter extends RecyclerView.Adapter<CreateConversationAdapter.ViewHolder> implements Filterable {
+    private ArrayList<CreateConversationViewModel> arrayList;
+    private ArrayList<CreateConversationViewModel> filteredGroups;
     private Context context;
 
 
-    public TopicAdapter(ArrayList<TopicViewModel> arrayList, Context context) {
+
+    public CreateConversationAdapter(ArrayList<CreateConversationViewModel> arrayList, Context context) {
         this.arrayList = arrayList;
-        this.context = context;
         this.filteredGroups=arrayList;
+        this.context = context;
+
+
     }
 
     @NonNull
     @NotNull
     @Override
-    public TopicAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        TopicAdapterBinding binding= DataBindingUtil.inflate(
+    public CreateConversationAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+        CreateconversationAdapterBinding binding= DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
-                R.layout.topic_adapter, parent, false);
+                R.layout.createconversation_adapter, parent, false);
         return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-                TopicViewModel listMessage=arrayList.get(position);
-            holder.bind(listMessage);
+        CreateConversationViewModel createConversationViewModel=arrayList.get(position);
+        holder.bind(createConversationViewModel);
+
     }
 
     @Override
@@ -58,9 +59,20 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
         return arrayList.size();
     }
 
-    @Override
-    public void cardClicked(ListMessage f) {
-        ((AppCompatActivity) context).getSupportFragmentManager();
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public CreateconversationAdapterBinding createconversationAdapterBinding;
+        public ViewHolder(@NonNull @NotNull CreateconversationAdapterBinding createconversationAdapterBinding) {
+            super(createconversationAdapterBinding.getRoot());
+            this.createconversationAdapterBinding=createconversationAdapterBinding;
+        }
+        public void bind(CreateConversationViewModel createConversationViewModel) {
+            createconversationAdapterBinding.setViewmodel(createConversationViewModel);
+            createconversationAdapterBinding.executePendingBindings();
+
+        }
+        public CreateconversationAdapterBinding getAdapterBinding(){
+            return createconversationAdapterBinding;
+        }
     }
 
     @Override
@@ -69,7 +81,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                List<TopicViewModel> fGroups = new ArrayList<>();
+                List<CreateConversationViewModel> fGroups = new ArrayList<>();
                 if (constraint == null || constraint.length() == 0) {
                     // set the Original result to return
                     results.count = filteredGroups.size();
@@ -77,7 +89,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
                 } else {
                     constraint = constraint.toString().toLowerCase();
                     for (int i = 0; i < filteredGroups.size(); i++) {
-                        String data = filteredGroups.get(i).nameSend;
+                        String data = filteredGroups.get(i).nameFull;
                         if (data.toLowerCase().startsWith(constraint.toString())) {
                             fGroups.add(filteredGroups.get(i));
                         }
@@ -92,28 +104,10 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                arrayList = (ArrayList<TopicViewModel>) results.values;
+                arrayList = (ArrayList<CreateConversationViewModel>) results.values;
                 notifyDataSetChanged();
             }
         };
     }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TopicAdapterBinding topicAdapterBinding;
-        public ViewHolder(@NonNull @NotNull TopicAdapterBinding topicAdapterBinding) {
-            super(topicAdapterBinding.getRoot());
-            this.topicAdapterBinding=topicAdapterBinding;
-        }
-
-        public void bind(TopicViewModel topicViewModel) {
-            topicAdapterBinding.setViewmodel(topicViewModel);
-            topicAdapterBinding.executePendingBindings();
-
-        }
-        public TopicAdapterBinding getAdapterBinding(){
-            return topicAdapterBinding;
-        }
-    }
-
 
 }

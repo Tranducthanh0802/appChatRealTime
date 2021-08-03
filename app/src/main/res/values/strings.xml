@@ -24,10 +24,12 @@
 <string name="banbe">Bạn bè</string>
 <string name="trangcanhan">Trang cá nhân</string>
 <string name="nhaptinnhan">Nhập tin nhắn</string>
-<string name="taotinnhan">tạo tin nhắn</string>
+<string name="taotinnhan">Tạo tin nhắn</string>
 <string name="tatca">tất cả</string>
 <string name="yeucau">yêu cầu</string>
-<string name="time">18:09</string>
+<string name="huy">Huỷ</string>
+<string name="dsbanbe">Danh sách bạn bè</string>
+
 
 
 </resources>

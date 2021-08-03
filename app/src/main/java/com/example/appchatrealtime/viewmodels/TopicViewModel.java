@@ -27,10 +27,15 @@ import java.util.HashMap;
 public class TopicViewModel extends ViewModel {
     public String linkPhoto="";
     public String nameSend="";
+    public String tn="";
+    public String thoigian="";
     public Message message;
     private String id_sender;
     private String id_receive="1";
     public Boolean isBold ;
+    public Boolean isShow ;
+    public String diem= "0";
+
     MutableLiveData<ArrayList<TopicViewModel>> arrayListMutableLiveData=new MutableLiveData<>();
     private ArrayList<TopicViewModel> arrayList;
 
@@ -57,51 +62,64 @@ public class TopicViewModel extends ViewModel {
                 break;
         }
     }
+
+
+
     public TopicViewModel(TopicItem topicItem) {
         this.linkPhoto =   topicItem.getLinkPhoto();
         this.nameSend =     topicItem.getNameSend();
-        this.message =      topicItem.getMessages();
+        this.tn =      topicItem.getMessages().getMessage();
+        this.thoigian=topicItem.getMessages().getTime();
+    }
+
+    public TopicViewModel(TopicItem topicItem,  String diem, Boolean isBold) {
+        this.linkPhoto =   topicItem.getLinkPhoto();
+        this.nameSend =     topicItem.getNameSend();
+        this.tn =      topicItem.getMessages().getMessage();
+        this.thoigian=topicItem.getMessages().getTime();
+        this.diem=diem;
+        this.isBold=isBold;
     }
 
     public MutableLiveData<ArrayList<TopicViewModel>> getArrayListMutableLiveData() {
         arrayList = new ArrayList<>();
-        TopicItem topicItem = new TopicItem("https://i.imgur.com/4mqc17e.jpg","Tran Duc Thanh",new Message("17:02","Xin chao cac ban! Minh ten la tran duc thanh nam nay 22 tuoi"));
-        TopicViewModel topicViewModel=new TopicViewModel(topicItem);
-
          initdata();
         isBold=false;
         //arrayListMutableLiveData.setValue(arrayList);
         return arrayListMutableLiveData;
     }
     private MutableLiveData<ArrayList<TopicViewModel>> initdata() {
-
+        message=new Message();
         firebase fb =new firebase();
         DatabaseReference databaseReference =fb.getDatabaseReference();
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 arrayList.clear();
-                Message message1 =new Message();
                 TopicViewModel topicViewModel;
-
                 for (int i = 0; i < snapshot.child("ListMessage").getChildrenCount(); i++){
-                    String tinnhan= (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue();
                     Boolean status=snapshot.child("ListMessage").child(String.valueOf(i)).child("status").getValue(Boolean.class);
-                    if(!processMessage(tinnhan,message1 )&& !status){ isBold=true;
-                    }else isBold=false;
-                    
                     String id_re= String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue(Integer.class));
                     TopicItem topicItem1 = null;
                     if(id_re.equals(id_receive)) {
+                        String tinnhan= (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue();
+                        if(!processMessage(tinnhan)&& !(Boolean)snapshot.child("ListMessage").child(String.valueOf(i)).child("status").getValue()){
+                            isBold=true;
+                        }else{
+                            isBold=false;
+                        };
+                        diem= String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("count").getValue());
                         String id= String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue(Integer.class));
                         topicItem1 = new TopicItem(
                                 (String) snapshot.child("User").child(id).child("linkPhoto").getValue(),
                                 (String) snapshot.child("User").child(id).child("fullName").getValue(),
-                                message1
+                                message
                         );
+
                     }
-                    topicViewModel=new TopicViewModel(topicItem1);
+                   topicViewModel=new TopicViewModel(topicItem1,diem,isBold);
                     arrayList.add(topicViewModel);
+
 
                 }
                arrayListMutableLiveData.setValue(arrayList);
@@ -114,11 +132,15 @@ public class TopicViewModel extends ViewModel {
             }
         };
         databaseReference.addValueEventListener(postMessage);
-
+        setNotificaion();
         return arrayListMutableLiveData;
     }
 
-    private boolean processMessage(String tinnhan, Message message1) {
+    private void setNotificaion() {
+
+    }
+
+    private boolean processMessage(String tinnhan) {
         String[] arrSection=new String[tinnhan.split("--").length+1];
         String[] arrTime=new String[3];
         String[] arrCategory=new String[3];
@@ -127,8 +149,8 @@ public class TopicViewModel extends ViewModel {
         HashMap<String,String> a=new HashMap<>();
          arrTime=arrSection[arrSection.length-1].split("-");
          arrCategory=arrTime[0].split("@@");
-        message1.setTime(arrTime[1]);
-        message1.setMessage(arrCategory[0]);
+        message.setTime(arrTime[1]);
+        message.setMessage(arrCategory[0]);
 
         if(arrCategory[1].equals("s")){
             return false;
@@ -143,7 +165,6 @@ public class TopicViewModel extends ViewModel {
         arrayListMutableLiveData.setValue(arrayList);
 
     }
-
 
 
 }

@@ -101,7 +101,7 @@
                         android:textSize="@dimen/text"
                         android:checked="@={register.ischeck}"
                         android:onClick="@{() -> register.onCheck()}"
-
+                        android:button="@drawable/checkbox"
                         />
 
                     <TextView

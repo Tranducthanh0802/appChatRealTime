@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 
 public class TopicFragment extends Fragment {
     TopicViewModel topicViewModel;
+    TopicAdapter topicAdapter;
     public static TopicFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -62,11 +64,26 @@ public class TopicFragment extends Fragment {
             @Override
             public void onChanged(ArrayList<TopicViewModel> topicViewModels) {
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-                TopicAdapter topicAdapter=new TopicAdapter(topicViewModels,getActivity());
+                topicAdapter=new TopicAdapter(topicViewModels,getActivity());
+                binding.edtSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String s) {
+                       
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String s) {
+                        topicAdapter.getFilter().filter(s);
+                        return false;
+                    }
+                });
                 binding.recyclerview.setAdapter(topicAdapter);
                 binding.recyclerview.setLayoutManager(mLayoutManager);
+
             }
         });
+
         return view;
 
     }
