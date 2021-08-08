@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.appchatrealtime.views.ChatFragment;
+import com.example.appchatrealtime.views.ListFriendFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.frame, ChatFragment.newInstance()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame, ListFriendFragment.newInstance()).commit();
 
     }
 }

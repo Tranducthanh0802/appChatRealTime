@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewmodel"
+            type="com.example.appchatrealtime.viewmodels.ChatViewModel" />
+    </data>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/img_left"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            app:imageUri="@{viewmodel.messag}"
+            android:layout_marginLeft="@dimen/_70sdp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_left"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:text="@{viewmodel.time}"
+            android:layout_marginLeft="@dimen/_70sdp"
+            android:textSize="@dimen/text"
+            android:visibility="@{viewmodel.isshowtime ? View.VISIBLE : View.GONE}"
+            />
+    </RelativeLayout>
+
+</layout>

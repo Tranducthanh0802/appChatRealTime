@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.example.appchatrealtime.viewmodels.ListFriendViewModel" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/_5sdp"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/_33sdp"
+            android:layout_height="@dimen/_33sdp"
+            app:imageUri="@{viewmodel.linkPhoto}"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@{viewmodel.nameFull}"
+            android:textStyle="bold"
+            android:textSize="@dimen/text"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:layout_marginLeft="@dimen/_5sdp"
+            />
+    </LinearLayout>
+</layout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewmodel"
             type="com.example.appchatrealtime.viewmodels.ChatViewModel" />
@@ -17,13 +18,14 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:textSize="@dimen/text"
                 android:padding="@dimen/_15sdp"
                 android:textColor="@color/white"
                 android:background="@drawable/message_right"
                 android:text="@{viewmodel.messag}"
+
                 android:id="@+id/txt_receive"
 
                 />
@@ -35,6 +37,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:text="@{viewmodel.time}"
                 android:layout_marginRight="@dimen/_5sdp"
+                android:visibility="@{viewmodel.isshowtime ? View.VISIBLE : View.GONE}"
                 android:textSize="@dimen/text"
 
                 />
