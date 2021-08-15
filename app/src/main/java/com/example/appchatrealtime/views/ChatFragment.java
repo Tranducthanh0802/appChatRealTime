@@ -53,11 +53,11 @@ public class ChatFragment extends Fragment {
         View view = binding.getRoot();
         ChatViewModel loginViewModel=new ViewModelProvider(getActivity()).get(ChatViewModel.class);
         loginViewModel.setContext(getActivity());
-        chat=new Chat();
+         chat=new Chat();
        // binding.setLifecycleOwner(getActivity());
         binding.setViewmodel(loginViewModel);
 
-        loginViewModel.getArrayListLiveData().observe(getActivity(), new Observer<ArrayList<ChatViewModel>>() {
+        loginViewModel.getArrayListLiveData(getActivity()).observe(getActivity(), new Observer<ArrayList<ChatViewModel>>() {
             @Override
             public void onChanged(ArrayList<ChatViewModel> chatViewModels) {
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());

@@ -165,9 +165,10 @@ public class ChatViewModel extends ViewModel
         this.arrayList = arrayList;
     }
 
-    SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
+
     public MutableLiveData<Chat> getLinkPhotoLiveData(FragmentActivity context) {
         firebase fb =new firebase();
+        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
         String id_Guest=sharedPreferencesModel.getString("id_guest","");
         DatabaseReference databaseReference=fb.getDatabaseReference();
         ValueEventListener postMessage=new ValueEventListener() {
@@ -188,8 +189,9 @@ public class ChatViewModel extends ViewModel
         return linkPhotoLiveData;
     }
 
-    public MutableLiveData<ArrayList<ChatViewModel>> getArrayListLiveData() {
+    public MutableLiveData<ArrayList<ChatViewModel>> getArrayListLiveData(FragmentActivity context) {
         firebase fb =new firebase();
+        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
         String id_Guest=sharedPreferencesModel.getString("id_guest","");
         DatabaseReference databaseReference=fb.getDatabaseReference();
         ValueEventListener postMessage=new ValueEventListener() {
