@@ -2,7 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
    >
     <data>
-        <import type="android.view.View"/>
+       <import type="android.view.View"/>
+
         <variable
             name="register"
             type="com.example.appchatrealtime.viewmodels.RegisterViewModel" />
@@ -13,11 +14,13 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/_21sdp"
             android:layout_marginTop="@dimen/_20sdp"
+            android:background="#FAFAFA"
             >
             <ImageView
                 android:layout_width="@dimen/_33sdp"
                 android:layout_height="@dimen/_44sdp"
                 android:src="@drawable/left"
+                android:id="@+id/img_back"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -151,12 +154,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:textColor="@color/red"
                         android:layout_alignParentTop="true"
                         android:text="@{register.message}"
-                        android:visibility="@{register.isShowMessage ? View.VISIBLE: View.GONE}"
-
-                        android:textColor="@color/red"/>
-                </RelativeLayout>
+                        android:visibility="@{register.isShowMessage ? View.VISIBLE: View.GONE}"/>
+                 </RelativeLayout>
 
 
                 <LinearLayout
@@ -169,15 +171,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/chuacotaikhoan"
+                        android:text="@string/dacotaikhoan"
                         android:textSize="@dimen/text"
                         android:gravity="bottom"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/dkngay"
+                        android:text="@string/dnngay"
                         android:textSize="@dimen/text"
                         android:textColor="@color/blueDark"
+                        android:id="@+id/txtdangnhap"
                         android:gravity="bottom"/>
 
 

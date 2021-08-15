@@ -1,7 +1,7 @@
 package com.example.appchatrealtime.viewmodels;
 
 import android.graphics.Typeface;
-import android.widget.ImageView;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -9,8 +9,6 @@ import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.bumptech.glide.Glide;
-import com.example.appchatrealtime.R;
 import com.example.appchatrealtime.model.Message;
 import com.example.appchatrealtime.model.TopicItem;
 import com.example.appchatrealtime.model.firebase;
@@ -21,35 +19,38 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
+import java.util.Collections;
 
 public class TopicViewModel extends ViewModel {
-    public String linkPhoto="";
-    public String nameSend="";
-    public String tn="";
-    public String thoigian="";
-    public Message message;
+//    public String linkPhoto="";
+//    public String nameSend="";
+//    public String tn="";
+//    public String thoigian="";
+//    public Message message;
     private String id_sender;
     private String id_receive="1";
-    public Boolean isBold ;
-    public Boolean isShow ;
-    public String diem= "0";
+    private TopicItem topicItem;
+    private MutableLiveData<String> transitionData=new MutableLiveData<>();
+    MutableLiveData<ArrayList<TopicItem>> arrayListMutableLiveData=new MutableLiveData<>();
+    private ArrayList<TopicItem> arrayList;
+    private MutableLiveData<Boolean> isChoose=new MutableLiveData<>();
 
-    MutableLiveData<ArrayList<TopicViewModel>> arrayListMutableLiveData=new MutableLiveData<>();
-    private ArrayList<TopicViewModel> arrayList;
+    public MutableLiveData<String> getTransitionData() {
+        return transitionData;
+    }
+
+    public void setTransitionData(String s) {
+        transitionData.setValue(s);
+    }
 
     public TopicViewModel() {
     }
 
-    public String getImageUrl(){
-        return linkPhoto;
-    }
 
-    @BindingAdapter({"bind:imageUri"})
-    public static void loadImage(ImageView imageView,String imgaeUrl){
-        Glide.with(imageView.getContext()).load(imgaeUrl).placeholder(R.drawable.personal1).into(imageView);
-    }
 
     @BindingAdapter("android:typeface")
     public static void setTypeface(TextView v, String style) {
@@ -66,62 +67,50 @@ public class TopicViewModel extends ViewModel {
 
 
     public TopicViewModel(TopicItem topicItem) {
-        this.linkPhoto =   topicItem.getLinkPhoto();
-        this.nameSend =     topicItem.getNameSend();
-        this.tn =      topicItem.getMessages().getMessage();
-        this.thoigian=topicItem.getMessages().getTime();
+        this.topicItem =   topicItem;
+
     }
 
-    public TopicViewModel(TopicItem topicItem,  String diem, Boolean isBold) {
-        this.linkPhoto =   topicItem.getLinkPhoto();
-        this.nameSend =     topicItem.getNameSend();
-        this.tn =      topicItem.getMessages().getMessage();
-        this.thoigian=topicItem.getMessages().getTime();
-        this.diem=diem;
-        this.isBold=isBold;
-    }
-
-    public MutableLiveData<ArrayList<TopicViewModel>> getArrayListMutableLiveData() {
+    public MutableLiveData<ArrayList<TopicItem>> getArrayListMutableLiveData() {
         arrayList = new ArrayList<>();
+        topicItem=new TopicItem();
          initdata();
-        isBold=false;
+        topicItem.setBold(false);
         //arrayListMutableLiveData.setValue(arrayList);
         return arrayListMutableLiveData;
     }
-    private MutableLiveData<ArrayList<TopicViewModel>> initdata() {
-        message=new Message();
+    private MutableLiveData<ArrayList<TopicItem>> initdata() {
         firebase fb =new firebase();
         DatabaseReference databaseReference =fb.getDatabaseReference();
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 arrayList.clear();
-                TopicViewModel topicViewModel;
+                TopicItem item=new TopicItem();
                 for (int i = 0; i < snapshot.child("ListMessage").getChildrenCount(); i++){
                     Boolean status=snapshot.child("ListMessage").child(String.valueOf(i)).child("status").getValue(Boolean.class);
-                    String id_re= String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue(Integer.class));
-                    TopicItem topicItem1 = null;
-                    if(id_re.equals(id_receive)) {
+                    String id_re= String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue());
+                    if(id_re.equals(id_receive) && !!String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue()).equals("")) {
                         String tinnhan= (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue();
-                        if(!processMessage(tinnhan)&& !(Boolean)snapshot.child("ListMessage").child(String.valueOf(i)).child("status").getValue()){
-                            isBold=true;
+                        if(!processMessage(tinnhan)&& !status){
+                            item.setBold(true);
                         }else{
-                            isBold=false;
+                            item.setBold(false);
                         };
-                        diem= String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("count").getValue());
+                        item.setDiem( String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("count").getValue()));
                         String id= String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue(Integer.class));
-                        topicItem1 = new TopicItem(
+                        item = new TopicItem(
                                 (String) snapshot.child("User").child(id).child("linkPhoto").getValue(),
                                 (String) snapshot.child("User").child(id).child("fullName").getValue(),
-                                message
+                                topicItem.getMessages()
                         );
-
+                        item.setIdGuest(String.valueOf(i));
                     }
-                   topicViewModel=new TopicViewModel(topicItem1,diem,isBold);
-                    arrayList.add(topicViewModel);
+                    arrayList.add(item);
 
 
                 }
+                Collections.sort(arrayList);
                arrayListMutableLiveData.setValue(arrayList);
 
             }
@@ -144,13 +133,19 @@ public class TopicViewModel extends ViewModel {
         String[] arrSection=new String[tinnhan.split("--").length+1];
         String[] arrTime=new String[3];
         String[] arrCategory=new String[3];
+        String[] arrImage=new String[3];
 
-        arrSection=tinnhan.split("--");
-        HashMap<String,String> a=new HashMap<>();
-         arrTime=arrSection[arrSection.length-1].split("-");
-         arrCategory=arrTime[0].split("@@");
+        Message message=new Message();
+        arrSection=tinnhan.split("@@@@@");
+         arrTime=arrSection[arrSection.length-1].split("@@@@");
+         arrCategory=arrTime[0].split("@@@");
+         arrImage=arrCategory[0].split("@@");
+         if(arrImage.length>=2){
+             message.setMessage("[image]");
+         }else  message.setMessage(arrCategory[0]);
+
         message.setTime(arrTime[1]);
-        message.setMessage(arrCategory[0]);
+        topicItem.setMessages(message);
 
         if(arrCategory[1].equals("s")){
             return false;
@@ -159,12 +154,22 @@ public class TopicViewModel extends ViewModel {
         }
 
     }
-
-    public void addListItem(TopicViewModel TopicViewModel){
-        arrayList.add(TopicViewModel);
-        arrayListMutableLiveData.setValue(arrayList);
-
+    void ngay(){
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        String date = df.format(Calendar.getInstance().getTime());
+        Log.d("abc", "ngay: "+date);
     }
+
+    public MutableLiveData<Boolean> getIsChoose() {
+        return isChoose;
+    }
+
+    public void transtionMessage(){
+       // if(isChoose.getValue()==Boolean.FALSE)
+        isChoose.setValue(Boolean.TRUE);
+        //else isChoose.setValue(Boolean.FALSE);
+    }
+
 
 
 }

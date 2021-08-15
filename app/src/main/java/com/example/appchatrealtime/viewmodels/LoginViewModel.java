@@ -1,9 +1,6 @@
 package com.example.appchatrealtime.viewmodels;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
-import androidx.databinding.BaseObservable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -23,6 +20,7 @@ public class LoginViewModel extends ViewModel   {
     public final MutableLiveData<String> Password = new MutableLiveData<>();
     public  MutableLiveData<String> message= new MutableLiveData<>();
     public MutableLiveData<Boolean> isShowMessage =new MutableLiveData<>();
+    public MutableLiveData<Boolean> isShowNotifica =new MutableLiveData<>();
 
     private MutableLiveData<List<User>> listMutableLiveData;
     private List<User> mListUser;
@@ -48,13 +46,13 @@ public class LoginViewModel extends ViewModel   {
             ValueEventListener postListener =new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    mListUser.clear();
                     for (int i = 0; i < snapshot.getChildrenCount(); i++)
                         mListUser.add(snapshot.child(String.valueOf(i)).getValue(User.class));
                     listMutableLiveData.setValue(mListUser);
                     for (User us:mListUser) {
                         if(us.getEmail().equals(user.getEmail()) && us.getPassword().equals(user.getPassword())){
-                            message.setValue("Login success");
-                            isShowMessage.setValue(true);
+                           isShowMessage.setValue(false);
                             break;
                         }else {
                             message.setValue("Login Fail");
@@ -73,6 +71,10 @@ public class LoginViewModel extends ViewModel   {
             message.setValue("Login Fail");
             isShowMessage.setValue(true);
         }
+
+    }
+    public void onclickDK(){
+        isShowNotifica.setValue(true);
 
     }
 }

@@ -1,24 +1,27 @@
 package com.example.appchatrealtime.viewmodels;
 
 import android.Manifest;
-import android.content.Context;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.bumptech.glide.Glide;
 import com.example.appchatrealtime.R;
 import com.example.appchatrealtime.model.Chat;
+import com.example.appchatrealtime.model.SharedPreferencesModel;
 import com.example.appchatrealtime.model.firebase;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,7 +59,7 @@ public class ChatViewModel extends ViewModel
     private MutableLiveData<Chat> linkPhotoLiveData= new MutableLiveData<>();
     private ArrayList<String> listGallery=new ArrayList<>();
     private MutableLiveData<ArrayList<String>> arrayListGalleryLiveData= new MutableLiveData<>();
-    private Context context;
+    private FragmentActivity context;
 
     public Boolean getImage() {
         return isImage;
@@ -66,7 +69,7 @@ public class ChatViewModel extends ViewModel
         isImage = image;
     }
 
-    public ChatViewModel(Context context) {
+    public void setContext(FragmentActivity context) {
         this.context = context;
     }
 
@@ -162,14 +165,16 @@ public class ChatViewModel extends ViewModel
         this.arrayList = arrayList;
     }
 
-    public MutableLiveData<Chat> getLinkPhotoLiveData() {
+    SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
+    public MutableLiveData<Chat> getLinkPhotoLiveData(FragmentActivity context) {
         firebase fb =new firebase();
+        String id_Guest=sharedPreferencesModel.getString("id_guest","");
         DatabaseReference databaseReference=fb.getDatabaseReference();
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                linkPhoto= (String) snapshot.child("User").child("0").child("linkPhoto").getValue();
-                nameFull= (String) snapshot.child("User").child("0").child("fullName").getValue();
+                linkPhoto= (String) snapshot.child("User").child(id_Guest).child("linkPhoto").getValue();
+                nameFull= (String) snapshot.child("User").child(id_Guest).child("fullName").getValue();
                 Chat chat=new Chat(linkPhoto,nameFull);
                 linkPhotoLiveData.setValue(chat);
             }
@@ -185,16 +190,21 @@ public class ChatViewModel extends ViewModel
 
     public MutableLiveData<ArrayList<ChatViewModel>> getArrayListLiveData() {
         firebase fb =new firebase();
+        String id_Guest=sharedPreferencesModel.getString("id_guest","");
         DatabaseReference databaseReference=fb.getDatabaseReference();
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                linkPhoto= (String) snapshot.child("User").child("0").child("linkPhoto").getValue();
-                nameFull= (String) snapshot.child("User").child("0").child("fullName").getValue();
+                arrayList.clear();
+                linkPhoto= (String) snapshot.child("User").child(id_Guest).child("linkPhoto").getValue();
+                nameFull= (String) snapshot.child("User").child(id_Guest).child("fullName").getValue();
 
                 for (int i=0;i<snapshot.child("ListMessage").getChildrenCount();i++
                      ) {
-                    if(String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue()).equals("1") && String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue()).equals("0")){
+                    if(String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue()).equals("1") &&
+                            String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue()).equals(id_Guest)
+                            )
+                    {
                             String getmessage= (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue();
                             String[] arrtime =getTime(getmessage);
                             String[] arr=getMessage(getmessage);
@@ -306,6 +316,7 @@ public class ChatViewModel extends ViewModel
     }
 
     public MutableLiveData<ArrayList<String>> getArrayListGalleryLiveData() {
+
         String[] projection = {MediaStore.MediaColumns.DATA};
         Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null,null, null);
         while (cursor.moveToNext()) {
@@ -319,6 +330,7 @@ public class ChatViewModel extends ViewModel
     }
     StringBuilder sb;
     public void onClick(){
+
         StorageReference root = FirebaseStorage.getInstance().getReference();
         StorageReference fileref=root.child("Image/"+System.currentTimeMillis());
         Uri file = Uri.fromFile(new File(linkPhotoGallery));
@@ -359,6 +371,15 @@ public class ChatViewModel extends ViewModel
         databaseReference.addValueEventListener(postMessage);
 
 
+    }
+    public Boolean CheckPermission(){
+        if (ContextCompat.checkSelfPermission(
+                context, Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED) {
+//        Toast.makeText(getActivity(), "you have already granted this permission", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions((Activity) context,new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },101);
+        return true;
+        }else return false;
     }
     String gettime(){
         DateFormat df = new SimpleDateFormat("HH:mm");

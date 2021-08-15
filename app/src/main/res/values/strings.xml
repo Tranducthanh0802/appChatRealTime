@@ -7,7 +7,9 @@
     <string name="matkhau">MẬT KHẨU</string>
     <string name="quenMk">Quên mật khẩu?</string>
     <string name="chuacotaikhoan">Chưa có tài khoản?</string>
+    <string name="dacotaikhoan">Đã có tài khoản?</string>
     <string name="dkngay">Đăng kí ngay</string>
+    <string name="dnngay">Đăng nhập ngay</string>
     <string name="dk">Đăng kí</string>
     <string name="toidongy">Tôi đồng ý với các</string>
     <string name="chinhsach">chính sách</string>
@@ -31,6 +33,12 @@
 <string name="dsbanbe">Danh sách bạn bè</string>
 <string name="homnay">Hôm nay</string>
 <string name="time">10:08</string>
+<string name="dongy">Đồng ý</string>
+<string name="ketban">Kết bạn</string>
+<string name="loibanketban">LỜI MỜI KẾT BẠN</string>
+    <string name="daguiketban">ĐÃ GỬI KẾT BẠN</string>
+
+
 
 
 

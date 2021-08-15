@@ -1,52 +1,54 @@
 package com.example.appchatrealtime.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import androidx.databinding.DataBindingUtil;
-
-import com.example.appchatrealtime.R;
 import com.example.appchatrealtime.databinding.ItemListfriendBinding;
 import com.example.appchatrealtime.databinding.StickyheaderListfriendBinding;
-import com.example.appchatrealtime.viewmodels.ListFriendViewModel;
+import com.example.appchatrealtime.model.ListFriend;
 
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeadersAdapter {
-    private List<ListFriendViewModel> arrLisName;
-    private List<String> listHeader;
+    private List<ListFriend> arrLisName;
+    private LayoutInflater mLayoutInflater;
 
-    public StikyHeaderAdapter(List<ListFriendViewModel> arrLisName,List<String> listHeader) {
+    public StikyHeaderAdapter(List<ListFriend> arrLisName) {
         this.arrLisName = arrLisName;
-        this.listHeader=listHeader;
         notifyDataSetChanged();
     }
 
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
-        HeaderViewHolder holder;
 
+        StickyheaderListfriendBinding listfriendBinding;
         if (convertView == null) {
-            StickyheaderListfriendBinding listfriendBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.stickyheader_listfriend, parent, false);
+            if (mLayoutInflater == null) {
+                mLayoutInflater = (LayoutInflater) parent.getContext()
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            }
+            listfriendBinding = StickyheaderListfriendBinding.inflate(
+                    mLayoutInflater, parent, false);
 
-            listfriendBinding.setViewmodel(arrLisName.get(position));
-            holder = new HeaderViewHolder(listfriendBinding);
-            holder.view = listfriendBinding.getRoot();
-            holder.view.setTag(holder);
+            convertView = listfriendBinding.getRoot();
+            convertView.setTag(listfriendBinding);
         }
         else {
-            holder = (HeaderViewHolder) convertView.getTag();
+            listfriendBinding = (StickyheaderListfriendBinding) convertView.getTag();
         }
-        return holder.view;
+        listfriendBinding.setViewmodel1(arrLisName.get(position));
+        listfriendBinding.executePendingBindings();
+        return convertView;
     }
 
     @Override
     public long getHeaderId(int position) {
-        return listHeader.get(position). subSequence(0, 1).charAt(0);
+        return arrLisName.get(position).getStickHeader().subSequence(0, 1).charAt(0);
 
     }
 
@@ -70,20 +72,24 @@ public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeaders
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ItemViewHolder holder;
-
+        ItemListfriendBinding itemBinding ;
         if (view == null) {
-            ItemListfriendBinding itemBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()), R.layout.item_listfriend, viewGroup, false);
-            itemBinding.setViewmodel(arrLisName.get(i));
+            if (mLayoutInflater == null) {
+                mLayoutInflater = (LayoutInflater) viewGroup.getContext()
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            }
+            itemBinding = ItemListfriendBinding.inflate(
+                    mLayoutInflater, viewGroup, false);
 
-            holder = new ItemViewHolder(itemBinding);
-            holder.view = itemBinding.getRoot();
-            holder.view.setTag(holder);
+            view = itemBinding.getRoot();
+            view.setTag(itemBinding);
         }
         else {
-            holder = (ItemViewHolder) view.getTag();
+            itemBinding = (ItemListfriendBinding) view.getTag();
         }
-        return holder.view;
+        itemBinding.setViewmodel1(arrLisName.get(i));
+        itemBinding.executePendingBindings();
+        return view;
     }
     public class HeaderViewHolder{
         private View view;
@@ -101,4 +107,5 @@ public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeaders
             this.view = binding.getRoot();
         }
     }
+
 }

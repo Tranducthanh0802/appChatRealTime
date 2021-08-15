@@ -121,7 +121,7 @@
                 android:textSize="@dimen/button" />
 
             <LinearLayout
-                android:gravity="center"
+                android:gravity="bottom|center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -135,9 +135,10 @@
                     android:gravity="bottom"/>
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="@string/dkngay"
                     android:textSize="@dimen/text"
+                    android:onClick="@{()-> viewmodel.onclickDK()}"
                     android:textColor="@color/blueDark"
                     android:gravity="bottom"/>
 

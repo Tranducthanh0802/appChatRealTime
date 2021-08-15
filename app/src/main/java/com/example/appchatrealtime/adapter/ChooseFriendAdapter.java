@@ -10,16 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appchatrealtime.R;
 import com.example.appchatrealtime.databinding.ChooseFriendBinding;
-import com.example.appchatrealtime.viewmodels.FriendViewModel;
+import com.example.appchatrealtime.model.Friend;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class ChooseFriendAdapter extends RecyclerView.Adapter<ChooseFriendAdapter.ViewHolder> {
-    private ArrayList<FriendViewModel> arrayList;
+    private ArrayList<Friend> arrayList;
     private Context context;
-    public ChooseFriendAdapter(ArrayList<FriendViewModel> arrayList, Context context) {
+    public ChooseFriendAdapter(ArrayList<Friend> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -36,7 +36,7 @@ public class ChooseFriendAdapter extends RecyclerView.Adapter<ChooseFriendAdapte
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-        FriendViewModel friend=arrayList.get(position);
+        Friend friend=arrayList.get(position);
         holder.bind(friend);
     }
   
@@ -54,8 +54,8 @@ public class ChooseFriendAdapter extends RecyclerView.Adapter<ChooseFriendAdapte
             super(chooseFriendBinding.getRoot());
             this.chooseFriendBinding=chooseFriendBinding;
         }
-        public void bind(FriendViewModel friendViewModel) {
-            chooseFriendBinding.setFviewmodel(friendViewModel);
+        public void bind(Friend friend) {
+            chooseFriendBinding.setViewmodel(friend);
             chooseFriendBinding.executePendingBindings();
 
         }

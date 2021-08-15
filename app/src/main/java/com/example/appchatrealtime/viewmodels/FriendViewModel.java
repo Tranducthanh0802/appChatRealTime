@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel;
 import com.bumptech.glide.Glide;
 import com.example.appchatrealtime.R;
 import com.example.appchatrealtime.model.Friend;
-import com.example.appchatrealtime.respository.Choose_friendListerner;
 
 import java.util.ArrayList;
 
@@ -20,7 +19,6 @@ public class FriendViewModel extends ViewModel  {
     public static Friend friend=new Friend();
     private ArrayList<FriendViewModel> arrayList=new ArrayList<>();
     private MutableLiveData<ArrayList<FriendViewModel>> arrayListMutableLiveData=new MutableLiveData<>();
-    private Choose_friendListerner choose_friendListerner;
     CreateConversationViewModel createConversationViewModel= new CreateConversationViewModel();
     public FriendViewModel() {
     }

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.bumptech.glide.Glide;
 import com.example.appchatrealtime.R;
+import com.example.appchatrealtime.model.ListFriend;
 import com.example.appchatrealtime.model.firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,37 +19,53 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class ListFriendViewModel  extends ViewModel {
-    private String linkPhoto;
-    private String nameFull;
+
     private int id_receiver=1;
     private int id_sender;
-    private String stickHeader;
-    private List<String> arrlistName=new ArrayList<>();
-    private ArrayList<ListFriendViewModel> listFriendViewModelArray=new ArrayList<>();
-    private MutableLiveData<ArrayList<ListFriendViewModel>> listMutableLiveData=new MutableLiveData<>();
+    ListFriend friend ;
+    private MutableLiveData<ArrayList<ListFriend>> listMutableLiveData=new MutableLiveData<>();
+
+    private MutableLiveData<ArrayList<ListFriend>> listMutableLiveData1=new MutableLiveData<>();
+    private MutableLiveData<ArrayList<ListFriend>> listMutableLiveData2=new MutableLiveData<>();
+    private MutableLiveData<ArrayList<ListFriend>> listMutableLiveData3=new MutableLiveData<>();
+
 
     public ListFriendViewModel() {
     }
 
-    public MutableLiveData<ArrayList<ListFriendViewModel>> getListMutableLiveData() {
+    public ListFriendViewModel(ListFriend listFriend) {
+        this.friend = listFriend;
+    }
+
+    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData() {
         firebase fb=new firebase();
         DatabaseReference databaseReference=fb.getDatabaseReference();
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ArrayList<ListFriend> arrayList=new ArrayList<>();
                 String listfriend= (String) snapshot.child("Friend_User").child(String.valueOf(id_receiver)).getValue();
                 String[] arr=getlistFriend(listfriend);
                 for(int i=0;i<arr.length;i++){
-                    linkPhoto= (String) snapshot.child("User").child(arr[i]).child("linkPhoto").getValue();
-                    nameFull= (String) snapshot.child("User").child(arr[i]).child("fullName").getValue();
-                    stickHeader=nameFull;
-                    listFriendViewModelArray.add(new ListFriendViewModel(linkPhoto,nameFull));
-                    arrlistName.add(nameFull);
+                    if(arr[i]!="") {
+
+                        ListFriend fr = new ListFriend(
+                                (String) snapshot.child("User").child(arr[i]).child("linkPhoto").getValue(),
+                                (String) snapshot.child("User").child(arr[i]).child("fullName").getValue()
+                        );
+
+                        arrayList.add(fr);
+                    }
                 }
-                listMutableLiveData.setValue(listFriendViewModelArray);
+
+                Collections.sort(arrayList);
+
+                listMutableLiveData.setValue(arrayList);
+
 
             }
 
@@ -60,51 +77,140 @@ public class ListFriendViewModel  extends ViewModel {
         databaseReference.addValueEventListener(postMessage);
         return listMutableLiveData;
     }
+    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData1() {
+        firebase fb=new firebase();
+        DatabaseReference databaseReference=fb.getDatabaseReference();
+        ValueEventListener postMessage=new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ArrayList<ListFriend> arrayList=new ArrayList<>();
+                String listfriend= (String) snapshot.child("Friend_User").child(String.valueOf(id_receiver)).getValue();
+                String listRequest= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_send").getValue();
+                String[] arr=getlistFriend(listfriend);
+                String[] arr1=getlistFriend(listRequest);
+                int size= (int) snapshot.child("User").getChildrenCount();
+                ArrayList<String> list = new ArrayList<String>(Arrays.asList(arr));
+                ArrayList<String> list1 = new ArrayList<String>(Arrays.asList(arr1));
 
-    public List<String> getArrlistName() {
-        return arrlistName;
+                for(int i=0,j=0;i<size;i++){
+                    if(i!= id_receiver) {
+                        ListFriend fr =new ListFriend(
+                                (String) snapshot.child("User").child(String.valueOf(i)).child("linkPhoto").getValue(),
+                                (String) snapshot.child("User").child(String.valueOf(i)).child("fullName").getValue());
+                        if (list.contains(String.valueOf(i)) || list1.contains(String.valueOf(i))) {
+                            fr.setFriend( false);
+                        } else fr.setFriend(true);
+                        fr.setId(String.valueOf(i));
+                        arrayList.add(fr);
+
+                    }
+
+                }
+                Collections.sort(arrayList);
+
+                listMutableLiveData1.setValue(arrayList);
+             }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        };
+        databaseReference.addValueEventListener(postMessage);
+        return listMutableLiveData1;
     }
 
-    public void setArrlistName(List<String> arrlistName) {
-        this.arrlistName = arrlistName;
+    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData2() {
+        firebase fb=new firebase();
+        DatabaseReference databaseReference=fb.getDatabaseReference();
+        ValueEventListener postMessage=new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ArrayList<ListFriend> arrayList=new ArrayList<>();
+                String invite_recive= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_receive").getValue();
+                String invite_send= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_send").getValue();
+                String[] arrReceive=getlistFriend(invite_recive);
+                String[] arrSend=getlistFriend(invite_send);
+                for(int i=0;i<arrReceive.length;i++){
+                    if (arrReceive[i] != "") {
+                        ListFriend fr =new ListFriend(
+                                (String) snapshot.child("User").child(arrReceive[i]).child("linkPhoto").getValue(),
+                                (String) snapshot.child("User").child(arrReceive[i]).child("fullName").getValue());
+                        fr.setFriend(true);
+                        fr.setId(arrReceive[i]);
+                        arrayList.add(fr);
+                    }
+
+
+
+                   // arrlistName.add(friend.getNameFull());
+
+                }
+                Collections.sort(arrayList);
+
+                listMutableLiveData2.setValue(arrayList);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        };
+        databaseReference.addValueEventListener(postMessage);
+        return listMutableLiveData2;
+    }
+    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData3() {
+        firebase fb=new firebase();
+        DatabaseReference databaseReference=fb.getDatabaseReference();
+        ValueEventListener postMessage=new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ArrayList<ListFriend> arrayList=new ArrayList<>();
+                String invite_recive= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_receive").getValue();
+                String invite_send= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_send").getValue();
+                String[] arrReceive=getlistFriend(invite_recive);
+                String[] arrSend=getlistFriend(invite_send);
+                for(int i=0;i<arrSend.length;i++){
+                    if(arrSend[i]!=""){
+                        ListFriend fr =new ListFriend(
+                                (String) snapshot.child("User").child(arrSend[i]).child("linkPhoto").getValue(),
+                                (String) snapshot.child("User").child(arrSend[i]).child("fullName").getValue());
+                        fr.setFriend(false);
+                        fr.setId(arrSend[i]);
+                        arrayList.add(fr);
+                    }
+
+                }
+                Collections.sort(arrayList);
+                //Collections.sort(arrlistName);
+
+                listMutableLiveData3.setValue(arrayList);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        };
+        databaseReference.addValueEventListener(postMessage);
+        return listMutableLiveData3;
     }
 
-    public ListFriendViewModel(String linkPhoto, String nameFull) {
-        this.linkPhoto = linkPhoto;
-        this.nameFull = nameFull;
-        this.stickHeader=nameFull;
-    }
-
-    public String getLinkPhoto() {
-        return linkPhoto;
-    }
     @BindingAdapter({"bind:imageUri"})
     public static void loadImage(ImageView imageView, String imgaeUrl){
         Glide.with(imageView.getContext()).load(imgaeUrl).placeholder(R.drawable.personal1).into(imageView);
     }
 
-    public void setLinkPhoto(String linkPhoto) {
-        this.linkPhoto = linkPhoto;
-    }
-
-    public String getNameFull() {
-        return nameFull;
-    }
-
-    public void setNameFull(String nameFull) {
-        this.nameFull = nameFull;
-    }
-    public String getStickHeader() {
-        return stickHeader.substring(0,1);
-    }
-
-    public void setStickHeader(String stickHeader) {
-        this.stickHeader = stickHeader;
-    }
     private String[] getlistFriend(String message){
-        String[] arrlist=message.split(",");
-
+        String[] arrlist = message.split(",");
         return arrlist;
+    }
+    private String getSticky(String s){
+        String[] a=s.split(" ");
+        return a[a.length-1];
+
     }
 
 }

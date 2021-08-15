@@ -3,8 +3,10 @@ package com.example.appchatrealtime;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.example.appchatrealtime.views.ListFriendFragment;
+import com.example.appchatrealtime.views.TopicFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,8 +14,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        getSupportFragmentManager().beginTransaction().add(R.id.frame, ListFriendFragment.newInstance()).commit();
+        Fragment fragment=TopicFragment.newInstance();
+        FragmentTransaction transaction= getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, TopicFragment.newInstance(),"mai_frag");
+        transaction.commit();
 
     }
+
+
 }

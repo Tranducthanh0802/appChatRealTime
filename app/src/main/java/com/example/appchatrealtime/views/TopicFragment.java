@@ -11,24 +11,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.example.appchatrealtime.R;
+import com.example.appchatrealtime.adapter.BottomNavigationAdapter;
 import com.example.appchatrealtime.adapter.TopicAdapter;
 import com.example.appchatrealtime.databinding.TopicFragmentBinding;
 import com.example.appchatrealtime.viewmodels.TopicViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
 public class TopicFragment extends Fragment {
     TopicViewModel topicViewModel;
     TopicAdapter topicAdapter;
+    BottomNavigationAdapter viewpager;
+
+
     public static TopicFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -59,28 +61,39 @@ public class TopicFragment extends Fragment {
         binding.bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F44336"));
 // Add or remove notification for each item
         binding.bottomNavigation.setNotification("1", 1);
-
-        topicViewModel.getArrayListMutableLiveData().observe(getActivity(), new Observer<ArrayList<TopicViewModel>>() {
+        viewpager=new BottomNavigationAdapter(getActivity().getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        binding.viewPager.setAdapter(viewpager);
+        binding.bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
-            public void onChanged(ArrayList<TopicViewModel> topicViewModels) {
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-                topicAdapter=new TopicAdapter(topicViewModels,getActivity());
-                binding.edtSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String s) {
-                       
-                        return false;
-                    }
+            public boolean onTabSelected(int position, boolean wasSelected) {
 
-                    @Override
-                    public boolean onQueryTextChange(String s) {
-                        topicAdapter.getFilter().filter(s);
-                        return false;
-                    }
-                });
-                binding.recyclerview.setAdapter(topicAdapter);
-                binding.recyclerview.setLayoutManager(mLayoutManager);
+                binding.viewPager.setCurrentItem(position);
+                return true;
+            }
+        });
+        binding.edtSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
 
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                topicViewModel.setTransitionData(s);
+                //topicAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
+        binding.imgCreateMess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment=TopicFragment.newInstance();
+                FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.add(R.id.frame,CreateConversationFragment.newInstance(),"topic_frag");
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 

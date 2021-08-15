@@ -31,6 +31,7 @@
 
                 />
             <ImageButton
+                android:id="@+id/imgCreateMess"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_alignParentRight="true"
@@ -52,14 +53,13 @@
         </RelativeLayout>
 
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
+    <com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rela_bottom"
-        android:id="@+id/recyclerview"
         android:layout_marginTop="@dimen/_120sdp"
         android:background="@drawable/recyclerview"
-
+        android:id="@+id/viewPager"
         />
     <RelativeLayout
         android:id="@+id/rela_bottom"

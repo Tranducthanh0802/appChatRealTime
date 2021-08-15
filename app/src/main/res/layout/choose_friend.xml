@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
        <variable
-            name="Fviewmodel"
-            type="com.example.appchatrealtime.viewmodels.FriendViewModel" />
+            name="viewmodel"
+            type="com.example.appchatrealtime.model.Friend" />
 
     </data>
     <RelativeLayout
@@ -14,7 +14,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
-            app:imageUri="@{Fviewmodel.link}"
+            android:layout_centerVertical="true"
+            app:imageUri="@{viewmodel.link}"
             android:id="@+id/img_friend"
             />
     </RelativeLayout>
