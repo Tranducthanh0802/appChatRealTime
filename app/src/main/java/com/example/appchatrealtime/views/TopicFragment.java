@@ -2,6 +2,7 @@ package com.example.appchatrealtime.views;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class TopicFragment extends Fragment {
     TopicViewModel topicViewModel;
     TopicAdapter topicAdapter;
     BottomNavigationAdapter viewpager;
-
+    int vitri;
 
     public static TopicFragment newInstance() {
 
@@ -61,16 +62,27 @@ public class TopicFragment extends Fragment {
         binding.bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F44336"));
 // Add or remove notification for each item
         binding.bottomNavigation.setNotification("1", 1);
+
         viewpager=new BottomNavigationAdapter(getActivity().getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         binding.viewPager.setAdapter(viewpager);
         binding.bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
-
+                if(position==2){
+                    binding.viewTop.setVisibility(View.GONE);
+                    Log.d("abc", "onTabSelected12: ");
+                }else
+                binding.viewTop.setVisibility(View.VISIBLE);
+                if(position==1){
+                    binding.edtSearch.setQueryHint("Tìm kiếm bạn bè");
+                }else binding.edtSearch.setQueryHint("Tìm kiếm tin nhắn");
+                vitri=position;
+                Log.d("abc", "onTabSelected123: ");
                 binding.viewPager.setCurrentItem(position);
                 return true;
             }
         });
+
         binding.edtSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -80,7 +92,7 @@ public class TopicFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                topicViewModel.setTransitionData(s);
+                    topicViewModel.setTransitionData(s);
                 //topicAdapter.getFilter().filter(s);
                 return false;
             }
@@ -89,7 +101,7 @@ public class TopicFragment extends Fragment {
         binding.imgCreateMess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment=TopicFragment.newInstance();
+
                 FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.frame,CreateConversationFragment.newInstance(),"topic_frag");
                 transaction.addToBackStack(null);

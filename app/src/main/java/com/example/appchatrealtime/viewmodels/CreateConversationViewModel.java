@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.appchatrealtime.R;
 import com.example.appchatrealtime.model.Friend;
 import com.example.appchatrealtime.model.ItemCreateConversation;
+import com.example.appchatrealtime.model.SharedPreferencesModel;
 import com.example.appchatrealtime.model.User;
 import com.example.appchatrealtime.model.firebase;
 import com.google.firebase.database.DataSnapshot;
@@ -47,13 +49,15 @@ public class CreateConversationViewModel extends ViewModel {
         Glide.with(imageView.getContext()).load(imgaeUrl).placeholder(R.drawable.personal1).into(imageView);
     }
 
-    public MutableLiveData<ArrayList<ItemCreateConversation>> getArrayListMutableLiveData() {
-        initdata();
+    public MutableLiveData<ArrayList<ItemCreateConversation>> getArrayListMutableLiveData(FragmentActivity context) {
+        initdata(context);
         return arrayListMutableLiveData;
     }
 
-    private MutableLiveData<ArrayList<ItemCreateConversation>> initdata() {
-        String id="1";
+    private MutableLiveData<ArrayList<ItemCreateConversation>> initdata(FragmentActivity context) {
+        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
+        String idHost=sharedPreferencesModel.getString("idHost","");
+
 
         DatabaseReference databaseReference =fb.getDatabaseReference().child("User");
         ValueEventListener postMessage=new ValueEventListener() {
@@ -62,7 +66,7 @@ public class CreateConversationViewModel extends ViewModel {
                 arrayList.clear();
                 ItemCreateConversation itemCreateConversation;
                 for (int i = 0; i < snapshot.getChildrenCount(); i++){
-                    if(snapshot.child(String.valueOf(i)).getValue().toString().equals(snapshot.child(id).getValue().toString()))
+                    if(snapshot.child(String.valueOf(i)).getValue().toString().equals(snapshot.child(idHost).getValue().toString()))
                     {
                         continue;
                     }else{

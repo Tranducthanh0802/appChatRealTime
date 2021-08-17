@@ -86,7 +86,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
                 } else {
                     constraint = constraint.toString().toLowerCase();
                     for (int i = 0; i < filteredGroups.size(); i++) {
-                        String data = filteredGroups.get(i).getNameSend();
+                        String data = filteredGroups.get(i).getMessages().getMessage();
                         if (data.toLowerCase().startsWith(constraint.toString())) {
                             fGroups.add(filteredGroups.get(i));
                         }

@@ -44,7 +44,7 @@ public class ListFriendFragment extends Fragment {
         ListFriendViewModel listFriendViewModel=new ViewModelProvider(getActivity()).get(ListFriendViewModel.class);
         binding.setLifecycleOwner(getActivity());
         binding.setViewmodel(listFriendViewModel);
-        listFriendViewModel.getListMutableLiveData().observe(getActivity(), new Observer<ArrayList<ListFriend>>() {
+        listFriendViewModel.getListMutableLiveData(getActivity()).observe(getActivity(), new Observer<ArrayList<ListFriend>>() {
             @Override
             public void onChanged(ArrayList<ListFriend> listFriendViewModels) {
                 StickyListHeadersAdapter stickyListHeadersAdapter=new StikyHeaderAdapter(listFriendViewModels);

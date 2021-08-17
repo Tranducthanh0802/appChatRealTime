@@ -23,6 +23,7 @@ import com.example.appchatrealtime.adapter.CreateConversationAdapter;
 import com.example.appchatrealtime.databinding.CreateconversationFragmentBinding;
 import com.example.appchatrealtime.model.CreateMessage;
 import com.example.appchatrealtime.model.Friend;
+import com.example.appchatrealtime.model.Invite_User;
 import com.example.appchatrealtime.model.ItemCreateConversation;
 import com.example.appchatrealtime.model.SharedPreferencesModel;
 import com.example.appchatrealtime.model.firebase;
@@ -35,15 +36,19 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class CreateConversationFragment extends Fragment  {
     CreateConversationViewModel createConversationViewModel;
     CreateConversationAdapter createConversationAdapter;
     ChooseFriendAdapter createConversationAdapterChooseFriend;
     ArrayList<Friend> arrayList=new ArrayList<>();
-    CreateMessage createMessage;
+    private CreateMessage createMessage=new CreateMessage();
     private int dem=0;
-    private int count=0;
+    private int count;
+    private String id_Sender;
     public static CreateConversationFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -66,7 +71,7 @@ public class CreateConversationFragment extends Fragment  {
         binding.setCreateconversation(createConversationViewModel);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-        createConversationViewModel.getArrayListMutableLiveData().observe(getActivity(), new Observer<ArrayList<ItemCreateConversation>>()  {
+        createConversationViewModel.getArrayListMutableLiveData(getActivity()).observe(getActivity(), new Observer<ArrayList<ItemCreateConversation>>()  {
             @Override
             public void onChanged(ArrayList<ItemCreateConversation> itemCreateConversations) {
                 createConversationAdapter =new CreateConversationAdapter(itemCreateConversations,getActivity());
@@ -114,31 +119,35 @@ public class CreateConversationFragment extends Fragment  {
 
            }
         });
+        firebase fb=new firebase();
+        DatabaseReference databaseReference =fb.getDatabaseReference().child("ListMessage");
+        ValueEventListener postMessage=new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                count = (int) snapshot.getChildrenCount();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        };
+        databaseReference.addValueEventListener(postMessage);
         SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(getActivity());
+        String id_Host=sharedPreferencesModel.getString("idHost","");
+        CreateArrListMessage();
         binding.btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 firebase fb=new firebase();
-                String id_receive="1";
                 DatabaseReference databaseReference =fb.getDatabaseReference().child("ListMessage");
+                id_Sender=conversion(arrayList);
+                createMessage=new CreateMessage(id_Host,id_Sender);
+                if(CheckCreate(id_Host,id_Sender)) {
+                    databaseReference.child(String.valueOf(count)).setValue(createMessage);
+                }
 
-                ValueEventListener postMessage=new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        count = (int) snapshot.getChildrenCount();
-                        String id_Sender=conversion(arrayList);
-                       createMessage=new CreateMessage(id_receive,id_Sender);
-                        sharedPreferencesModel.saveString("id_guest",id_Sender);
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                    }
-                };
-                databaseReference.addValueEventListener(postMessage);
-                databaseReference.child(String.valueOf(count)).setValue(createMessage);
+                sharedPreferencesModel.saveString("id_guest",AddId(id_Host+","+id_Sender));
                 Fragment fragment=TopicFragment.newInstance();
                 FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.frame,ChatFragment.newInstance(),"Chat_frag");
@@ -172,6 +181,48 @@ public class CreateConversationFragment extends Fragment  {
             sb.append(s.get(i).getId()+",");
         }
         return sb.toString();
+    }
+    private ArrayList<Invite_User> arr=new ArrayList<>();
+    private Boolean CheckCreate(String id_Host,String id_Guest){
+
+        for(int i=0;i<arr.size();i++){
+           if(AddId(arr.get(i).getInvite_send()+arr.get(i).getInvite_receive()).equals(AddId(id_Guest+id_Host))){
+               return false;
+            }
+        }
+
+        return true;
+    }
+    private void CreateArrListMessage(){
+        firebase fb =new firebase();
+        DatabaseReference databaseReference=fb.getDatabaseReference();
+        ValueEventListener postMessage=new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                arr.clear();
+                for (int i = 0; i < snapshot.child("ListMessage").getChildrenCount(); i++
+                ) {
+                    arr.add(new Invite_User(String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue()),String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue())));
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+
+        };
+        databaseReference.addValueEventListener(postMessage);
+    }
+    String AddId(String s){
+        List<String> list= Arrays.asList(s.split(","));
+        Collections.sort(list);
+        String chuoi="";
+        for (int i=0;i<list.size();i++){
+            chuoi+=list.get(i)+",";
+        }
+        return chuoi;
+
     }
 
 

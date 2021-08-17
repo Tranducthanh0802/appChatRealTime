@@ -62,6 +62,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onChanged(String s) {
                 if(s.equals("Register success")){
+
                     binding.txtNotifical1.setTextColor(getResources().getColor(R.color.green));
                 }else if(s.equals("Email already exist")){
                     binding.txtNotifical1.setTextColor(getResources().getColor(R.color.red));

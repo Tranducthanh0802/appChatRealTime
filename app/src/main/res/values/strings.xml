@@ -19,7 +19,7 @@
     <string name="hintmk">******</string>
     <string name="hovaten">HỌ VÀ TÊN</string>
     <string name="hinthovaten">Tran Van A</string>
-    <string name="luu">lưu</string>
+    <string name="luu">Lưu</string>
     <string name="chinhsualuutt">Chỉnh sửa lưu thông tin</string>
     <string name="tinnhan">Tin nhắn</string>
 <string name="tktinnhan">Tìm kiếm tin nhắn..</string>
@@ -37,6 +37,14 @@
 <string name="ketban">Kết bạn</string>
 <string name="loibanketban">LỜI MỜI KẾT BẠN</string>
     <string name="daguiketban">ĐÃ GỬI KẾT BẠN</string>
+  <string name="thongbao">Thông báo</string>
+  <string name="ngongngu">Ngôn ngữ</string>
+    <string name="phienbanungdung">Phiên bản ứng dụng</string>
+    <string name="dangxuat">Đăng xuất</string>
+    <string name="tiengviet">Tiếng Việt</string>
+<string name="sdt">Số điện thoại</string>
+   <string name="ngaysinh">Ngày sinh</string>
+
 
 
 

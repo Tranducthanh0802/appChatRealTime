@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
 import com.example.appchatrealtime.databinding.ItemRequestfriendBinding;
 import com.example.appchatrealtime.databinding.StickyheaderListfriendBinding;
 import com.example.appchatrealtime.model.Invite_User;
 import com.example.appchatrealtime.model.ListFriend;
+import com.example.appchatrealtime.model.SharedPreferencesModel;
 import com.example.appchatrealtime.model.firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -107,14 +109,16 @@ public class RequestAdapter extends BaseAdapter implements StickyListHeadersAdap
             @Override
             public void onClick(View v) {
                  firebase fb=new firebase();
-                String id_host="1";
+                SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel((FragmentActivity) v.getContext());
+                String idHost=sharedPreferencesModel.getString("idHost","");
+
                 DatabaseReference databaseReference =fb.getDatabaseReference().child("Invite");
-                arrInvite.get(Integer.parseInt(id_host)).getInvite_send();
-                invite_receive=  arrInvite.get(i).getInvite_receive()+""+id_host+",";
-                invite_send=  arrInvite.get(Integer.parseInt(id_host)).getInvite_send()+""+arrLisName.get(i).getId()+",";
+                arrInvite.get(Integer.parseInt(idHost)).getInvite_send();
+                invite_receive=  arrInvite.get(i).getInvite_receive()+""+idHost+",";
+                invite_send=  arrInvite.get(Integer.parseInt(idHost)).getInvite_send()+""+arrLisName.get(i).getId()+",";
                 Log.d("abc", "ketban: "+invite_send+invite_receive);
                 if(invite_receive.toString()!="" &&invite_receive.toString()!=""){
-                    databaseReference.child(id_host).child("invite_send").setValue(invite_send+"");
+                    databaseReference.child(idHost).child("invite_send").setValue(invite_send+"");
                     databaseReference.child(arrLisName.get(i).getId()).child("invite_receive").setValue(invite_receive+"");
                 }
             }

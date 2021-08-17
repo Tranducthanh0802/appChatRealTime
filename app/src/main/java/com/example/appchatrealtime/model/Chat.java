@@ -41,6 +41,18 @@ public class Chat extends ViewModel {
     }
 
     public String getStatus() {
+        if(nameFullf.length()>31){
+            char[] arr = nameFullf.toCharArray();
+            char[] arr1=new char[34];
+            for(int i=0;i<31;i++){
+                arr1[i]=arr[i];
+            }
+            arr1[31]='.';
+            arr1[32]='.';
+            arr1[33]='.';
+
+            return String.valueOf(arr1);
+        }
         return nameFullf;
     }
 

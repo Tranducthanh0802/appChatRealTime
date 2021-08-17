@@ -5,21 +5,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import com.example.appchatrealtime.databinding.ItemListfriendBinding;
 import com.example.appchatrealtime.databinding.StickyheaderListfriendBinding;
 import com.example.appchatrealtime.model.ListFriend;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
-public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeadersAdapter {
-    private List<ListFriend> arrLisName;
+public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeadersAdapter, Filterable {
+    private ArrayList<ListFriend> arrLisName;
+    private ArrayList<ListFriend> filteredGroups;
     private LayoutInflater mLayoutInflater;
 
-    public StikyHeaderAdapter(List<ListFriend> arrLisName) {
+    public StikyHeaderAdapter(ArrayList<ListFriend> arrLisName) {
         this.arrLisName = arrLisName;
+        this.filteredGroups=arrLisName;
         notifyDataSetChanged();
     }
 
@@ -91,6 +96,42 @@ public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeaders
         itemBinding.executePendingBindings();
         return view;
     }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                List<ListFriend> fGroups = new ArrayList<>();
+                if (constraint == null || constraint.length() == 0) {
+                    // set the Original result to return
+                    results.count = filteredGroups.size();
+                    results.values = filteredGroups;
+                } else {
+                    constraint = constraint.toString().toLowerCase();
+                    for (int i = 0; i < filteredGroups.size(); i++) {
+                        String data = filteredGroups.get(i).getNameFull();
+                        if (data.toLowerCase().startsWith(constraint.toString())) {
+                            fGroups.add(filteredGroups.get(i));
+                        }
+                    }
+                    // set the Filtered result to return
+                    results.count = fGroups.size();
+                    results.values = fGroups;
+                }
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                arrLisName = (ArrayList<ListFriend>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
     public class HeaderViewHolder{
         private View view;
 

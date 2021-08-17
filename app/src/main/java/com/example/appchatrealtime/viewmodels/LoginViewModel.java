@@ -1,10 +1,14 @@
 package com.example.appchatrealtime.viewmodels;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.appchatrealtime.model.SharedPreferencesModel;
 import com.example.appchatrealtime.model.User;
 import com.example.appchatrealtime.model.firebase;
 import com.google.firebase.database.DataSnapshot;
@@ -36,7 +40,7 @@ public class LoginViewModel extends ViewModel   {
         return listMutableLiveData;
     }
 
-    public void onClickLogin(){
+    public void onClickLogin(View view){
         listMutableLiveData=new MutableLiveData<>();
         User user=new User(Email.getValue(),Password.getValue());
         if(user.IsValidEmail() && user.IsValidPassword() ){
@@ -50,14 +54,19 @@ public class LoginViewModel extends ViewModel   {
                     for (int i = 0; i < snapshot.getChildrenCount(); i++)
                         mListUser.add(snapshot.child(String.valueOf(i)).getValue(User.class));
                     listMutableLiveData.setValue(mListUser);
+                    int j;
                     for (User us:mListUser) {
+                        j=0;
                         if(us.getEmail().equals(user.getEmail()) && us.getPassword().equals(user.getPassword())){
-                           isShowMessage.setValue(false);
+                            SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel((FragmentActivity) view.getContext());
+                            sharedPreferencesModel.saveString("idHost", String.valueOf(j));
+                            isShowMessage.setValue(false);
                             break;
                         }else {
                             message.setValue("Login Fail");
                             isShowMessage.setValue(true);
                         }
+                        j++;
                     }
                 }
 

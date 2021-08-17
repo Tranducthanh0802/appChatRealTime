@@ -2,9 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewmodel"
             type="com.example.appchatrealtime.viewmodels.ChatViewModel" />
+        <variable
+            name="fragment"
+            type="com.example.appchatrealtime.views.ChatFragment" />
     </data>
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -18,7 +22,7 @@
                 android:scaleType="fitXY"
                 android:layout_margin="@dimen/_5sdp"
                 app:imageUri="@{viewmodel.linkPhotoGallery}"
-                android:onClick="@{()-> viewmodel.onClick()}"
+                android:onClick="@{(view)-> viewmodel.onClick(view)}"
                 android:layout_height="@dimen/_100sdp"/>
         </androidx.cardview.widget.CardView>
 

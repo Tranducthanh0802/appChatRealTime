@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.appchatrealtime.views.InformationFragment;
 import com.example.appchatrealtime.views.ListChatFragment;
 import com.example.appchatrealtime.views.TabLayoutFragment;
 
@@ -25,6 +26,8 @@ public class BottomNavigationAdapter extends FragmentStatePagerAdapter {
                 return ListChatFragment.newInstance();
             case 1:
                 return TabLayoutFragment.newInstance();
+            case 2:
+                return InformationFragment.newInstance();
             default:
                 return ListChatFragment.newInstance();
         }

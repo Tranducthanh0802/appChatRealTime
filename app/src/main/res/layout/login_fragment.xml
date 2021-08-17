@@ -7,6 +7,9 @@
         <variable
             name="viewmodel"
             type="com.example.appchatrealtime.viewmodels.LoginViewModel" />
+        <variable
+            name="frag"
+            type="com.example.appchatrealtime.views.LoginFragment" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -115,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/button_"
-                android:onClick="@{()-> viewmodel.onClickLogin()}"
+                android:onClick="@{(view)-> viewmodel.onClickLogin(view)}"
                 android:text="@string/dangnhap_Button"
                 android:textColor="@color/white"
                 android:textSize="@dimen/button" />

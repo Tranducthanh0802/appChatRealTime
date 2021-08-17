@@ -20,6 +20,7 @@
         <RelativeLayout
             android:layout_margin="@dimen/_9sdp"
             android:layout_width="match_parent"
+            android:id="@+id/rela_top"
             android:layout_height="match_parent">
             <TextView
                 android:layout_width="wrap_content"
@@ -53,11 +54,17 @@
         </RelativeLayout>
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:id="@+id/view_top"
+
+        android:layout_height="@dimen/_120sdp"/>
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rela_bottom"
-        android:layout_marginTop="@dimen/_120sdp"
+
+        android:layout_below="@id/view_top"
         android:background="@drawable/recyclerview"
         android:id="@+id/viewPager"
         />

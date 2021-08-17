@@ -4,12 +4,14 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.bumptech.glide.Glide;
 import com.example.appchatrealtime.R;
 import com.example.appchatrealtime.model.ListFriend;
+import com.example.appchatrealtime.model.SharedPreferencesModel;
 import com.example.appchatrealtime.model.firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +26,7 @@ import java.util.Collections;
 
 public class ListFriendViewModel  extends ViewModel {
 
-    private int id_receiver=1;
+
     private int id_sender;
     ListFriend friend ;
     private MutableLiveData<ArrayList<ListFriend>> listMutableLiveData=new MutableLiveData<>();
@@ -41,14 +43,16 @@ public class ListFriendViewModel  extends ViewModel {
         this.friend = listFriend;
     }
 
-    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData() {
+    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData(FragmentActivity context) {
         firebase fb=new firebase();
+        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
+        String idHost=sharedPreferencesModel.getString("idHost","");
         DatabaseReference databaseReference=fb.getDatabaseReference();
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 ArrayList<ListFriend> arrayList=new ArrayList<>();
-                String listfriend= (String) snapshot.child("Friend_User").child(String.valueOf(id_receiver)).getValue();
+                String listfriend= (String) snapshot.child("Friend_User").child(String.valueOf(idHost)).getValue();
                 String[] arr=getlistFriend(listfriend);
                 for(int i=0;i<arr.length;i++){
                     if(arr[i]!="") {
@@ -77,15 +81,18 @@ public class ListFriendViewModel  extends ViewModel {
         databaseReference.addValueEventListener(postMessage);
         return listMutableLiveData;
     }
-    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData1() {
+    String idHost;
+    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData1(FragmentActivity context) {
         firebase fb=new firebase();
+        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
+         idHost=sharedPreferencesModel.getString("idHost","");
         DatabaseReference databaseReference=fb.getDatabaseReference();
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 ArrayList<ListFriend> arrayList=new ArrayList<>();
-                String listfriend= (String) snapshot.child("Friend_User").child(String.valueOf(id_receiver)).getValue();
-                String listRequest= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_send").getValue();
+                String listfriend= (String) snapshot.child("Friend_User").child(String.valueOf(idHost)).getValue();
+                String listRequest= (String) snapshot.child("Invite").child(String.valueOf(idHost)).child("invite_send").getValue();
                 String[] arr=getlistFriend(listfriend);
                 String[] arr1=getlistFriend(listRequest);
                 int size= (int) snapshot.child("User").getChildrenCount();
@@ -93,7 +100,7 @@ public class ListFriendViewModel  extends ViewModel {
                 ArrayList<String> list1 = new ArrayList<String>(Arrays.asList(arr1));
 
                 for(int i=0,j=0;i<size;i++){
-                    if(i!= id_receiver) {
+                    if(i!= Integer.valueOf(idHost)) {
                         ListFriend fr =new ListFriend(
                                 (String) snapshot.child("User").child(String.valueOf(i)).child("linkPhoto").getValue(),
                                 (String) snapshot.child("User").child(String.valueOf(i)).child("fullName").getValue());
@@ -120,15 +127,18 @@ public class ListFriendViewModel  extends ViewModel {
         return listMutableLiveData1;
     }
 
-    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData2() {
+    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData2(FragmentActivity context) {
         firebase fb=new firebase();
+        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
+        idHost=sharedPreferencesModel.getString("idHost","");
+
         DatabaseReference databaseReference=fb.getDatabaseReference();
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 ArrayList<ListFriend> arrayList=new ArrayList<>();
-                String invite_recive= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_receive").getValue();
-                String invite_send= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_send").getValue();
+                String invite_recive= (String) snapshot.child("Invite").child(String.valueOf(idHost)).child("invite_receive").getValue();
+                String invite_send= (String) snapshot.child("Invite").child(String.valueOf(idHost)).child("invite_send").getValue();
                 String[] arrReceive=getlistFriend(invite_recive);
                 String[] arrSend=getlistFriend(invite_send);
                 for(int i=0;i<arrReceive.length;i++){
@@ -167,8 +177,8 @@ public class ListFriendViewModel  extends ViewModel {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 ArrayList<ListFriend> arrayList=new ArrayList<>();
-                String invite_recive= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_receive").getValue();
-                String invite_send= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_send").getValue();
+                String invite_recive= (String) snapshot.child("Invite").child(String.valueOf(idHost)).child("invite_receive").getValue();
+                String invite_send= (String) snapshot.child("Invite").child(String.valueOf(idHost)).child("invite_send").getValue();
                 String[] arrReceive=getlistFriend(invite_recive);
                 String[] arrSend=getlistFriend(invite_send);
                 for(int i=0;i<arrSend.length;i++){

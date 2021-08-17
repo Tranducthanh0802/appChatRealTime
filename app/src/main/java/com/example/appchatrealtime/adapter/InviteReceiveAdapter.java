@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appchatrealtime.R;
 import com.example.appchatrealtime.databinding.ItemInviteBinding;
 import com.example.appchatrealtime.model.Invite_User;
 import com.example.appchatrealtime.model.ListFriend;
+import com.example.appchatrealtime.model.SharedPreferencesModel;
 import com.example.appchatrealtime.model.firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,31 +66,34 @@ public class InviteReceiveAdapter extends RecyclerView.Adapter<InviteReceiveAdap
         holder.bind(invite);
         addInvite();
         addFriend();
+        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel((FragmentActivity) context);
+        String idHost=sharedPreferencesModel.getString("idHost","");
+
         holder.inviteBinding.dongy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String id_host="1";
-                String[] arrGuest=getlistFriend(arrInvite.get(Integer.parseInt(arrayList.get(position).getId())).getInvite_send());
-                String[] arrHost=getlistFriend(arrInvite.get(Integer.parseInt(id_host)).getInvite_receive());
-                StringBuilder frGuest=new StringBuilder(arrFriend.get(Integer.parseInt(arrayList.get(position).getId())));
-                StringBuilder frHost=new StringBuilder( arrFriend.get(Integer.parseInt(id_host)));
 
-                String s=Remove(arrGuest,id_host);
+                String[] arrGuest=getlistFriend(arrInvite.get(Integer.parseInt(arrayList.get(position).getId())).getInvite_send());
+                String[] arrHost=getlistFriend(arrInvite.get(Integer.parseInt(idHost)).getInvite_receive());
+                StringBuilder frGuest=new StringBuilder(arrFriend.get(Integer.parseInt(arrayList.get(position).getId())));
+                StringBuilder frHost=new StringBuilder( arrFriend.get(Integer.parseInt(idHost)));
+
+                String s=Remove(arrGuest,idHost);
                 String r=Remove(arrHost,arrayList.get(position).getId());
                 firebase fb=new firebase();
                 DatabaseReference databaseReference =fb.getDatabaseReference().child("Invite");
                 DatabaseReference databaseReference1 =fb.getDatabaseReference().child("Friend_User");
 
                 if(s!=null && r!=null){
-                    databaseReference.child(id_host).child("invite_receive").setValue(r+"");
+                    databaseReference.child(idHost).child("invite_receive").setValue(r+"");
                     databaseReference.child(arrayList.get(position).getId()).child("invite_send").setValue(s+"");
-                    frGuest.append(id_host+",");
+                    frGuest.append(idHost+",");
                     frHost.append(arrayList.get(position).getId()+",");
-                    databaseReference1.child(id_host).setValue(frHost+"");
+                    databaseReference1.child(idHost).setValue(frHost+"");
                     databaseReference1.child(arrayList.get(position).getId()).setValue(frGuest+"");
 
                 }else {
-                    databaseReference.child(id_host).child("invite_receive").setValue("");
+                    databaseReference.child(idHost).child("invite_receive").setValue("");
                     databaseReference.child(arrayList.get(position).getId()).child("invite_send").setValue("");
                 }
             }
@@ -96,18 +101,18 @@ public class InviteReceiveAdapter extends RecyclerView.Adapter<InviteReceiveAdap
         holder.inviteBinding.huy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String id_host="1";
+
                 String[] arrGuest=getlistFriend(arrInvite.get(Integer.parseInt(arrayList.get(position).getId())).getInvite_receive());
-                String[] arrHost=getlistFriend(arrInvite.get(Integer.parseInt(id_host)).getInvite_send());
-                String r=Remove(arrGuest,id_host);
+                String[] arrHost=getlistFriend(arrInvite.get(Integer.parseInt(idHost)).getInvite_send());
+                String r=Remove(arrGuest,idHost);
                 String s=Remove(arrHost,arrayList.get(position).getId());
                 firebase fb=new firebase();
                 DatabaseReference databaseReference =fb.getDatabaseReference().child("Invite");
                 if(s!=null && r!=null){
-                    databaseReference.child(id_host).child("invite_send").setValue(s+"");
+                    databaseReference.child(idHost).child("invite_send").setValue(s+"");
                     databaseReference.child(arrayList.get(position).getId()).child("invite_receive").setValue(r+"");
                  }else {
-                    databaseReference.child(id_host).child("invite_send").setValue("");
+                    databaseReference.child(idHost).child("invite_send").setValue("");
                     databaseReference.child(arrayList.get(position).getId()).child("invite_receive").setValue("");
                 }
 

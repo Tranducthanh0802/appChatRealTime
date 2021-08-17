@@ -44,7 +44,7 @@ public class InviteFragment  extends Fragment {
         ListFriendViewModel loginViewModel=new ViewModelProvider(getActivity()).get(ListFriendViewModel.class);
         binding.setLifecycleOwner(getActivity());
         binding.setViewmodel(loginViewModel);
-        loginViewModel.getListMutableLiveData2().observe(getActivity(), new Observer<ArrayList<ListFriend>>() {
+        loginViewModel.getListMutableLiveData2(getActivity()).observe(getActivity(), new Observer<ArrayList<ListFriend>>() {
             @Override
             public void onChanged(ArrayList<ListFriend> invites) {
 

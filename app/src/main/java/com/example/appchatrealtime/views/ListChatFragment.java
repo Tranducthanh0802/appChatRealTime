@@ -50,7 +50,7 @@ public class ListChatFragment extends Fragment {
         SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(getActivity());
         topicViewModel=new ViewModelProvider(getActivity(),getDefaultViewModelProviderFactory()).get(TopicViewModel.class);
         binding.setLifecycleOwner(getActivity());
-        topicViewModel.getArrayListMutableLiveData().observe(getActivity(), new Observer<ArrayList<TopicItem>>() {
+        topicViewModel.getArrayListMutableLiveData(getActivity()).observe(getActivity(), new Observer<ArrayList<TopicItem>>() {
             @Override
             public void onChanged(ArrayList<TopicItem> topicViewModels) {
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());

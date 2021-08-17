@@ -5,6 +5,8 @@
     <dimen name="text">@dimen/_10sdp</dimen>
     <dimen name="edit">@dimen/_14sdp</dimen>
     <dimen name="button">@dimen/_12sdp</dimen>
+    <dimen name="tieude">@dimen/_20sdp</dimen>
+
 
 
 </resources>

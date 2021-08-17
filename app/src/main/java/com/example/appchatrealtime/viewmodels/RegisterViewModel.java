@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.appchatrealtime.model.Invite_User;
 import com.example.appchatrealtime.model.User;
 import com.example.appchatrealtime.model.firebase;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +42,8 @@ public class RegisterViewModel extends ViewModel {
             firebase fb=new firebase();
             mListUser=new ArrayList<>();
             DatabaseReference databaseReference= fb.getDatabaseReference("User");
+            DatabaseReference databaseReference1= fb.getDatabaseReference();
+
             ValueEventListener postListener =new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -61,6 +64,9 @@ public class RegisterViewModel extends ViewModel {
 
                     if(!isShowMessage.getValue()) {
                         databaseReference.child(String.valueOf(snapshot.getChildrenCount())).setValue(user);
+                        Invite_User invite_user=new Invite_User();
+                        databaseReference1.child("Friend_User").child(String.valueOf(snapshot.getChildrenCount())).setValue("");
+                        databaseReference1.child("Invite").child(String.valueOf(snapshot.getChildrenCount())).setValue(invite_user);
                         isShowMessage.setValue(true);
                         Email.setValue("");
                         Password.setValue("");

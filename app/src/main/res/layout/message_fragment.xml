@@ -5,6 +5,9 @@
         <variable
             name="viewmodel"
             type="com.example.appchatrealtime.viewmodels.ChatViewModel" />
+        <variable
+            name="fragment"
+            type="com.example.appchatrealtime.views.ChatFragment" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -94,6 +97,8 @@
                             android:layout_height="@dimen/_50sdp"
                             android:paddingLeft="@dimen/_10sdp"
                             android:background="@drawable/photo_design"
+                            android:paddingRight="@dimen/_40sdp"
+                            android:id="@+id/edt_input"
                             android:hint="@string/nhaptinnhan"/>
                         <ImageView
                             android:layout_width="@dimen/_25sdp"
@@ -111,7 +116,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
                         android:id="@+id/img_send"
-                        android:onClick="@{()-> viewmodel.onclickSend()}"
+                        android:onClick="@{(view)-> viewmodel.onclickSend(view)}"
                         />
 
                 </RelativeLayout>

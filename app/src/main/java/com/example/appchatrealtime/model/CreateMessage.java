@@ -57,4 +57,15 @@ public class CreateMessage {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "CreateMessage{" +
+                "count=" + count +
+                ", id_receiver='" + id_receiver + '\'' +
+                ", id_sender='" + id_sender + '\'' +
+                ", message='" + message + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

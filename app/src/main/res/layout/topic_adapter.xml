@@ -18,7 +18,7 @@
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
-        android:layout_height="@dimen/_60sdp">
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="@dimen/_70sdp"
             android:layout_height="match_parent">

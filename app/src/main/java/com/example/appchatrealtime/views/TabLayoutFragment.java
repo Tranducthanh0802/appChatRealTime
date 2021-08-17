@@ -38,23 +38,38 @@ public class TabLayoutFragment  extends Fragment {
         View view = binding.getRoot();
         adapter=new TabLayoutAdapter(getActivity());
         binding.viewpagerTab.setAdapter(adapter);
-        new TabLayoutMediator(binding.tab, binding.viewpagerTab, new TabLayoutMediator.TabConfigurationStrategy() {
+//        binding.tab.getTabAt(0).getOrCreateBadge().setNumber(3);
+
+        TabLayoutMediator tabLayoutMediator= new TabLayoutMediator(binding.tab, binding.viewpagerTab, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
                 switch (position){
                     case 0:
                         tab.setText("Bạn bè");
+//                        BadgeDrawable badgeDrawable=tab.getOrCreateBadge();
+//                        badgeDrawable.setNumber(10);
+//                        badgeDrawable.setBackgroundColor(Color.RED);
+//                        badgeDrawable.setBadgeTextColor(Color.WHITE);
+//                        badgeDrawable.setBadgeGravity(BadgeDrawable.TOP_END);
+                       //r badgeDrawable.setVisible(true);
                         break;
                     case 1:
                         tab.setText("Tất cả");
                         break;
                     case 2:
                         tab.setText("Yêu cầu");
+//                        BadgeDrawable badgeDrawable2=tab.getOrCreateBadge();
+//                        badgeDrawable2.setNumber(10);
+//                        badgeDrawable2.setBackgroundColor(Color.RED);
+//                        badgeDrawable2.setBadgeTextColor(Color.WHITE);
+//                        badgeDrawable2.setBadgeGravity(BadgeDrawable.TOP_END);
                         break;
 
                 }
             }
-        }).attach();
+        });
+        tabLayoutMediator.attach();
+
         return view;
     }
 }

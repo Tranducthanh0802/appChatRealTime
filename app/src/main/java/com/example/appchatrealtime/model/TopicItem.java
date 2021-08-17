@@ -80,10 +80,24 @@ public class TopicItem implements Comparable<TopicItem> {
     }
 
     public String getNameSend() {
+        if(nameSend.length()>25){
+            char[] arr = nameSend.toCharArray();
+            char[] arr1=new char[28];
+            for(int i=0;i<25;i++){
+                arr1[i]=arr[i];
+            }
+            arr1[26]='.';
+            arr1[27]='.';
+            arr1[28]='.';
+
+            return String.valueOf(arr1);
+        }
         return nameSend;
+
     }
 
     public void setNameSend(String nameSend) {
+
         this.nameSend = nameSend;
     }
 
