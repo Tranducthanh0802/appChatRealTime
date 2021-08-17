@@ -1,0 +1,4314 @@
+From 1d504e3cf005dfa388aaee2a510754de2e61db8d Mon Sep 17 00:00:00 2001
+From: Tranducthanh0802 <49425285+Tranducthanh0802@users.noreply.github.com>
+Date: Sun, 15 Aug 2021 22:37:02 +0700
+Subject: [PATCH 1/3] =?UTF-8?q?=C4=91ang=20fix=20l=E1=BB=97i=20tin=20nh?=
+ =?UTF-8?q?=E1=BA=AFn?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Tranducthanh0802 <49425285+Tranducthanh0802@users.noreply.github.com>
+---
+ app/build.gradle                              |   2 +-
+ .../ChooseMessageListerner.java               |   5 +
+ .../Choose_friendListerner.java               |   8 +
+ .../example/appchatrealtime/MainActivity.java |  12 +-
+ .../appchatrealtime/TransitionData.java       |   5 +
+ .../adapter/BottomNavigationAdapter.java      |  38 ++++
+ .../adapter/ChooseFriendAdapter.java          |  12 +-
+ .../adapter/CreateConversationAdapter.java    |  57 +++--
+ .../adapter/InviteReceiveAdapter.java         | 203 ++++++++++++++++++
+ .../adapter/RequestAdapter.java               | 169 +++++++++++++++
+ .../adapter/StikyHeaderAdapter.java           |  63 +++---
+ .../adapter/TabLayoutAdapter.java             |  39 ++++
+ .../appchatrealtime/adapter/TopicAdapter.java |  47 ++--
+ .../appchatrealtime/model/CreateMessage.java  |  60 ++++++
+ .../example/appchatrealtime/model/Friend.java |  20 +-
+ .../example/appchatrealtime/model/Invite.java |  60 ++++++
+ .../appchatrealtime/model/Invite_User.java    |  32 +++
+ .../model/ItemCreateConversation.java         |  47 ++++
+ .../appchatrealtime/model/ListFriend.java     |  88 ++++++++
+ .../model/SharedPreferencesModel.java         |  23 ++
+ .../appchatrealtime/model/TopicItem.java      |  88 +++++++-
+ .../respository/Choose_friendListerner.java   |   9 -
+ .../respository/CustomListerner.java          |   7 -
+ .../viewmodels/ChatViewModel.java             |  41 +++-
+ .../CreateConversationViewModel.java          |  75 ++++---
+ .../viewmodels/FriendViewModel.java           |   2 -
+ .../viewmodels/ListFriendViewModel.java       | 196 +++++++++++++----
+ .../viewmodels/LoginViewModel.java            |  12 +-
+ .../viewmodels/RegisterViewModel.java         |  23 +-
+ .../viewmodels/RequesViewModel.java           |  95 ++++++++
+ .../viewmodels/TopicViewModel.java            | 121 ++++++-----
+ .../appchatrealtime/views/ChatFragment.java   | 125 +++--------
+ .../views/CreateConversationFragment.java     | 131 ++++++++---
+ .../appchatrealtime/views/InviteFragment.java |  71 ++++++
+ .../views/ListChatFragment.java               |  87 ++++++++
+ .../views/ListFriendFragment.java             |   7 +-
+ ...Login_fragment.java => LoginFragment.java} |  40 +++-
+ .../views/RegisterFragment.java               |  73 +++++++
+ .../views/Register_fragment.java              |  41 ----
+ .../views/RequestFragment.java                |  54 +++++
+ .../views/TabLayoutFragment.java              |  60 ++++++
+ .../appchatrealtime/views/TopicFragment.java  |  61 +++---
+ app/src/main/res/drawable/buttonhuy.xml       |   6 +
+ app/src/main/res/layout/choose_friend.xml     |   7 +-
+ .../res/layout/createconversation_adapter.xml |  10 +-
+ .../layout/createconversation_fragment.xml    |  12 +-
+ app/src/main/res/layout/invite_fragment.xml   |  38 ++++
+ app/src/main/res/layout/item_invite.xml       |  55 +++++
+ app/src/main/res/layout/item_listfriend.xml   |  20 +-
+ .../main/res/layout/item_requestfriend.xml    |  50 +++++
+ .../main/res/layout/list_friend_fragment.xml  |   1 +
+ app/src/main/res/layout/listchat_fragment.xml |  10 +
+ app/src/main/res/layout/login_fragment.xml    |   5 +-
+ app/src/main/res/layout/message_fragment.xml  |   1 +
+ app/src/main/res/layout/register_fragment.xml |  17 +-
+ app/src/main/res/layout/request_fragment.xml  |  18 +-
+ .../res/layout/stickyheader_listfriend.xml    |  17 +-
+ .../layout/stickyheader_listfriendrequest.xml |  29 +++
+ .../main/res/layout/tablayout_fragment.xml    |  20 ++
+ app/src/main/res/layout/topic_adapter.xml     |  18 +-
+ app/src/main/res/layout/topic_fragment.xml    |   6 +-
+ app/src/main/res/values/colors.xml            |   1 +
+ app/src/main/res/values/strings.xml           |   8 +
+ 63 files changed, 2246 insertions(+), 512 deletions(-)
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/ChooseMessageListerner.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/Choose_friendListerner.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/TransitionData.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/adapter/BottomNavigationAdapter.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/adapter/InviteReceiveAdapter.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/adapter/RequestAdapter.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/adapter/TabLayoutAdapter.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/model/CreateMessage.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/model/Invite.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/model/Invite_User.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/model/ItemCreateConversation.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/model/ListFriend.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/model/SharedPreferencesModel.java
+ delete mode 100644 app/src/main/java/com/example/appchatrealtime/respository/Choose_friendListerner.java
+ delete mode 100644 app/src/main/java/com/example/appchatrealtime/respository/CustomListerner.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/viewmodels/RequesViewModel.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/views/InviteFragment.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/views/ListChatFragment.java
+ rename app/src/main/java/com/example/appchatrealtime/views/{Login_fragment.java => LoginFragment.java} (51%)
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/views/RegisterFragment.java
+ delete mode 100644 app/src/main/java/com/example/appchatrealtime/views/Register_fragment.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/views/RequestFragment.java
+ create mode 100644 app/src/main/java/com/example/appchatrealtime/views/TabLayoutFragment.java
+ create mode 100644 app/src/main/res/drawable/buttonhuy.xml
+ create mode 100644 app/src/main/res/layout/invite_fragment.xml
+ create mode 100644 app/src/main/res/layout/item_invite.xml
+ create mode 100644 app/src/main/res/layout/item_requestfriend.xml
+ create mode 100644 app/src/main/res/layout/listchat_fragment.xml
+ create mode 100644 app/src/main/res/layout/stickyheader_listfriendrequest.xml
+ create mode 100644 app/src/main/res/layout/tablayout_fragment.xml
+
+diff --git a/app/build.gradle b/app/build.gradle
+index 0c28643..54d008d 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -55,5 +55,5 @@ dependencies {
+     implementation "androidx.cardview:cardview:1.0.0"
+     implementation 'com.github.bumptech.glide:glide:4.12.0'
+     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+-    implementation 'se.emilsjolander:stickylistheaders:2.3.0'
++    implementation 'se.emilsjolander:stickylistheaders:2.7.0'
+ }
+\ No newline at end of file
+diff --git a/app/src/main/java/com/example/appchatrealtime/ChooseMessageListerner.java b/app/src/main/java/com/example/appchatrealtime/ChooseMessageListerner.java
+new file mode 100644
+index 0000000..d962a31
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/ChooseMessageListerner.java
+@@ -0,0 +1,5 @@
++package com.example.appchatrealtime;
++
++public interface ChooseMessageListerner {
++    void id_sender(String id);
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/Choose_friendListerner.java b/app/src/main/java/com/example/appchatrealtime/Choose_friendListerner.java
+new file mode 100644
+index 0000000..cb911df
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/Choose_friendListerner.java
+@@ -0,0 +1,8 @@
++package com.example.appchatrealtime;
++
++import com.example.appchatrealtime.model.Friend;
++
++public interface Choose_friendListerner {
++    void addFriend(Friend friend);
++    void removeFriend(Friend friend);
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/MainActivity.java b/app/src/main/java/com/example/appchatrealtime/MainActivity.java
+index b91b825..e52caf6 100644
+--- a/app/src/main/java/com/example/appchatrealtime/MainActivity.java
++++ b/app/src/main/java/com/example/appchatrealtime/MainActivity.java
+@@ -3,8 +3,10 @@ package com.example.appchatrealtime;
+ import android.os.Bundle;
+ 
+ import androidx.appcompat.app.AppCompatActivity;
++import androidx.fragment.app.Fragment;
++import androidx.fragment.app.FragmentTransaction;
+ 
+-import com.example.appchatrealtime.views.ListFriendFragment;
++import com.example.appchatrealtime.views.TopicFragment;
+ 
+ public class MainActivity extends AppCompatActivity {
+ 
+@@ -12,8 +14,12 @@ public class MainActivity extends AppCompatActivity {
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_main);
+-
+-        getSupportFragmentManager().beginTransaction().add(R.id.frame, ListFriendFragment.newInstance()).commit();
++        Fragment fragment=TopicFragment.newInstance();
++        FragmentTransaction transaction= getSupportFragmentManager().beginTransaction();
++        transaction.replace(R.id.frame, TopicFragment.newInstance(),"mai_frag");
++        transaction.commit();
+ 
+     }
++
++
+ }
+\ No newline at end of file
+diff --git a/app/src/main/java/com/example/appchatrealtime/TransitionData.java b/app/src/main/java/com/example/appchatrealtime/TransitionData.java
+new file mode 100644
+index 0000000..68a6f99
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/TransitionData.java
+@@ -0,0 +1,5 @@
++package com.example.appchatrealtime;
++
++public interface TransitionData {
++    void StringMessage(String s);
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/adapter/BottomNavigationAdapter.java b/app/src/main/java/com/example/appchatrealtime/adapter/BottomNavigationAdapter.java
+new file mode 100644
+index 0000000..613d847
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/adapter/BottomNavigationAdapter.java
+@@ -0,0 +1,38 @@
++package com.example.appchatrealtime.adapter;
++
++import androidx.annotation.NonNull;
++import androidx.fragment.app.Fragment;
++import androidx.fragment.app.FragmentManager;
++import androidx.fragment.app.FragmentStatePagerAdapter;
++
++import com.example.appchatrealtime.views.ListChatFragment;
++import com.example.appchatrealtime.views.TabLayoutFragment;
++
++import org.jetbrains.annotations.NotNull;
++
++public class BottomNavigationAdapter extends FragmentStatePagerAdapter {
++    public BottomNavigationAdapter(@NonNull @NotNull FragmentManager fm, int behavior) {
++        super(fm, behavior);
++
++    }
++
++    @NonNull
++    @NotNull
++    @Override
++    public Fragment getItem(int position) {
++        switch (position){
++            case 0:
++                return ListChatFragment.newInstance();
++            case 1:
++                return TabLayoutFragment.newInstance();
++            default:
++                return ListChatFragment.newInstance();
++        }
++
++    }
++
++    @Override
++    public int getCount() {
++        return 3;
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/adapter/ChooseFriendAdapter.java b/app/src/main/java/com/example/appchatrealtime/adapter/ChooseFriendAdapter.java
+index 2628a6e..0afb758 100644
+--- a/app/src/main/java/com/example/appchatrealtime/adapter/ChooseFriendAdapter.java
++++ b/app/src/main/java/com/example/appchatrealtime/adapter/ChooseFriendAdapter.java
+@@ -10,16 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
+ 
+ import com.example.appchatrealtime.R;
+ import com.example.appchatrealtime.databinding.ChooseFriendBinding;
+-import com.example.appchatrealtime.viewmodels.FriendViewModel;
++import com.example.appchatrealtime.model.Friend;
+ 
+ import org.jetbrains.annotations.NotNull;
+ 
+ import java.util.ArrayList;
+ 
+ public class ChooseFriendAdapter extends RecyclerView.Adapter<ChooseFriendAdapter.ViewHolder> {
+-    private ArrayList<FriendViewModel> arrayList;
++    private ArrayList<Friend> arrayList;
+     private Context context;
+-    public ChooseFriendAdapter(ArrayList<FriendViewModel> arrayList, Context context) {
++    public ChooseFriendAdapter(ArrayList<Friend> arrayList, Context context) {
+         this.arrayList = arrayList;
+         this.context = context;
+     }
+@@ -36,7 +36,7 @@ public class ChooseFriendAdapter extends RecyclerView.Adapter<ChooseFriendAdapte
+ 
+     @Override
+     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
+-        FriendViewModel friend=arrayList.get(position);
++        Friend friend=arrayList.get(position);
+         holder.bind(friend);
+     }
+   
+@@ -54,8 +54,8 @@ public class ChooseFriendAdapter extends RecyclerView.Adapter<ChooseFriendAdapte
+             super(chooseFriendBinding.getRoot());
+             this.chooseFriendBinding=chooseFriendBinding;
+         }
+-        public void bind(FriendViewModel friendViewModel) {
+-            chooseFriendBinding.setFviewmodel(friendViewModel);
++        public void bind(Friend friend) {
++            chooseFriendBinding.setViewmodel(friend);
+             chooseFriendBinding.executePendingBindings();
+ 
+         }
+diff --git a/app/src/main/java/com/example/appchatrealtime/adapter/CreateConversationAdapter.java b/app/src/main/java/com/example/appchatrealtime/adapter/CreateConversationAdapter.java
+index 02a686a..f5fabc6 100644
+--- a/app/src/main/java/com/example/appchatrealtime/adapter/CreateConversationAdapter.java
++++ b/app/src/main/java/com/example/appchatrealtime/adapter/CreateConversationAdapter.java
+@@ -2,6 +2,7 @@ package com.example.appchatrealtime.adapter;
+ 
+ import android.content.Context;
+ import android.view.LayoutInflater;
++import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.Filter;
+ import android.widget.Filterable;
+@@ -10,9 +11,11 @@ import androidx.annotation.NonNull;
+ import androidx.databinding.DataBindingUtil;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
++import com.example.appchatrealtime.Choose_friendListerner;
+ import com.example.appchatrealtime.R;
+ import com.example.appchatrealtime.databinding.CreateconversationAdapterBinding;
+-import com.example.appchatrealtime.viewmodels.CreateConversationViewModel;
++import com.example.appchatrealtime.model.Friend;
++import com.example.appchatrealtime.model.ItemCreateConversation;
+ 
+ import org.jetbrains.annotations.NotNull;
+ 
+@@ -20,17 +23,21 @@ import java.util.ArrayList;
+ import java.util.List;
+ 
+ public class CreateConversationAdapter extends RecyclerView.Adapter<CreateConversationAdapter.ViewHolder> implements Filterable {
+-    private ArrayList<CreateConversationViewModel> arrayList;
+-    private ArrayList<CreateConversationViewModel> filteredGroups;
++    private ArrayList<ItemCreateConversation> arrayList;
++    private ArrayList<ItemCreateConversation> filteredGroups;
+     private Context context;
++    private Choose_friendListerner choose_friendListerner;
+ 
++    public void setChoose_friendListerner(Choose_friendListerner choose_friendListerner) {
++        this.choose_friendListerner =  choose_friendListerner;
++    }
+ 
+ 
+-    public CreateConversationAdapter(ArrayList<CreateConversationViewModel> arrayList, Context context) {
++    public CreateConversationAdapter(ArrayList<ItemCreateConversation> arrayList, Context context) {
+         this.arrayList = arrayList;
+         this.filteredGroups=arrayList;
+         this.context = context;
+-
++        this.choose_friendListerner=choose_friendListerner;
+ 
+     }
+ 
+@@ -46,8 +53,34 @@ public class CreateConversationAdapter extends RecyclerView.Adapter<CreateConver
+ 
+     @Override
+     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
+-        CreateConversationViewModel createConversationViewModel=arrayList.get(position);
+-        holder.bind(createConversationViewModel);
++        ItemCreateConversation itemCreateConversation=arrayList.get(position);
++        holder.bind(itemCreateConversation);
++
++        holder.itemView.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                if(arrayList.get(position).getCheck()){
++                    choose_friendListerner.removeFriend(new Friend(arrayList.get(position).getLinkPhoto(),String.valueOf(arrayList.get(position).getIdFriend())));
++                    arrayList.get(position).setCheck(false);
++                }else {
++                   arrayList.get(position).setCheck(true);
++                    choose_friendListerner.addFriend(new Friend(arrayList.get(position).getLinkPhoto(),String.valueOf(arrayList.get(position).getIdFriend())));
++                }
++               holder.getAdapterBinding().checkbox.setChecked(arrayList.get(position).getCheck());
++            }
++        });
++        holder.getAdapterBinding().checkbox.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                if(arrayList.get(position).getCheck()){
++                    choose_friendListerner.removeFriend(new Friend(arrayList.get(position).getLinkPhoto(),String.valueOf(arrayList.get(position).getIdFriend())));
++                    arrayList.get(position).setCheck(false);
++                }else {
++                    arrayList.get(position).setCheck(true);
++                    choose_friendListerner.addFriend(new Friend(arrayList.get(position).getLinkPhoto(),String.valueOf(arrayList.get(position).getIdFriend())));
++                }
++            }
++        });
+ 
+     }
+ 
+@@ -65,8 +98,8 @@ public class CreateConversationAdapter extends RecyclerView.Adapter<CreateConver
+             super(createconversationAdapterBinding.getRoot());
+             this.createconversationAdapterBinding=createconversationAdapterBinding;
+         }
+-        public void bind(CreateConversationViewModel createConversationViewModel) {
+-            createconversationAdapterBinding.setViewmodel(createConversationViewModel);
++        public void bind(ItemCreateConversation itemCreateConversation) {
++            createconversationAdapterBinding.setViewmodel(itemCreateConversation);
+             createconversationAdapterBinding.executePendingBindings();
+ 
+         }
+@@ -81,7 +114,7 @@ public class CreateConversationAdapter extends RecyclerView.Adapter<CreateConver
+             @Override
+             protected FilterResults performFiltering(CharSequence constraint) {
+                 FilterResults results = new FilterResults();
+-                List<CreateConversationViewModel> fGroups = new ArrayList<>();
++                List<ItemCreateConversation> fGroups = new ArrayList<>();
+                 if (constraint == null || constraint.length() == 0) {
+                     // set the Original result to return
+                     results.count = filteredGroups.size();
+@@ -89,7 +122,7 @@ public class CreateConversationAdapter extends RecyclerView.Adapter<CreateConver
+                 } else {
+                     constraint = constraint.toString().toLowerCase();
+                     for (int i = 0; i < filteredGroups.size(); i++) {
+-                        String data = filteredGroups.get(i).nameFull;
++                        String data = filteredGroups.get(i).getNameFull();
+                         if (data.toLowerCase().startsWith(constraint.toString())) {
+                             fGroups.add(filteredGroups.get(i));
+                         }
+@@ -104,7 +137,7 @@ public class CreateConversationAdapter extends RecyclerView.Adapter<CreateConver
+ 
+             @Override
+             protected void publishResults(CharSequence constraint, FilterResults results) {
+-                arrayList = (ArrayList<CreateConversationViewModel>) results.values;
++                arrayList = (ArrayList<ItemCreateConversation>) results.values;
+                 notifyDataSetChanged();
+             }
+         };
+diff --git a/app/src/main/java/com/example/appchatrealtime/adapter/InviteReceiveAdapter.java b/app/src/main/java/com/example/appchatrealtime/adapter/InviteReceiveAdapter.java
+new file mode 100644
+index 0000000..45f8aee
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/adapter/InviteReceiveAdapter.java
+@@ -0,0 +1,203 @@
++package com.example.appchatrealtime.adapter;
++
++import android.content.Context;
++import android.text.TextUtils;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++
++import androidx.annotation.NonNull;
++import androidx.databinding.DataBindingUtil;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.appchatrealtime.R;
++import com.example.appchatrealtime.databinding.ItemInviteBinding;
++import com.example.appchatrealtime.model.Invite_User;
++import com.example.appchatrealtime.model.ListFriend;
++import com.example.appchatrealtime.model.firebase;
++import com.google.firebase.database.DataSnapshot;
++import com.google.firebase.database.DatabaseError;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.ValueEventListener;
++
++import org.jetbrains.annotations.NotNull;
++
++import java.util.ArrayList;
++import java.util.Arrays;
++
++public class InviteReceiveAdapter extends RecyclerView.Adapter<InviteReceiveAdapter.ViewHolder> {
++    private ArrayList<ListFriend> arrayList;
++    private ArrayList<ListFriend> filteredGroups;
++    private ArrayList<Invite_User> arrInvite;
++    private ArrayList<String> arrFriend;
++
++    private Context context;
++
++
++
++    public InviteReceiveAdapter(ArrayList<ListFriend> arrayList, Context context) {
++        this.arrayList = arrayList;
++        this.context = context;
++
++
++    }
++
++    @NonNull
++    @NotNull
++    @Override
++    public InviteReceiveAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
++        ItemInviteBinding binding= DataBindingUtil.inflate(
++                LayoutInflater.from(parent.getContext()),
++                R.layout.item_invite, parent, false);
++        binding.dongy.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++
++            }
++        });
++        return new InviteReceiveAdapter.ViewHolder(binding);
++    }
++
++    @Override
++    public void onBindViewHolder(@NonNull @NotNull InviteReceiveAdapter.ViewHolder holder, int position) {
++        ListFriend invite=arrayList.get(position);
++        holder.bind(invite);
++        addInvite();
++        addFriend();
++        holder.inviteBinding.dongy.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                String id_host="1";
++                String[] arrGuest=getlistFriend(arrInvite.get(Integer.parseInt(arrayList.get(position).getId())).getInvite_send());
++                String[] arrHost=getlistFriend(arrInvite.get(Integer.parseInt(id_host)).getInvite_receive());
++                StringBuilder frGuest=new StringBuilder(arrFriend.get(Integer.parseInt(arrayList.get(position).getId())));
++                StringBuilder frHost=new StringBuilder( arrFriend.get(Integer.parseInt(id_host)));
++
++                String s=Remove(arrGuest,id_host);
++                String r=Remove(arrHost,arrayList.get(position).getId());
++                firebase fb=new firebase();
++                DatabaseReference databaseReference =fb.getDatabaseReference().child("Invite");
++                DatabaseReference databaseReference1 =fb.getDatabaseReference().child("Friend_User");
++
++                if(s!=null && r!=null){
++                    databaseReference.child(id_host).child("invite_receive").setValue(r+"");
++                    databaseReference.child(arrayList.get(position).getId()).child("invite_send").setValue(s+"");
++                    frGuest.append(id_host+",");
++                    frHost.append(arrayList.get(position).getId()+",");
++                    databaseReference1.child(id_host).setValue(frHost+"");
++                    databaseReference1.child(arrayList.get(position).getId()).setValue(frGuest+"");
++
++                }else {
++                    databaseReference.child(id_host).child("invite_receive").setValue("");
++                    databaseReference.child(arrayList.get(position).getId()).child("invite_send").setValue("");
++                }
++            }
++        });
++        holder.inviteBinding.huy.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                String id_host="1";
++                String[] arrGuest=getlistFriend(arrInvite.get(Integer.parseInt(arrayList.get(position).getId())).getInvite_receive());
++                String[] arrHost=getlistFriend(arrInvite.get(Integer.parseInt(id_host)).getInvite_send());
++                String r=Remove(arrGuest,id_host);
++                String s=Remove(arrHost,arrayList.get(position).getId());
++                firebase fb=new firebase();
++                DatabaseReference databaseReference =fb.getDatabaseReference().child("Invite");
++                if(s!=null && r!=null){
++                    databaseReference.child(id_host).child("invite_send").setValue(s+"");
++                    databaseReference.child(arrayList.get(position).getId()).child("invite_receive").setValue(r+"");
++                 }else {
++                    databaseReference.child(id_host).child("invite_send").setValue("");
++                    databaseReference.child(arrayList.get(position).getId()).child("invite_receive").setValue("");
++                }
++
++            }
++        });
++    }
++
++    @Override
++    public int getItemCount() {
++        if(arrayList==null){
++            return 0;
++        }
++        return arrayList.size();
++    }
++
++    public class ViewHolder extends RecyclerView.ViewHolder {
++        public ItemInviteBinding inviteBinding;
++        public ViewHolder(@NonNull @NotNull ItemInviteBinding itemInviteBinding) {
++            super(itemInviteBinding.getRoot());
++            this.inviteBinding=itemInviteBinding;
++        }
++        public void bind(ListFriend invite) {
++            inviteBinding.setViewmodel(invite);
++            inviteBinding.executePendingBindings();
++
++        }
++        public ItemInviteBinding getAdapterBinding(){
++            return inviteBinding;
++        }
++    }
++    public void addInvite(){
++        firebase fb=new firebase();
++
++        DatabaseReference databaseReference =fb.getDatabaseReference().child("Invite");
++        arrInvite=new ArrayList<>();
++        ValueEventListener postMessage=new ValueEventListener() {
++            @Override
++            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
++                for(int i=0;i<snapshot.getChildrenCount();i++){
++                   String r=(String) snapshot.child(String.valueOf(i)).child("invite_receive").getValue();
++                   String s=(String) snapshot.child(String.valueOf(i)).child("invite_send").getValue();
++                    arrInvite.add(new Invite_User(r,s));
++                }
++
++            }
++
++            @Override
++            public void onCancelled(@NonNull @NotNull DatabaseError error) {
++
++            }
++        };
++        databaseReference.addValueEventListener(postMessage);
++    }
++    public void addFriend(){
++        firebase fb=new firebase();
++
++        DatabaseReference databaseReference =fb.getDatabaseReference().child("Friend_User");
++        arrFriend=new ArrayList<>();
++        ValueEventListener postMessage=new ValueEventListener() {
++            @Override
++            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
++                for(int i=0;i<snapshot.getChildrenCount();i++){
++                       String fr=(String) snapshot.child(String.valueOf(i)).getValue();
++                    arrFriend.add(fr);
++                }
++
++            }
++
++            @Override
++            public void onCancelled(@NonNull @NotNull DatabaseError error) {
++
++            }
++        };
++        databaseReference.addValueEventListener(postMessage);
++    }
++    private String[] getlistFriend(String message){
++        String[] arrlist = message.split(",");
++        return arrlist;
++    }
++    private String Remove(String[] arr,String id){
++        ArrayList<String> list = new ArrayList<String>(Arrays.asList(arr));
++       for(int i=0;i<list.size();i++){
++           if(list.get(i).equals(id)){
++               list.remove(i);
++               break;
++           }
++       }
++       arr= list.toArray(new String[list.size()]);
++
++
++        return TextUtils.join(",", arr)+",";
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/adapter/RequestAdapter.java b/app/src/main/java/com/example/appchatrealtime/adapter/RequestAdapter.java
+new file mode 100644
+index 0000000..da5de68
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/adapter/RequestAdapter.java
+@@ -0,0 +1,169 @@
++package com.example.appchatrealtime.adapter;
++
++import android.content.Context;
++import android.util.Log;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.BaseAdapter;
++
++import androidx.annotation.NonNull;
++
++import com.example.appchatrealtime.databinding.ItemRequestfriendBinding;
++import com.example.appchatrealtime.databinding.StickyheaderListfriendBinding;
++import com.example.appchatrealtime.model.Invite_User;
++import com.example.appchatrealtime.model.ListFriend;
++import com.example.appchatrealtime.model.firebase;
++import com.google.firebase.database.DataSnapshot;
++import com.google.firebase.database.DatabaseError;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.ValueEventListener;
++
++import org.jetbrains.annotations.NotNull;
++
++import java.util.ArrayList;
++import java.util.List;
++
++import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
++
++public class RequestAdapter extends BaseAdapter implements StickyListHeadersAdapter {
++    private List<ListFriend> arrLisName;
++    private LayoutInflater mLayoutInflater;
++    private List<Invite_User> arrInvite;
++    String invite_receive="",invite_send="",r,s;
++    public RequestAdapter(List<ListFriend> arrLisName) {
++        this.arrLisName = arrLisName;
++        notifyDataSetChanged();
++    }
++
++    @Override
++    public View getHeaderView(int position, View convertView, ViewGroup parent) {
++
++        StickyheaderListfriendBinding listfriendBinding;
++        if (convertView == null) {
++            if (mLayoutInflater == null) {
++                mLayoutInflater = (LayoutInflater) parent.getContext()
++                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
++            }
++            listfriendBinding = StickyheaderListfriendBinding.inflate(
++                    mLayoutInflater, parent, false);
++
++            convertView = listfriendBinding.getRoot();
++            convertView.setTag(listfriendBinding);
++        }
++        else {
++            listfriendBinding = (StickyheaderListfriendBinding) convertView.getTag();
++        }
++        listfriendBinding.setViewmodel1(arrLisName.get(position));
++        listfriendBinding.executePendingBindings();
++        return convertView;
++    }
++
++    @Override
++    public long getHeaderId(int position) {
++        return arrLisName.get(position).getStickHeader().subSequence(0, 1).charAt(0);
++
++    }
++
++    @Override
++    public int getCount() {
++       if(arrLisName.size()!=0){
++           return  arrLisName.size();
++       }
++        return 0;
++    }
++
++    @Override
++    public Object getItem(int i) {
++        return arrLisName.get(i);
++    }
++
++    @Override
++    public long getItemId(int i) {
++        return i;
++    }
++
++    @Override
++    public View getView(int i, View view, ViewGroup viewGroup) {
++
++        ItemRequestfriendBinding itemBinding ;
++        if (view == null) {
++            if (mLayoutInflater == null) {
++                mLayoutInflater = (LayoutInflater) viewGroup.getContext()
++                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
++            }
++                 itemBinding = ItemRequestfriendBinding.inflate(
++                    mLayoutInflater, viewGroup, false);
++
++            view = itemBinding.getRoot();
++            view.setTag(itemBinding);
++        }
++        else {
++            itemBinding = (ItemRequestfriendBinding) view.getTag();
++        }
++        addInvite();
++        itemBinding.setViewmodel1(arrLisName.get(i));
++        itemBinding.ketban.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                 firebase fb=new firebase();
++                String id_host="1";
++                DatabaseReference databaseReference =fb.getDatabaseReference().child("Invite");
++                arrInvite.get(Integer.parseInt(id_host)).getInvite_send();
++                invite_receive=  arrInvite.get(i).getInvite_receive()+""+id_host+",";
++                invite_send=  arrInvite.get(Integer.parseInt(id_host)).getInvite_send()+""+arrLisName.get(i).getId()+",";
++                Log.d("abc", "ketban: "+invite_send+invite_receive);
++                if(invite_receive.toString()!="" &&invite_receive.toString()!=""){
++                    databaseReference.child(id_host).child("invite_send").setValue(invite_send+"");
++                    databaseReference.child(arrLisName.get(i).getId()).child("invite_receive").setValue(invite_receive+"");
++                }
++            }
++        });
++        itemBinding.executePendingBindings();
++        return view;
++    }
++
++
++    public class HeaderViewHolder{
++        private StickyheaderListfriendBinding view;
++
++        HeaderViewHolder(StickyheaderListfriendBinding binding)
++        {
++            this.view = binding;
++        }
++    }
++    public class ItemViewHolder{
++
++        private ItemRequestfriendBinding itemRequestfriendBinding;
++
++        ItemViewHolder(ItemRequestfriendBinding binding)
++        {
++            this.itemRequestfriendBinding = binding;
++        }
++    }
++    public void addInvite(){
++        firebase fb=new firebase();
++
++        DatabaseReference databaseReference =fb.getDatabaseReference().child("Invite");
++        arrInvite=new ArrayList<>();
++        ValueEventListener postMessage=new ValueEventListener() {
++            @Override
++            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
++                for(int i=0;i<snapshot.getChildrenCount();i++){
++                    r=(String) snapshot.child(String.valueOf(i)).child("invite_receive").getValue();
++                    s=(String) snapshot.child(String.valueOf(i)).child("invite_send").getValue();
++                    arrInvite.add(new Invite_User(r,s));
++                }
++
++            }
++
++            @Override
++            public void onCancelled(@NonNull @NotNull DatabaseError error) {
++
++            }
++        };
++        databaseReference.addValueEventListener(postMessage);
++    }
++
++
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/adapter/StikyHeaderAdapter.java b/app/src/main/java/com/example/appchatrealtime/adapter/StikyHeaderAdapter.java
+index 5cfed54..e45b1d3 100644
+--- a/app/src/main/java/com/example/appchatrealtime/adapter/StikyHeaderAdapter.java
++++ b/app/src/main/java/com/example/appchatrealtime/adapter/StikyHeaderAdapter.java
+@@ -1,52 +1,54 @@
+ package com.example.appchatrealtime.adapter;
+ 
++import android.content.Context;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.BaseAdapter;
+ 
+-import androidx.databinding.DataBindingUtil;
+-
+-import com.example.appchatrealtime.R;
+ import com.example.appchatrealtime.databinding.ItemListfriendBinding;
+ import com.example.appchatrealtime.databinding.StickyheaderListfriendBinding;
+-import com.example.appchatrealtime.viewmodels.ListFriendViewModel;
++import com.example.appchatrealtime.model.ListFriend;
+ 
+ import java.util.List;
+ 
+ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+ 
+ public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+-    private List<ListFriendViewModel> arrLisName;
+-    private List<String> listHeader;
++    private List<ListFriend> arrLisName;
++    private LayoutInflater mLayoutInflater;
+ 
+-    public StikyHeaderAdapter(List<ListFriendViewModel> arrLisName,List<String> listHeader) {
++    public StikyHeaderAdapter(List<ListFriend> arrLisName) {
+         this.arrLisName = arrLisName;
+-        this.listHeader=listHeader;
+         notifyDataSetChanged();
+     }
+ 
+     @Override
+     public View getHeaderView(int position, View convertView, ViewGroup parent) {
+-        HeaderViewHolder holder;
+ 
++        StickyheaderListfriendBinding listfriendBinding;
+         if (convertView == null) {
+-            StickyheaderListfriendBinding listfriendBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.stickyheader_listfriend, parent, false);
+-
+-            listfriendBinding.setViewmodel(arrLisName.get(position));
+-            holder = new HeaderViewHolder(listfriendBinding);
+-            holder.view = listfriendBinding.getRoot();
+-            holder.view.setTag(holder);
++            if (mLayoutInflater == null) {
++                mLayoutInflater = (LayoutInflater) parent.getContext()
++                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
++            }
++            listfriendBinding = StickyheaderListfriendBinding.inflate(
++                    mLayoutInflater, parent, false);
++
++            convertView = listfriendBinding.getRoot();
++            convertView.setTag(listfriendBinding);
+         }
+         else {
+-            holder = (HeaderViewHolder) convertView.getTag();
++            listfriendBinding = (StickyheaderListfriendBinding) convertView.getTag();
+         }
+-        return holder.view;
++        listfriendBinding.setViewmodel1(arrLisName.get(position));
++        listfriendBinding.executePendingBindings();
++        return convertView;
+     }
+ 
+     @Override
+     public long getHeaderId(int position) {
+-        return listHeader.get(position). subSequence(0, 1).charAt(0);
++        return arrLisName.get(position).getStickHeader().subSequence(0, 1).charAt(0);
+ 
+     }
+ 
+@@ -70,20 +72,24 @@ public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeaders
+ 
+     @Override
+     public View getView(int i, View view, ViewGroup viewGroup) {
+-        ItemViewHolder holder;
+-
++        ItemListfriendBinding itemBinding ;
+         if (view == null) {
+-            ItemListfriendBinding itemBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()), R.layout.item_listfriend, viewGroup, false);
+-            itemBinding.setViewmodel(arrLisName.get(i));
+-
+-            holder = new ItemViewHolder(itemBinding);
+-            holder.view = itemBinding.getRoot();
+-            holder.view.setTag(holder);
++            if (mLayoutInflater == null) {
++                mLayoutInflater = (LayoutInflater) viewGroup.getContext()
++                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
++            }
++            itemBinding = ItemListfriendBinding.inflate(
++                    mLayoutInflater, viewGroup, false);
++
++            view = itemBinding.getRoot();
++            view.setTag(itemBinding);
+         }
+         else {
+-            holder = (ItemViewHolder) view.getTag();
++            itemBinding = (ItemListfriendBinding) view.getTag();
+         }
+-        return holder.view;
++        itemBinding.setViewmodel1(arrLisName.get(i));
++        itemBinding.executePendingBindings();
++        return view;
+     }
+     public class HeaderViewHolder{
+         private View view;
+@@ -101,4 +107,5 @@ public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeaders
+             this.view = binding.getRoot();
+         }
+     }
++
+ }
+diff --git a/app/src/main/java/com/example/appchatrealtime/adapter/TabLayoutAdapter.java b/app/src/main/java/com/example/appchatrealtime/adapter/TabLayoutAdapter.java
+new file mode 100644
+index 0000000..80ab1cb
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/adapter/TabLayoutAdapter.java
+@@ -0,0 +1,39 @@
++package com.example.appchatrealtime.adapter;
++
++import androidx.annotation.NonNull;
++import androidx.fragment.app.Fragment;
++import androidx.fragment.app.FragmentActivity;
++import androidx.viewpager2.adapter.FragmentStateAdapter;
++
++import com.example.appchatrealtime.views.InviteFragment;
++import com.example.appchatrealtime.views.ListFriendFragment;
++import com.example.appchatrealtime.views.RequestFragment;
++
++import org.jetbrains.annotations.NotNull;
++
++public class TabLayoutAdapter extends FragmentStateAdapter {
++    public TabLayoutAdapter(@NonNull @NotNull FragmentActivity fragmentActivity) {
++        super(fragmentActivity);
++    }
++
++    @NonNull
++    @NotNull
++    @Override
++    public Fragment createFragment(int position) {
++        switch (position){
++            case 0:
++                return ListFriendFragment.newInstance();
++            case 1:
++                return RequestFragment.newInstance();
++            case 2:
++                return InviteFragment.newInstance();
++            default:
++                return ListFriendFragment.newInstance();
++        }
++    }
++
++    @Override
++    public int getItemCount() {
++        return 3;
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/adapter/TopicAdapter.java b/app/src/main/java/com/example/appchatrealtime/adapter/TopicAdapter.java
+index 33d8f33..def8a92 100644
+--- a/app/src/main/java/com/example/appchatrealtime/adapter/TopicAdapter.java
++++ b/app/src/main/java/com/example/appchatrealtime/adapter/TopicAdapter.java
+@@ -2,33 +2,39 @@ package com.example.appchatrealtime.adapter;
+ 
+ import android.content.Context;
+ import android.view.LayoutInflater;
++import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.Filter;
+ import android.widget.Filterable;
+ 
+ import androidx.annotation.NonNull;
+-import androidx.appcompat.app.AppCompatActivity;
+ import androidx.databinding.DataBindingUtil;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
++import com.example.appchatrealtime.ChooseMessageListerner;
+ import com.example.appchatrealtime.R;
+ import com.example.appchatrealtime.databinding.TopicAdapterBinding;
+-import com.example.appchatrealtime.model.ListMessage;
+-import com.example.appchatrealtime.respository.CustomListerner;
+-import com.example.appchatrealtime.viewmodels.TopicViewModel;
++import com.example.appchatrealtime.model.TopicItem;
+ 
+ import org.jetbrains.annotations.NotNull;
+ 
+ import java.util.ArrayList;
+ import java.util.List;
+ 
+-public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder>  implements CustomListerner, Filterable {
+-    private ArrayList<TopicViewModel> arrayList;
+-    private ArrayList<TopicViewModel> filteredGroups;
++public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder>  implements  Filterable {
++    private ArrayList<TopicItem> arrayList;
++    private ArrayList<TopicItem> filteredGroups;
+     private Context context;
++    private ChooseMessageListerner chooseMessageListerner;
+ 
++    public void setChooseMessageListerner(ChooseMessageListerner chooseMessageListerner) {
++        this.chooseMessageListerner = chooseMessageListerner;
++    }
++
++    public TopicAdapter() {
++    }
+ 
+-    public TopicAdapter(ArrayList<TopicViewModel> arrayList, Context context) {
++    public TopicAdapter(ArrayList<TopicItem> arrayList, Context context) {
+         this.arrayList = arrayList;
+         this.context = context;
+         this.filteredGroups=arrayList;
+@@ -46,8 +52,14 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder>
+ 
+     @Override
+     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
+-                TopicViewModel listMessage=arrayList.get(position);
+-            holder.bind(listMessage);
++        TopicItem listMessage=arrayList.get(position);
++        holder.bind(listMessage);
++       holder.itemView.setOnClickListener(new View.OnClickListener() {
++           @Override
++           public void onClick(View v) {
++               chooseMessageListerner.id_sender(arrayList.get(position).getIdGuest());
++           }
++       });
+     }
+ 
+     @Override
+@@ -58,10 +70,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder>
+         return arrayList.size();
+     }
+ 
+-    @Override
+-    public void cardClicked(ListMessage f) {
+-        ((AppCompatActivity) context).getSupportFragmentManager();
+-    }
++
+ 
+     @Override
+     public Filter getFilter() {
+@@ -69,7 +78,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder>
+             @Override
+             protected FilterResults performFiltering(CharSequence constraint) {
+                 FilterResults results = new FilterResults();
+-                List<TopicViewModel> fGroups = new ArrayList<>();
++                List<TopicItem> fGroups = new ArrayList<>();
+                 if (constraint == null || constraint.length() == 0) {
+                     // set the Original result to return
+                     results.count = filteredGroups.size();
+@@ -77,7 +86,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder>
+                 } else {
+                     constraint = constraint.toString().toLowerCase();
+                     for (int i = 0; i < filteredGroups.size(); i++) {
+-                        String data = filteredGroups.get(i).nameSend;
++                        String data = filteredGroups.get(i).getNameSend();
+                         if (data.toLowerCase().startsWith(constraint.toString())) {
+                             fGroups.add(filteredGroups.get(i));
+                         }
+@@ -92,7 +101,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder>
+ 
+             @Override
+             protected void publishResults(CharSequence constraint, FilterResults results) {
+-                arrayList = (ArrayList<TopicViewModel>) results.values;
++                arrayList = (ArrayList<TopicItem>) results.values;
+                 notifyDataSetChanged();
+             }
+         };
+@@ -105,8 +114,8 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder>
+             this.topicAdapterBinding=topicAdapterBinding;
+         }
+ 
+-        public void bind(TopicViewModel topicViewModel) {
+-            topicAdapterBinding.setViewmodel(topicViewModel);
++        public void bind(TopicItem topicItem) {
++            topicAdapterBinding.setViewmodel1(topicItem);
+             topicAdapterBinding.executePendingBindings();
+ 
+         }
+diff --git a/app/src/main/java/com/example/appchatrealtime/model/CreateMessage.java b/app/src/main/java/com/example/appchatrealtime/model/CreateMessage.java
+new file mode 100644
+index 0000000..44799e0
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/model/CreateMessage.java
+@@ -0,0 +1,60 @@
++package com.example.appchatrealtime.model;
++
++public class CreateMessage {
++    private int count;
++    private String id_receiver;
++    private String id_sender;
++    private String message;
++    private Boolean status;
++
++    public CreateMessage(String id_receiver, String id_sender) {
++        this.id_receiver = id_receiver;
++        this.id_sender = id_sender;
++        this.count=0;
++        this.message="";
++        this.status=false;
++    }
++
++    public CreateMessage() {
++    }
++
++    public Integer getCount() {
++        return count;
++    }
++
++    public void setCount(Integer count) {
++        this.count = count;
++    }
++
++    public String getId_receiver() {
++        return id_receiver;
++    }
++
++    public void setId_receiver(String id_receiver) {
++        this.id_receiver = id_receiver;
++    }
++
++    public String getId_sender() {
++        return id_sender;
++    }
++
++    public void setId_sender(String id_sender) {
++        this.id_sender = id_sender;
++    }
++
++    public String getMessage() {
++        return message;
++    }
++
++    public void setMessage(String message) {
++        this.message = message;
++    }
++
++    public Boolean getStatus() {
++        return status;
++    }
++
++    public void setStatus(Boolean status) {
++        this.status = status;
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/model/Friend.java b/app/src/main/java/com/example/appchatrealtime/model/Friend.java
+index 8e06cd9..e75db3a 100644
+--- a/app/src/main/java/com/example/appchatrealtime/model/Friend.java
++++ b/app/src/main/java/com/example/appchatrealtime/model/Friend.java
+@@ -1,21 +1,32 @@
+ package com.example.appchatrealtime.model;
+ 
++import android.widget.ImageView;
++
++import androidx.databinding.BindingAdapter;
++
++import com.bumptech.glide.Glide;
++import com.example.appchatrealtime.R;
++
+ public class Friend  {
+-    public String link;
++    private String link;
+     private String id;
+ 
+-    public Friend() {
+-    }
+-
+     public Friend(String link, String id) {
+         this.link = link;
+         this.id = id;
+ 
+     }
+ 
++    public Friend() {
++    }
++
+     public String getLink() {
+         return link;
+     }
++    @BindingAdapter({"bind:imageUri"})
++    public static void loadImage(ImageView imageView, String imgaeUrl){
++        Glide.with(imageView.getContext()).load(imgaeUrl).placeholder(R.drawable.personal1).into(imageView);
++    }
+ 
+     public void setLink(String link) {
+         this.link = link;
+@@ -29,4 +40,5 @@ public class Friend  {
+         this.id = id;
+     }
+ 
++
+ }
+diff --git a/app/src/main/java/com/example/appchatrealtime/model/Invite.java b/app/src/main/java/com/example/appchatrealtime/model/Invite.java
+new file mode 100644
+index 0000000..41f09bf
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/model/Invite.java
+@@ -0,0 +1,60 @@
++package com.example.appchatrealtime.model;
++
++public class Invite {
++    private String linkPhoto;
++    private String nameFull;
++    private Boolean isFriend;
++    private String stickHeader;
++
++    public String getStickHeader() {
++        return stickHeader;
++    }
++
++    public void setStickHeader(String stickHeader) {
++        this.stickHeader = stickHeader;
++    }
++
++    public Invite(String linkPhoto, String nameFull, Boolean isFriend) {
++        this.linkPhoto = linkPhoto;
++        this.nameFull = nameFull;
++        this.isFriend = isFriend;
++    }
++
++    public Invite(String linkPhoto, String nameFull) {
++        this.linkPhoto = linkPhoto;
++        this.nameFull = nameFull;
++        this.stickHeader= getSticky(nameFull);
++    }
++
++    public Invite() {
++    }
++
++    public String getLinkPhoto() {
++        return linkPhoto;
++    }
++
++    public void setLinkPhoto(String linkPhoto) {
++        this.linkPhoto = linkPhoto;
++    }
++
++    public String getNameFull() {
++        return nameFull;
++    }
++
++    public void setNameFull(String nameFull) {
++        this.nameFull = nameFull;
++    }
++
++    public Boolean getFriend() {
++        return isFriend;
++    }
++
++    public void setFriend(Boolean friend) {
++        isFriend = friend;
++    }
++    private String getSticky(String s){
++        String[] a=s.split(" ");
++        return a[a.length-1];
++
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/model/Invite_User.java b/app/src/main/java/com/example/appchatrealtime/model/Invite_User.java
+new file mode 100644
+index 0000000..5917d96
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/model/Invite_User.java
+@@ -0,0 +1,32 @@
++package com.example.appchatrealtime.model;
++
++public class Invite_User {
++    private String invite_receive;
++    private String invite_send;
++
++    public Invite_User(String invite_receive, String invite_send) {
++        this.invite_receive = invite_receive;
++        this.invite_send = invite_send;
++    }
++
++    public Invite_User() {
++        this.invite_receive = "";
++        this.invite_send = "";
++    }
++
++    public String getInvite_receive() {
++        return invite_receive;
++    }
++
++    public void setInvite_receive(String invite_receive) {
++        this.invite_receive = invite_receive;
++    }
++
++    public String getInvite_send() {
++        return invite_send;
++    }
++
++    public void setInvite_send(String invite_send) {
++        this.invite_send = invite_send;
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/model/ItemCreateConversation.java b/app/src/main/java/com/example/appchatrealtime/model/ItemCreateConversation.java
+new file mode 100644
+index 0000000..3812795
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/model/ItemCreateConversation.java
+@@ -0,0 +1,47 @@
++package com.example.appchatrealtime.model;
++
++public class ItemCreateConversation {
++    private String nameFull;
++    private String linkPhoto;
++    private Boolean isCheck;
++    private int idFriend;
++
++    public ItemCreateConversation(String nameFull, String linkPhoto, Boolean isCheck,Integer idFriend) {
++        this.nameFull = nameFull;
++        this.linkPhoto = linkPhoto;
++        this.isCheck = isCheck;
++        this.idFriend= idFriend;
++    }
++
++    public int getIdFriend() {
++        return idFriend;
++    }
++
++    public void setIdFriend(int idFriend) {
++        this.idFriend = idFriend;
++    }
++
++    public String getNameFull() {
++        return nameFull;
++    }
++
++    public void setNameFull(String nameFull) {
++        this.nameFull = nameFull;
++    }
++
++    public String getLinkPhoto() {
++        return linkPhoto;
++    }
++
++    public void setLinkPhoto(String linkPhoto) {
++        this.linkPhoto = linkPhoto;
++    }
++
++    public Boolean getCheck() {
++        return isCheck;
++    }
++
++    public void setCheck(Boolean check) {
++        isCheck = check;
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/model/ListFriend.java b/app/src/main/java/com/example/appchatrealtime/model/ListFriend.java
+new file mode 100644
+index 0000000..b58da99
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/model/ListFriend.java
+@@ -0,0 +1,88 @@
++package com.example.appchatrealtime.model;
++
++import android.widget.ImageView;
++
++import androidx.databinding.BindingAdapter;
++
++import com.bumptech.glide.Glide;
++import com.example.appchatrealtime.R;
++
++public class ListFriend implements Comparable<ListFriend>{
++    private String linkPhoto;
++    private String nameFull;
++    private Boolean isFriend;
++    private String stickHeader;
++    private String id;
++
++    public ListFriend() {
++    }
++    @BindingAdapter({"bind:imageUri"})
++    public static void loadImage(ImageView imageView, String imgaeUrl){
++        Glide.with(imageView.getContext()).load(imgaeUrl).placeholder(R.drawable.personal1).into(imageView);
++    }
++    public ListFriend(String linkPhoto, String nameFull, Boolean isFriend, String stickHeader) {
++        this.linkPhoto = linkPhoto;
++        this.nameFull = nameFull;
++        this.isFriend = isFriend;
++        this.stickHeader = stickHeader;
++    }
++
++    public ListFriend(String linkPhoto, String nameFull) {
++        this.linkPhoto = linkPhoto;
++        this.nameFull = nameFull;
++        this.stickHeader= getSticky(nameFull.toUpperCase());
++    }
++
++    public String getId() {
++        return id;
++    }
++
++    public void setId(String id) {
++        this.id = id;
++    }
++
++    public String getLinkPhoto() {
++        return linkPhoto;
++    }
++
++    public void setLinkPhoto(String linkPhoto) {
++        this.linkPhoto = linkPhoto;
++    }
++
++    public String getNameFull() {
++        return nameFull;
++    }
++
++    public void setNameFull(String nameFull) {
++        this.nameFull = nameFull;
++    }
++
++    public Boolean getFriend() {
++        return isFriend;
++    }
++
++    public void setFriend(Boolean friend) {
++        isFriend = friend;
++    }
++
++    public String getStickHeader() {
++        return stickHeader.toUpperCase().substring(0,1);
++        //charAt(0)
++    }
++
++    public void setStickHeader(String stickHeader) {
++        this.stickHeader = stickHeader;
++    }
++
++    @Override
++    public int compareTo(ListFriend o) {
++        String[] arrA=nameFull.split(" ");
++        String[] arrB= o.getNameFull().split(" ");
++        return arrA[arrA.length-1].toUpperCase().compareTo(arrB[arrB.length-1].toUpperCase());
++    }
++    private String getSticky(String s){
++        String[] a=s.split(" ");
++        return a[a.length-1];
++
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/model/SharedPreferencesModel.java b/app/src/main/java/com/example/appchatrealtime/model/SharedPreferencesModel.java
+new file mode 100644
+index 0000000..893d7a9
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/model/SharedPreferencesModel.java
+@@ -0,0 +1,23 @@
++package com.example.appchatrealtime.model;
++
++import android.content.Context;
++import android.content.SharedPreferences;
++
++import androidx.fragment.app.FragmentActivity;
++
++public class SharedPreferencesModel {
++    private SharedPreferences sharedPref;
++    private SharedPreferences.Editor editor;
++    public SharedPreferencesModel(FragmentActivity context) {
++        sharedPref =  context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
++        editor = sharedPref.edit();
++    }
++    public void saveString(String key,String value){
++        editor.putString(key, value);
++        editor.commit();
++    }
++    public String getString(String key,String value){
++        return sharedPref.getString(key,"");
++    }
++
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/model/TopicItem.java b/app/src/main/java/com/example/appchatrealtime/model/TopicItem.java
+index 6ed76b9..76220a4 100644
+--- a/app/src/main/java/com/example/appchatrealtime/model/TopicItem.java
++++ b/app/src/main/java/com/example/appchatrealtime/model/TopicItem.java
+@@ -1,10 +1,30 @@
+ package com.example.appchatrealtime.model;
+ 
+-public class TopicItem {
++import android.widget.ImageView;
++
++import androidx.databinding.BindingAdapter;
++
++import com.bumptech.glide.Glide;
++import com.example.appchatrealtime.R;
++
++import java.text.ParseException;
++import java.text.SimpleDateFormat;
++import java.util.Date;
++
++public class TopicItem implements Comparable<TopicItem> {
+     private String linkPhoto;
+     private String nameSend;
+     private Message messages;
++    private Boolean isBold;
++    private String diem="0";
++    private String paragraph;
++    private String idGuest;
+ 
++
++    @BindingAdapter({"bind:imageUri"})
++    public static void loadImage(ImageView imageView, String imgaeUrl){
++        Glide.with(imageView.getContext()).load(imgaeUrl).placeholder(R.drawable.personal1).into(imageView);
++    }
+     public TopicItem() {
+     }
+ 
+@@ -19,6 +39,38 @@ public class TopicItem {
+         this.nameSend = nameSend;
+     }
+ 
++    public String getIdGuest() {
++        return idGuest;
++    }
++
++    public void setIdGuest(String idGuest) {
++        this.idGuest = idGuest;
++    }
++
++    public String getDiem() {
++        return diem;
++    }
++
++    public void setDiem(String diem) {
++        this.diem = diem;
++    }
++
++    public String getParagraph() {
++        return paragraph;
++    }
++
++    public void setParagraph(String paragraph) {
++        this.paragraph = paragraph;
++    }
++
++    public Boolean getBold() {
++        return isBold;
++    }
++
++    public void setBold(Boolean bold) {
++        isBold = bold;
++    }
++
+     public String getLinkPhoto() {
+         return linkPhoto;
+     }
+@@ -42,4 +94,38 @@ public class TopicItem {
+     public void setMessages(Message messages) {
+         this.messages = messages;
+     }
++
++    @Override
++    public int compareTo(TopicItem o) {
++        String[] arrA=getMessages().getTime().split(" ");
++        String[] arrB=o.getMessages().getTime().split(" ");
++
++        if (getMessages().getTime() == null || o.getMessages().getTime() == null)
++            return 0;
++        String stringDate = "22/01/2016";
++        Date b = null;
++        Date a = null;
++        Date c = null;
++        Date d = null;
++
++        try {
++            a = new SimpleDateFormat("dd/MM/yyyy").parse(arrA[0]);
++            b = new SimpleDateFormat("dd/MM/yyyy").parse(arrB[0]);
++
++        } catch (ParseException e) {
++            e.printStackTrace();
++        }
++        if (a.compareTo(b)==0){
++
++            try {
++                c=new SimpleDateFormat("HH:mm").parse(arrA[1]);
++                d=new SimpleDateFormat("HH:mm").parse(arrB[1]);
++            } catch (ParseException e) {
++                e.printStackTrace();
++            }
++            return d.compareTo(c);
++
++        }
++        return b.compareTo(a);
++    }
+ }
+diff --git a/app/src/main/java/com/example/appchatrealtime/respository/Choose_friendListerner.java b/app/src/main/java/com/example/appchatrealtime/respository/Choose_friendListerner.java
+deleted file mode 100644
+index e436b13..0000000
+--- a/app/src/main/java/com/example/appchatrealtime/respository/Choose_friendListerner.java
++++ /dev/null
+@@ -1,9 +0,0 @@
+-package com.example.appchatrealtime.respository;
+-
+-import com.example.appchatrealtime.viewmodels.CreateConversationViewModel;
+-
+-public interface Choose_friendListerner {
+-    void addFriend(CreateConversationViewModel createConversationViewModel);
+-    void removeFriend(CreateConversationViewModel createConversationViewModel);
+-    public void a();
+-}
+diff --git a/app/src/main/java/com/example/appchatrealtime/respository/CustomListerner.java b/app/src/main/java/com/example/appchatrealtime/respository/CustomListerner.java
+deleted file mode 100644
+index e9d49d0..0000000
+--- a/app/src/main/java/com/example/appchatrealtime/respository/CustomListerner.java
++++ /dev/null
+@@ -1,7 +0,0 @@
+-package com.example.appchatrealtime.respository;
+-
+-import com.example.appchatrealtime.model.ListMessage;
+-
+-public interface CustomListerner {
+-    void cardClicked(ListMessage f);
+-}
+diff --git a/app/src/main/java/com/example/appchatrealtime/viewmodels/ChatViewModel.java b/app/src/main/java/com/example/appchatrealtime/viewmodels/ChatViewModel.java
+index a0cdbdd..b7cc964 100644
+--- a/app/src/main/java/com/example/appchatrealtime/viewmodels/ChatViewModel.java
++++ b/app/src/main/java/com/example/appchatrealtime/viewmodels/ChatViewModel.java
+@@ -1,24 +1,27 @@
+ package com.example.appchatrealtime.viewmodels;
+ 
+ import android.Manifest;
+-import android.content.Context;
++import android.app.Activity;
+ import android.content.pm.PackageManager;
+ import android.database.Cursor;
+ import android.net.Uri;
+-import android.os.Build;
+ import android.provider.MediaStore;
+ import android.text.TextUtils;
+ import android.util.Log;
+ import android.widget.ImageView;
+ 
+ import androidx.annotation.NonNull;
++import androidx.core.app.ActivityCompat;
++import androidx.core.content.ContextCompat;
+ import androidx.databinding.BindingAdapter;
++import androidx.fragment.app.FragmentActivity;
+ import androidx.lifecycle.MutableLiveData;
+ import androidx.lifecycle.ViewModel;
+ 
+ import com.bumptech.glide.Glide;
+ import com.example.appchatrealtime.R;
+ import com.example.appchatrealtime.model.Chat;
++import com.example.appchatrealtime.model.SharedPreferencesModel;
+ import com.example.appchatrealtime.model.firebase;
+ import com.google.android.gms.tasks.OnFailureListener;
+ import com.google.android.gms.tasks.OnSuccessListener;
+@@ -56,7 +59,7 @@ public class ChatViewModel extends ViewModel
+     private MutableLiveData<Chat> linkPhotoLiveData= new MutableLiveData<>();
+     private ArrayList<String> listGallery=new ArrayList<>();
+     private MutableLiveData<ArrayList<String>> arrayListGalleryLiveData= new MutableLiveData<>();
+-    private Context context;
++    private FragmentActivity context;
+ 
+     public Boolean getImage() {
+         return isImage;
+@@ -66,7 +69,7 @@ public class ChatViewModel extends ViewModel
+         isImage = image;
+     }
+ 
+-    public ChatViewModel(Context context) {
++    public void setContext(FragmentActivity context) {
+         this.context = context;
+     }
+ 
+@@ -162,14 +165,16 @@ public class ChatViewModel extends ViewModel
+         this.arrayList = arrayList;
+     }
+ 
+-    public MutableLiveData<Chat> getLinkPhotoLiveData() {
++    SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
++    public MutableLiveData<Chat> getLinkPhotoLiveData(FragmentActivity context) {
+         firebase fb =new firebase();
++        String id_Guest=sharedPreferencesModel.getString("id_guest","");
+         DatabaseReference databaseReference=fb.getDatabaseReference();
+         ValueEventListener postMessage=new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+-                linkPhoto= (String) snapshot.child("User").child("0").child("linkPhoto").getValue();
+-                nameFull= (String) snapshot.child("User").child("0").child("fullName").getValue();
++                linkPhoto= (String) snapshot.child("User").child(id_Guest).child("linkPhoto").getValue();
++                nameFull= (String) snapshot.child("User").child(id_Guest).child("fullName").getValue();
+                 Chat chat=new Chat(linkPhoto,nameFull);
+                 linkPhotoLiveData.setValue(chat);
+             }
+@@ -185,16 +190,21 @@ public class ChatViewModel extends ViewModel
+ 
+     public MutableLiveData<ArrayList<ChatViewModel>> getArrayListLiveData() {
+         firebase fb =new firebase();
++        String id_Guest=sharedPreferencesModel.getString("id_guest","");
+         DatabaseReference databaseReference=fb.getDatabaseReference();
+         ValueEventListener postMessage=new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+-                linkPhoto= (String) snapshot.child("User").child("0").child("linkPhoto").getValue();
+-                nameFull= (String) snapshot.child("User").child("0").child("fullName").getValue();
++                arrayList.clear();
++                linkPhoto= (String) snapshot.child("User").child(id_Guest).child("linkPhoto").getValue();
++                nameFull= (String) snapshot.child("User").child(id_Guest).child("fullName").getValue();
+ 
+                 for (int i=0;i<snapshot.child("ListMessage").getChildrenCount();i++
+                      ) {
+-                    if(String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue()).equals("1") && String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue()).equals("0")){
++                    if(String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue()).equals("1") &&
++                            String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue()).equals(id_Guest)
++                            )
++                    {
+                             String getmessage= (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue();
+                             String[] arrtime =getTime(getmessage);
+                             String[] arr=getMessage(getmessage);
+@@ -306,6 +316,7 @@ public class ChatViewModel extends ViewModel
+     }
+ 
+     public MutableLiveData<ArrayList<String>> getArrayListGalleryLiveData() {
++
+         String[] projection = {MediaStore.MediaColumns.DATA};
+         Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null,null, null);
+         while (cursor.moveToNext()) {
+@@ -319,6 +330,7 @@ public class ChatViewModel extends ViewModel
+     }
+     StringBuilder sb;
+     public void onClick(){
++
+         StorageReference root = FirebaseStorage.getInstance().getReference();
+         StorageReference fileref=root.child("Image/"+System.currentTimeMillis());
+         Uri file = Uri.fromFile(new File(linkPhotoGallery));
+@@ -359,6 +371,15 @@ public class ChatViewModel extends ViewModel
+         databaseReference.addValueEventListener(postMessage);
+ 
+ 
++    }
++    public Boolean CheckPermission(){
++        if (ContextCompat.checkSelfPermission(
++                context, Manifest.permission.READ_EXTERNAL_STORAGE) !=
++                PackageManager.PERMISSION_GRANTED) {
++//        Toast.makeText(getActivity(), "you have already granted this permission", Toast.LENGTH_SHORT).show();
++            ActivityCompat.requestPermissions((Activity) context,new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },101);
++        return true;
++        }else return false;
+     }
+     String gettime(){
+         DateFormat df = new SimpleDateFormat("HH:mm");
+diff --git a/app/src/main/java/com/example/appchatrealtime/viewmodels/CreateConversationViewModel.java b/app/src/main/java/com/example/appchatrealtime/viewmodels/CreateConversationViewModel.java
+index 8c31c6b..916ee4f 100644
+--- a/app/src/main/java/com/example/appchatrealtime/viewmodels/CreateConversationViewModel.java
++++ b/app/src/main/java/com/example/appchatrealtime/viewmodels/CreateConversationViewModel.java
+@@ -1,5 +1,6 @@
+ package com.example.appchatrealtime.viewmodels;
+ 
++import android.util.Log;
+ import android.widget.ImageView;
+ 
+ import androidx.annotation.NonNull;
+@@ -10,9 +11,9 @@ import androidx.lifecycle.ViewModel;
+ import com.bumptech.glide.Glide;
+ import com.example.appchatrealtime.R;
+ import com.example.appchatrealtime.model.Friend;
++import com.example.appchatrealtime.model.ItemCreateConversation;
+ import com.example.appchatrealtime.model.User;
+ import com.example.appchatrealtime.model.firebase;
+-import com.example.appchatrealtime.respository.Choose_friendListerner;
+ import com.google.firebase.database.DataSnapshot;
+ import com.google.firebase.database.DatabaseError;
+ import com.google.firebase.database.DatabaseReference;
+@@ -23,30 +24,22 @@ import org.jetbrains.annotations.NotNull;
+ import java.util.ArrayList;
+ 
+ public class CreateConversationViewModel extends ViewModel {
+-    public String nameFull;
+-    public Boolean ischeck;
+-    public String linkPhoto;
+-    MutableLiveData<ArrayList<CreateConversationViewModel>> arrayListMutableLiveData=new MutableLiveData<>();
+-    private ArrayList<CreateConversationViewModel> arrayList=new ArrayList<>();
++
++    private MutableLiveData<ArrayList<ItemCreateConversation>> arrayListMutableLiveData=new MutableLiveData<>();
++    private ArrayList<ItemCreateConversation> arrayList=new ArrayList<>();
+     private ArrayList<Friend> arrayListChooseFriend=new ArrayList<>();
+-    MutableLiveData<ArrayList<Friend>> arrayLDCF=new MutableLiveData<>();
+-    public String id_friend;
+-    Friend friend=new Friend();
++    private MutableLiveData<ArrayList<Friend>> arrayLDCF=new MutableLiveData<>();
++    private MutableLiveData<Boolean> isback=new MutableLiveData<>();
++    private MutableLiveData<Integer> isshow=new MutableLiveData<>();
++    private String id_friend;
+     firebase fb =new firebase();
+-    private Choose_friendListerner choose_friendListerner;
+-
+-    public String getLinkPhoto() {
+-        return linkPhoto;
+-    }
+ 
+     public CreateConversationViewModel() {
+ 
+     }
+ 
+-
+-
+-    public void setChoose_friendListerner(Choose_friendListerner choose_friendListerner) {
+-        this.choose_friendListerner = choose_friendListerner;
++    public CreateConversationViewModel(ArrayList<ItemCreateConversation> arrayList) {
++        this.arrayList = arrayList;
+     }
+ 
+     @BindingAdapter({"bind:imageUri"})
+@@ -54,20 +47,12 @@ public class CreateConversationViewModel extends ViewModel {
+         Glide.with(imageView.getContext()).load(imgaeUrl).placeholder(R.drawable.personal1).into(imageView);
+     }
+ 
+-
+-
+-    public CreateConversationViewModel(User user, String id_friend) {
+-        this.nameFull = user.getFullName();
+-        this.ischeck = false;
+-        this.linkPhoto = user.getLinkPhoto();
+-        this.id_friend=id_friend;
+-    }
+-    public MutableLiveData<ArrayList<CreateConversationViewModel>> getArrayListMutableLiveData() {
++    public MutableLiveData<ArrayList<ItemCreateConversation>> getArrayListMutableLiveData() {
+         initdata();
+         return arrayListMutableLiveData;
+     }
+ 
+-    private MutableLiveData<ArrayList<CreateConversationViewModel>> initdata() {
++    private MutableLiveData<ArrayList<ItemCreateConversation>> initdata() {
+         String id="1";
+ 
+         DatabaseReference databaseReference =fb.getDatabaseReference().child("User");
+@@ -75,7 +60,7 @@ public class CreateConversationViewModel extends ViewModel {
+             @Override
+             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                 arrayList.clear();
+-                CreateConversationViewModel createConversationViewModel;
++                ItemCreateConversation itemCreateConversation;
+                 for (int i = 0; i < snapshot.getChildrenCount(); i++){
+                     if(snapshot.child(String.valueOf(i)).getValue().toString().equals(snapshot.child(id).getValue().toString()))
+                     {
+@@ -83,8 +68,8 @@ public class CreateConversationViewModel extends ViewModel {
+                     }else{
+                         id_friend=String.valueOf(i);
+                         User user= snapshot.child(String.valueOf(i)).getValue(User.class);
+-                        createConversationViewModel=new CreateConversationViewModel(user,String.valueOf(i));
+-                        arrayList.add(createConversationViewModel);
++                        itemCreateConversation=new ItemCreateConversation(user.getFullName(),user.getLinkPhoto(),false,i);
++                        arrayList.add(itemCreateConversation);
+                     }
+ 
+                 }
+@@ -103,16 +88,28 @@ public class CreateConversationViewModel extends ViewModel {
+ 
+ 
+     public MutableLiveData<ArrayList<Friend>> getArrayListMutableLiveDataListFriend(){
+-        arrayListChooseFriend.add(FriendViewModel.friend);
+-        arrayLDCF.setValue(arrayListChooseFriend);
+         return arrayLDCF;
+     }
++    public void onClick(){
++        Friend friend=new Friend();
++        arrayList.get(0).getCheck();
++        Log.d("abc", "onClick: "+arrayList.size());
++    }
++
++    public MutableLiveData<Boolean> getIsback() {
++        return isback;
++    }
+ 
+-    public void addFriend(CreateConversationViewModel createConversationViewModel){
+-        FriendViewModel friendViewModel=new FriendViewModel();
+-        if(ischeck){
+-        }else {
+-          choose_friendListerner.addFriend(createConversationViewModel);
+-        }
++    public void back(){
++        if(isback.getValue()==Boolean.FALSE)
++            isback.setValue(Boolean.TRUE);
++        else isback.setValue(Boolean.FALSE);
++    }
++
++    public MutableLiveData<Integer> getIsshow() {
++        return isshow;
++    }
++    public void btnCreate(){
++        DatabaseReference databaseReference =fb.getDatabaseReference().child("User");
+     }
+ }
+diff --git a/app/src/main/java/com/example/appchatrealtime/viewmodels/FriendViewModel.java b/app/src/main/java/com/example/appchatrealtime/viewmodels/FriendViewModel.java
+index 60939be..17ead84 100644
+--- a/app/src/main/java/com/example/appchatrealtime/viewmodels/FriendViewModel.java
++++ b/app/src/main/java/com/example/appchatrealtime/viewmodels/FriendViewModel.java
+@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel;
+ import com.bumptech.glide.Glide;
+ import com.example.appchatrealtime.R;
+ import com.example.appchatrealtime.model.Friend;
+-import com.example.appchatrealtime.respository.Choose_friendListerner;
+ 
+ import java.util.ArrayList;
+ 
+@@ -20,7 +19,6 @@ public class FriendViewModel extends ViewModel  {
+     public static Friend friend=new Friend();
+     private ArrayList<FriendViewModel> arrayList=new ArrayList<>();
+     private MutableLiveData<ArrayList<FriendViewModel>> arrayListMutableLiveData=new MutableLiveData<>();
+-    private Choose_friendListerner choose_friendListerner;
+     CreateConversationViewModel createConversationViewModel= new CreateConversationViewModel();
+     public FriendViewModel() {
+     }
+diff --git a/app/src/main/java/com/example/appchatrealtime/viewmodels/ListFriendViewModel.java b/app/src/main/java/com/example/appchatrealtime/viewmodels/ListFriendViewModel.java
+index 8d3ba5f..9c79a17 100644
+--- a/app/src/main/java/com/example/appchatrealtime/viewmodels/ListFriendViewModel.java
++++ b/app/src/main/java/com/example/appchatrealtime/viewmodels/ListFriendViewModel.java
+@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
+ 
+ import com.bumptech.glide.Glide;
+ import com.example.appchatrealtime.R;
++import com.example.appchatrealtime.model.ListFriend;
+ import com.example.appchatrealtime.model.firebase;
+ import com.google.firebase.database.DataSnapshot;
+ import com.google.firebase.database.DatabaseError;
+@@ -18,37 +19,53 @@ import com.google.firebase.database.ValueEventListener;
+ import org.jetbrains.annotations.NotNull;
+ 
+ import java.util.ArrayList;
+-import java.util.List;
++import java.util.Arrays;
++import java.util.Collections;
+ 
+ public class ListFriendViewModel  extends ViewModel {
+-    private String linkPhoto;
+-    private String nameFull;
++
+     private int id_receiver=1;
+     private int id_sender;
+-    private String stickHeader;
+-    private List<String> arrlistName=new ArrayList<>();
+-    private ArrayList<ListFriendViewModel> listFriendViewModelArray=new ArrayList<>();
+-    private MutableLiveData<ArrayList<ListFriendViewModel>> listMutableLiveData=new MutableLiveData<>();
++    ListFriend friend ;
++    private MutableLiveData<ArrayList<ListFriend>> listMutableLiveData=new MutableLiveData<>();
++
++    private MutableLiveData<ArrayList<ListFriend>> listMutableLiveData1=new MutableLiveData<>();
++    private MutableLiveData<ArrayList<ListFriend>> listMutableLiveData2=new MutableLiveData<>();
++    private MutableLiveData<ArrayList<ListFriend>> listMutableLiveData3=new MutableLiveData<>();
++
+ 
+     public ListFriendViewModel() {
+     }
+ 
+-    public MutableLiveData<ArrayList<ListFriendViewModel>> getListMutableLiveData() {
++    public ListFriendViewModel(ListFriend listFriend) {
++        this.friend = listFriend;
++    }
++
++    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData() {
+         firebase fb=new firebase();
+         DatabaseReference databaseReference=fb.getDatabaseReference();
+         ValueEventListener postMessage=new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
++                ArrayList<ListFriend> arrayList=new ArrayList<>();
+                 String listfriend= (String) snapshot.child("Friend_User").child(String.valueOf(id_receiver)).getValue();
+                 String[] arr=getlistFriend(listfriend);
+                 for(int i=0;i<arr.length;i++){
+-                    linkPhoto= (String) snapshot.child("User").child(arr[i]).child("linkPhoto").getValue();
+-                    nameFull= (String) snapshot.child("User").child(arr[i]).child("fullName").getValue();
+-                    stickHeader=nameFull;
+-                    listFriendViewModelArray.add(new ListFriendViewModel(linkPhoto,nameFull));
+-                    arrlistName.add(nameFull);
++                    if(arr[i]!="") {
++
++                        ListFriend fr = new ListFriend(
++                                (String) snapshot.child("User").child(arr[i]).child("linkPhoto").getValue(),
++                                (String) snapshot.child("User").child(arr[i]).child("fullName").getValue()
++                        );
++
++                        arrayList.add(fr);
++                    }
+                 }
+-                listMutableLiveData.setValue(listFriendViewModelArray);
++
++                Collections.sort(arrayList);
++
++                listMutableLiveData.setValue(arrayList);
++
+ 
+             }
+ 
+@@ -60,51 +77,140 @@ public class ListFriendViewModel  extends ViewModel {
+         databaseReference.addValueEventListener(postMessage);
+         return listMutableLiveData;
+     }
++    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData1() {
++        firebase fb=new firebase();
++        DatabaseReference databaseReference=fb.getDatabaseReference();
++        ValueEventListener postMessage=new ValueEventListener() {
++            @Override
++            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
++                ArrayList<ListFriend> arrayList=new ArrayList<>();
++                String listfriend= (String) snapshot.child("Friend_User").child(String.valueOf(id_receiver)).getValue();
++                String listRequest= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_send").getValue();
++                String[] arr=getlistFriend(listfriend);
++                String[] arr1=getlistFriend(listRequest);
++                int size= (int) snapshot.child("User").getChildrenCount();
++                ArrayList<String> list = new ArrayList<String>(Arrays.asList(arr));
++                ArrayList<String> list1 = new ArrayList<String>(Arrays.asList(arr1));
++
++                for(int i=0,j=0;i<size;i++){
++                    if(i!= id_receiver) {
++                        ListFriend fr =new ListFriend(
++                                (String) snapshot.child("User").child(String.valueOf(i)).child("linkPhoto").getValue(),
++                                (String) snapshot.child("User").child(String.valueOf(i)).child("fullName").getValue());
++                        if (list.contains(String.valueOf(i)) || list1.contains(String.valueOf(i))) {
++                            fr.setFriend( false);
++                        } else fr.setFriend(true);
++                        fr.setId(String.valueOf(i));
++                        arrayList.add(fr);
++
++                    }
+ 
+-    public List<String> getArrlistName() {
+-        return arrlistName;
+-    }
++                }
++                Collections.sort(arrayList);
+ 
+-    public void setArrlistName(List<String> arrlistName) {
+-        this.arrlistName = arrlistName;
+-    }
++                listMutableLiveData1.setValue(arrayList);
++             }
+ 
+-    public ListFriendViewModel(String linkPhoto, String nameFull) {
+-        this.linkPhoto = linkPhoto;
+-        this.nameFull = nameFull;
+-        this.stickHeader=nameFull;
+-    }
++            @Override
++            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+ 
+-    public String getLinkPhoto() {
+-        return linkPhoto;
+-    }
+-    @BindingAdapter({"bind:imageUri"})
+-    public static void loadImage(ImageView imageView, String imgaeUrl){
+-        Glide.with(imageView.getContext()).load(imgaeUrl).placeholder(R.drawable.personal1).into(imageView);
++            }
++        };
++        databaseReference.addValueEventListener(postMessage);
++        return listMutableLiveData1;
+     }
+ 
+-    public void setLinkPhoto(String linkPhoto) {
+-        this.linkPhoto = linkPhoto;
+-    }
++    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData2() {
++        firebase fb=new firebase();
++        DatabaseReference databaseReference=fb.getDatabaseReference();
++        ValueEventListener postMessage=new ValueEventListener() {
++            @Override
++            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
++                ArrayList<ListFriend> arrayList=new ArrayList<>();
++                String invite_recive= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_receive").getValue();
++                String invite_send= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_send").getValue();
++                String[] arrReceive=getlistFriend(invite_recive);
++                String[] arrSend=getlistFriend(invite_send);
++                for(int i=0;i<arrReceive.length;i++){
++                    if (arrReceive[i] != "") {
++                        ListFriend fr =new ListFriend(
++                                (String) snapshot.child("User").child(arrReceive[i]).child("linkPhoto").getValue(),
++                                (String) snapshot.child("User").child(arrReceive[i]).child("fullName").getValue());
++                        fr.setFriend(true);
++                        fr.setId(arrReceive[i]);
++                        arrayList.add(fr);
++                    }
+ 
+-    public String getNameFull() {
+-        return nameFull;
+-    }
+ 
+-    public void setNameFull(String nameFull) {
+-        this.nameFull = nameFull;
++
++                   // arrlistName.add(friend.getNameFull());
++
++                }
++                Collections.sort(arrayList);
++
++                listMutableLiveData2.setValue(arrayList);
++
++            }
++
++            @Override
++            public void onCancelled(@NonNull @NotNull DatabaseError error) {
++
++            }
++        };
++        databaseReference.addValueEventListener(postMessage);
++        return listMutableLiveData2;
+     }
+-    public String getStickHeader() {
+-        return stickHeader.substring(0,1);
++    public MutableLiveData<ArrayList<ListFriend>> getListMutableLiveData3() {
++        firebase fb=new firebase();
++        DatabaseReference databaseReference=fb.getDatabaseReference();
++        ValueEventListener postMessage=new ValueEventListener() {
++            @Override
++            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
++                ArrayList<ListFriend> arrayList=new ArrayList<>();
++                String invite_recive= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_receive").getValue();
++                String invite_send= (String) snapshot.child("Invite").child(String.valueOf(id_receiver)).child("invite_send").getValue();
++                String[] arrReceive=getlistFriend(invite_recive);
++                String[] arrSend=getlistFriend(invite_send);
++                for(int i=0;i<arrSend.length;i++){
++                    if(arrSend[i]!=""){
++                        ListFriend fr =new ListFriend(
++                                (String) snapshot.child("User").child(arrSend[i]).child("linkPhoto").getValue(),
++                                (String) snapshot.child("User").child(arrSend[i]).child("fullName").getValue());
++                        fr.setFriend(false);
++                        fr.setId(arrSend[i]);
++                        arrayList.add(fr);
++                    }
++
++                }
++                Collections.sort(arrayList);
++                //Collections.sort(arrlistName);
++
++                listMutableLiveData3.setValue(arrayList);
++
++            }
++
++            @Override
++            public void onCancelled(@NonNull @NotNull DatabaseError error) {
++
++            }
++        };
++        databaseReference.addValueEventListener(postMessage);
++        return listMutableLiveData3;
+     }
+ 
+-    public void setStickHeader(String stickHeader) {
+-        this.stickHeader = stickHeader;
++    @BindingAdapter({"bind:imageUri"})
++    public static void loadImage(ImageView imageView, String imgaeUrl){
++        Glide.with(imageView.getContext()).load(imgaeUrl).placeholder(R.drawable.personal1).into(imageView);
+     }
+-    private String[] getlistFriend(String message){
+-        String[] arrlist=message.split(",");
+ 
++    private String[] getlistFriend(String message){
++        String[] arrlist = message.split(",");
+         return arrlist;
+     }
++    private String getSticky(String s){
++        String[] a=s.split(" ");
++        return a[a.length-1];
++
++    }
+ 
+ }
+diff --git a/app/src/main/java/com/example/appchatrealtime/viewmodels/LoginViewModel.java b/app/src/main/java/com/example/appchatrealtime/viewmodels/LoginViewModel.java
+index 945bf78..401c68b 100644
+--- a/app/src/main/java/com/example/appchatrealtime/viewmodels/LoginViewModel.java
++++ b/app/src/main/java/com/example/appchatrealtime/viewmodels/LoginViewModel.java
+@@ -1,9 +1,6 @@
+ package com.example.appchatrealtime.viewmodels;
+ 
+-import android.util.Log;
+-
+ import androidx.annotation.NonNull;
+-import androidx.databinding.BaseObservable;
+ import androidx.lifecycle.LiveData;
+ import androidx.lifecycle.MutableLiveData;
+ import androidx.lifecycle.ViewModel;
+@@ -23,6 +20,7 @@ public class LoginViewModel extends ViewModel   {
+     public final MutableLiveData<String> Password = new MutableLiveData<>();
+     public  MutableLiveData<String> message= new MutableLiveData<>();
+     public MutableLiveData<Boolean> isShowMessage =new MutableLiveData<>();
++    public MutableLiveData<Boolean> isShowNotifica =new MutableLiveData<>();
+ 
+     private MutableLiveData<List<User>> listMutableLiveData;
+     private List<User> mListUser;
+@@ -48,13 +46,13 @@ public class LoginViewModel extends ViewModel   {
+             ValueEventListener postListener =new ValueEventListener() {
+                 @Override
+                 public void onDataChange(@NonNull DataSnapshot snapshot) {
++                    mListUser.clear();
+                     for (int i = 0; i < snapshot.getChildrenCount(); i++)
+                         mListUser.add(snapshot.child(String.valueOf(i)).getValue(User.class));
+                     listMutableLiveData.setValue(mListUser);
+                     for (User us:mListUser) {
+                         if(us.getEmail().equals(user.getEmail()) && us.getPassword().equals(user.getPassword())){
+-                            message.setValue("Login success");
+-                            isShowMessage.setValue(true);
++                           isShowMessage.setValue(false);
+                             break;
+                         }else {
+                             message.setValue("Login Fail");
+@@ -75,4 +73,8 @@ public class LoginViewModel extends ViewModel   {
+         }
+ 
+     }
++    public void onclickDK(){
++        isShowNotifica.setValue(true);
++
++    }
+ }
+\ No newline at end of file
+diff --git a/app/src/main/java/com/example/appchatrealtime/viewmodels/RegisterViewModel.java b/app/src/main/java/com/example/appchatrealtime/viewmodels/RegisterViewModel.java
+index 6b54607..95a30d5 100644
+--- a/app/src/main/java/com/example/appchatrealtime/viewmodels/RegisterViewModel.java
++++ b/app/src/main/java/com/example/appchatrealtime/viewmodels/RegisterViewModel.java
+@@ -1,7 +1,5 @@
+ package com.example.appchatrealtime.viewmodels;
+ 
+-import android.util.Log;
+-
+ import androidx.annotation.NonNull;
+ import androidx.lifecycle.MutableLiveData;
+ import androidx.lifecycle.ViewModel;
+@@ -20,14 +18,15 @@ public class RegisterViewModel extends ViewModel {
+     public final MutableLiveData<String> Email =new MutableLiveData<>();
+     public final MutableLiveData<String> Password = new MutableLiveData<>();
+     public final MutableLiveData<String> FullName = new MutableLiveData<>();
++    public final MutableLiveData<Boolean> isBack = new MutableLiveData<>();
++
+     public  MutableLiveData<String> message= new MutableLiveData<>();
+     public MutableLiveData<Boolean> isShowMessage =new MutableLiveData<>();
+-    public MutableLiveData<Boolean> ischeck=new MutableLiveData<>();
++    public MutableLiveData<Boolean> ischeck=new MutableLiveData<>(false);
+     private MutableLiveData<List<User>> listMutableLiveData;
+     private List<User> mListUser;
+ 
+     public void onCheck(){
+-
+         if(ischeck==null){
+             ischeck.setValue(true);
+         }
+@@ -45,28 +44,34 @@ public class RegisterViewModel extends ViewModel {
+             ValueEventListener postListener =new ValueEventListener() {
+                 @Override
+                 public void onDataChange(@NonNull DataSnapshot snapshot) {
++                    mListUser.clear();
+                     for (int i = 0; i < snapshot.getChildrenCount(); i++)
+                         mListUser.add(snapshot.child(String.valueOf(i)).getValue(User.class));
+                     listMutableLiveData.setValue(mListUser);
+                     for (User us:mListUser) {
+                         if(us.getEmail().equals(user.getEmail()) ){
+                             isShowMessage.setValue(true);
+-                            message.setValue("Email already exist");
++
+                             break;
+                         }else {
+                             isShowMessage.setValue(false);
++
+                         }
+                     }
+-                    Log.d("isshow", "onDataChange: "+isShowMessage.getValue());
++
+                     if(!isShowMessage.getValue()) {
+                         databaseReference.child(String.valueOf(snapshot.getChildrenCount())).setValue(user);
+                         isShowMessage.setValue(true);
+-                        message.setValue("Register success");
+                         Email.setValue("");
+                         Password.setValue("");
+                         FullName.setValue("");
+                         ischeck.setValue(false);
+                     }
++                    if(isShowMessage.getValue() && ischeck.getValue()){
++                        message.setValue("Email already exist");
++                    }else {
++                        message.setValue("Register success");
++                    }
+                 }
+ 
+                 @Override
+@@ -81,6 +86,10 @@ public class RegisterViewModel extends ViewModel {
+         }
+ 
+     }
++    public void onclickBack(){
++            isBack.setValue(true);
++
++    }
+ 
+ 
+ }
+diff --git a/app/src/main/java/com/example/appchatrealtime/viewmodels/RequesViewModel.java b/app/src/main/java/com/example/appchatrealtime/viewmodels/RequesViewModel.java
+new file mode 100644
+index 0000000..dccfc9b
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/viewmodels/RequesViewModel.java
+@@ -0,0 +1,95 @@
++package com.example.appchatrealtime.viewmodels;
++
++import androidx.annotation.NonNull;
++import androidx.lifecycle.MutableLiveData;
++import androidx.lifecycle.ViewModel;
++
++import com.example.appchatrealtime.model.firebase;
++import com.google.firebase.database.DataSnapshot;
++import com.google.firebase.database.DatabaseError;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.ValueEventListener;
++
++import org.jetbrains.annotations.NotNull;
++
++import java.util.ArrayList;
++
++public class RequesViewModel extends ViewModel {
++    private String linkPhoto;
++    private String nameFull;
++    private Boolean isFriend;
++    private ArrayList<RequesViewModel> listFriendViewModelArray=new ArrayList<>();
++    private MutableLiveData<ArrayList<RequesViewModel>> listMutableLiveData=new MutableLiveData<>();
++
++
++    public RequesViewModel() {
++    }
++
++    public RequesViewModel(String linkPhoto, String nameFull, Boolean isFriend) {
++        this.linkPhoto = linkPhoto;
++        this.nameFull = nameFull;
++        this.isFriend = isFriend;
++    }
++
++    public MutableLiveData<ArrayList<RequesViewModel>> getListMutableLiveData() {
++        firebase fb=new firebase();
++        DatabaseReference databaseReference=fb.getDatabaseReference();
++        ValueEventListener postMessage=new ValueEventListener() {
++            @Override
++            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
++                //String listfriend= (String) snapshot.child("Friend_User").child(String.valueOf(id_receiver)).getValue();
++                //String[] arr=getlistFriend(listfriend);
++                int size= (int) snapshot.child("User").getChildrenCount();
++                for(int i=0;i<size;i++){
++                    linkPhoto= (String) snapshot.child("User").child(String.valueOf(i)).child("linkPhoto").getValue();
++                    nameFull= (String) snapshot.child("User").child(String.valueOf(i)).child("fullName").getValue();
++                  //  stickHeader=nameFull;
++                   // listFriendViewModelArray.add(new ListFriendViewModel(linkPhoto,nameFull,null));
++                  //  arrlistName1.add(nameFull);
++                }
++//                for(int i=0;i<arr.length;i++){
++//                    linkPhoto= (String) snapshot.child("User").child(arr[i]).child("linkPhoto").getValue();
++//                    nameFull= (String) snapshot.child("User").child(arr[i]).child("fullName").getValue();
++//                   ListFriendViewModel list=new ListFriendViewModel(linkPhoto,nameFull,null);
++//                     listFriendViewModelArray1.get(Integer.parseInt(arr[i])).isFriend=true;
++//                    Log.d("abc", "onDataChange: "+listFriendViewModelArray1.indexOf(list));
++//                }
++                //  listFriendViewModelArray1.get(listFriendViewModelArray1.indexOf(new ListFriendViewModel(linkPhoto,nameFull,null)));
++
++                listMutableLiveData.setValue(listFriendViewModelArray);
++
++            }
++
++            @Override
++            public void onCancelled(@NonNull @NotNull DatabaseError error) {
++
++            }
++        };
++        databaseReference.addValueEventListener(postMessage);
++        return listMutableLiveData;
++    }
++
++    public String getLinkPhoto() {
++        return linkPhoto;
++    }
++
++    public void setLinkPhoto(String linkPhoto) {
++        this.linkPhoto = linkPhoto;
++    }
++
++    public String getNameFull() {
++        return nameFull;
++    }
++
++    public void setNameFull(String nameFull) {
++        this.nameFull = nameFull;
++    }
++
++    public Boolean getFriend() {
++        return isFriend;
++    }
++
++    public void setFriend(Boolean friend) {
++        isFriend = friend;
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/viewmodels/TopicViewModel.java b/app/src/main/java/com/example/appchatrealtime/viewmodels/TopicViewModel.java
+index 56cb97f..0e2f9d6 100644
+--- a/app/src/main/java/com/example/appchatrealtime/viewmodels/TopicViewModel.java
++++ b/app/src/main/java/com/example/appchatrealtime/viewmodels/TopicViewModel.java
+@@ -1,7 +1,7 @@
+ package com.example.appchatrealtime.viewmodels;
+ 
+ import android.graphics.Typeface;
+-import android.widget.ImageView;
++import android.util.Log;
+ import android.widget.TextView;
+ 
+ import androidx.annotation.NonNull;
+@@ -9,8 +9,6 @@ import androidx.databinding.BindingAdapter;
+ import androidx.lifecycle.MutableLiveData;
+ import androidx.lifecycle.ViewModel;
+ 
+-import com.bumptech.glide.Glide;
+-import com.example.appchatrealtime.R;
+ import com.example.appchatrealtime.model.Message;
+ import com.example.appchatrealtime.model.TopicItem;
+ import com.example.appchatrealtime.model.firebase;
+@@ -21,35 +19,38 @@ import com.google.firebase.database.ValueEventListener;
+ 
+ import org.jetbrains.annotations.NotNull;
+ 
++import java.text.DateFormat;
++import java.text.SimpleDateFormat;
+ import java.util.ArrayList;
+-import java.util.HashMap;
++import java.util.Calendar;
++import java.util.Collections;
+ 
+ public class TopicViewModel extends ViewModel {
+-    public String linkPhoto="";
+-    public String nameSend="";
+-    public String tn="";
+-    public String thoigian="";
+-    public Message message;
++//    public String linkPhoto="";
++//    public String nameSend="";
++//    public String tn="";
++//    public String thoigian="";
++//    public Message message;
+     private String id_sender;
+     private String id_receive="1";
+-    public Boolean isBold ;
+-    public Boolean isShow ;
+-    public String diem= "0";
++    private TopicItem topicItem;
++    private MutableLiveData<String> transitionData=new MutableLiveData<>();
++    MutableLiveData<ArrayList<TopicItem>> arrayListMutableLiveData=new MutableLiveData<>();
++    private ArrayList<TopicItem> arrayList;
++    private MutableLiveData<Boolean> isChoose=new MutableLiveData<>();
++
++    public MutableLiveData<String> getTransitionData() {
++        return transitionData;
++    }
+ 
+-    MutableLiveData<ArrayList<TopicViewModel>> arrayListMutableLiveData=new MutableLiveData<>();
+-    private ArrayList<TopicViewModel> arrayList;
++    public void setTransitionData(String s) {
++        transitionData.setValue(s);
++    }
+ 
+     public TopicViewModel() {
+     }
+ 
+-    public String getImageUrl(){
+-        return linkPhoto;
+-    }
+ 
+-    @BindingAdapter({"bind:imageUri"})
+-    public static void loadImage(ImageView imageView,String imgaeUrl){
+-        Glide.with(imageView.getContext()).load(imgaeUrl).placeholder(R.drawable.personal1).into(imageView);
+-    }
+ 
+     @BindingAdapter("android:typeface")
+     public static void setTypeface(TextView v, String style) {
+@@ -66,62 +67,50 @@ public class TopicViewModel extends ViewModel {
+ 
+ 
+     public TopicViewModel(TopicItem topicItem) {
+-        this.linkPhoto =   topicItem.getLinkPhoto();
+-        this.nameSend =     topicItem.getNameSend();
+-        this.tn =      topicItem.getMessages().getMessage();
+-        this.thoigian=topicItem.getMessages().getTime();
+-    }
++        this.topicItem =   topicItem;
+ 
+-    public TopicViewModel(TopicItem topicItem,  String diem, Boolean isBold) {
+-        this.linkPhoto =   topicItem.getLinkPhoto();
+-        this.nameSend =     topicItem.getNameSend();
+-        this.tn =      topicItem.getMessages().getMessage();
+-        this.thoigian=topicItem.getMessages().getTime();
+-        this.diem=diem;
+-        this.isBold=isBold;
+     }
+ 
+-    public MutableLiveData<ArrayList<TopicViewModel>> getArrayListMutableLiveData() {
++    public MutableLiveData<ArrayList<TopicItem>> getArrayListMutableLiveData() {
+         arrayList = new ArrayList<>();
++        topicItem=new TopicItem();
+          initdata();
+-        isBold=false;
++        topicItem.setBold(false);
+         //arrayListMutableLiveData.setValue(arrayList);
+         return arrayListMutableLiveData;
+     }
+-    private MutableLiveData<ArrayList<TopicViewModel>> initdata() {
+-        message=new Message();
++    private MutableLiveData<ArrayList<TopicItem>> initdata() {
+         firebase fb =new firebase();
+         DatabaseReference databaseReference =fb.getDatabaseReference();
+         ValueEventListener postMessage=new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                 arrayList.clear();
+-                TopicViewModel topicViewModel;
++                TopicItem item=new TopicItem();
+                 for (int i = 0; i < snapshot.child("ListMessage").getChildrenCount(); i++){
+                     Boolean status=snapshot.child("ListMessage").child(String.valueOf(i)).child("status").getValue(Boolean.class);
+-                    String id_re= String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue(Integer.class));
+-                    TopicItem topicItem1 = null;
+-                    if(id_re.equals(id_receive)) {
++                    String id_re= String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue());
++                    if(id_re.equals(id_receive) && !!String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue()).equals("")) {
+                         String tinnhan= (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue();
+-                        if(!processMessage(tinnhan)&& !(Boolean)snapshot.child("ListMessage").child(String.valueOf(i)).child("status").getValue()){
+-                            isBold=true;
++                        if(!processMessage(tinnhan)&& !status){
++                            item.setBold(true);
+                         }else{
+-                            isBold=false;
++                            item.setBold(false);
+                         };
+-                        diem= String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("count").getValue());
++                        item.setDiem( String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("count").getValue()));
+                         String id= String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue(Integer.class));
+-                        topicItem1 = new TopicItem(
++                        item = new TopicItem(
+                                 (String) snapshot.child("User").child(id).child("linkPhoto").getValue(),
+                                 (String) snapshot.child("User").child(id).child("fullName").getValue(),
+-                                message
++                                topicItem.getMessages()
+                         );
+-
++                        item.setIdGuest(String.valueOf(i));
+                     }
+-                   topicViewModel=new TopicViewModel(topicItem1,diem,isBold);
+-                    arrayList.add(topicViewModel);
++                    arrayList.add(item);
+ 
+ 
+                 }
++                Collections.sort(arrayList);
+                arrayListMutableLiveData.setValue(arrayList);
+ 
+             }
+@@ -144,13 +133,19 @@ public class TopicViewModel extends ViewModel {
+         String[] arrSection=new String[tinnhan.split("--").length+1];
+         String[] arrTime=new String[3];
+         String[] arrCategory=new String[3];
++        String[] arrImage=new String[3];
++
++        Message message=new Message();
++        arrSection=tinnhan.split("@@@@@");
++         arrTime=arrSection[arrSection.length-1].split("@@@@");
++         arrCategory=arrTime[0].split("@@@");
++         arrImage=arrCategory[0].split("@@");
++         if(arrImage.length>=2){
++             message.setMessage("[image]");
++         }else  message.setMessage(arrCategory[0]);
+ 
+-        arrSection=tinnhan.split("--");
+-        HashMap<String,String> a=new HashMap<>();
+-         arrTime=arrSection[arrSection.length-1].split("-");
+-         arrCategory=arrTime[0].split("@@");
+         message.setTime(arrTime[1]);
+-        message.setMessage(arrCategory[0]);
++        topicItem.setMessages(message);
+ 
+         if(arrCategory[1].equals("s")){
+             return false;
+@@ -159,12 +154,22 @@ public class TopicViewModel extends ViewModel {
+         }
+ 
+     }
++    void ngay(){
++        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
++        String date = df.format(Calendar.getInstance().getTime());
++        Log.d("abc", "ngay: "+date);
++    }
+ 
+-    public void addListItem(TopicViewModel TopicViewModel){
+-        arrayList.add(TopicViewModel);
+-        arrayListMutableLiveData.setValue(arrayList);
++    public MutableLiveData<Boolean> getIsChoose() {
++        return isChoose;
++    }
+ 
++    public void transtionMessage(){
++       // if(isChoose.getValue()==Boolean.FALSE)
++        isChoose.setValue(Boolean.TRUE);
++        //else isChoose.setValue(Boolean.FALSE);
+     }
+ 
+ 
++
+ }
+diff --git a/app/src/main/java/com/example/appchatrealtime/views/ChatFragment.java b/app/src/main/java/com/example/appchatrealtime/views/ChatFragment.java
+index 95a284a..9899ed3 100644
+--- a/app/src/main/java/com/example/appchatrealtime/views/ChatFragment.java
++++ b/app/src/main/java/com/example/appchatrealtime/views/ChatFragment.java
+@@ -1,21 +1,12 @@
+ package com.example.appchatrealtime.views;
+ 
+-import android.Manifest;
+-import android.content.DialogInterface;
+-import android.content.pm.PackageManager;
+-import android.net.Uri;
+ import android.os.Bundle;
+-import android.util.Log;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+-import android.widget.Toast;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+-import androidx.appcompat.app.AlertDialog;
+-import androidx.core.app.ActivityCompat;
+-import androidx.core.content.ContextCompat;
+ import androidx.databinding.DataBindingUtil;
+ import androidx.fragment.app.Fragment;
+ import androidx.lifecycle.Observer;
+@@ -32,16 +23,10 @@ import com.example.appchatrealtime.databinding.MessageFragmentBinding;
+ import com.example.appchatrealtime.model.Chat;
+ import com.example.appchatrealtime.model.firebase;
+ import com.example.appchatrealtime.viewmodels.ChatViewModel;
+-import com.google.android.gms.tasks.OnFailureListener;
+-import com.google.android.gms.tasks.OnSuccessListener;
+ import com.google.firebase.database.DatabaseReference;
+-import com.google.firebase.storage.FirebaseStorage;
+-import com.google.firebase.storage.StorageReference;
+-import com.google.firebase.storage.UploadTask;
+ 
+ import org.jetbrains.annotations.NotNull;
+ 
+-import java.io.File;
+ import java.util.ArrayList;
+ 
+ public class ChatFragment extends Fragment {
+@@ -67,7 +52,7 @@ public class ChatFragment extends Fragment {
+                 inflater, R.layout.message_fragment, container, false);
+         View view = binding.getRoot();
+         ChatViewModel loginViewModel=new ViewModelProvider(getActivity()).get(ChatViewModel.class);
+-
++        loginViewModel.setContext(getActivity());
+         chat=new Chat();
+        // binding.setLifecycleOwner(getActivity());
+         binding.setViewmodel(loginViewModel);
+@@ -83,33 +68,37 @@ public class ChatFragment extends Fragment {
+ 
+            }
+         });
++
+         binding.storageImg.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+-                if(binding.recBot.getVisibility()==View.GONE) {
+-                    binding.storageImg.setImageResource(R.drawable.photoblue);
+-                    binding.recBot.setVisibility(View.VISIBLE);
+-                    ChatViewModel chatViewModel = new ChatViewModel(getActivity());
+-                    chatViewModel.getArrayListGalleryLiveData().observe(getActivity(), new Observer<ArrayList<String>>() {
+-                        @Override
+-                        public void onChanged(ArrayList<String> strings) {
+-                            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+-                            bottomgalleryAdapter galleryAdapter = new bottomgalleryAdapter(strings, getActivity());
+-                            binding.recBot.setAdapter(galleryAdapter);
+-                            binding.recBot.setLayoutManager(gridLayoutManager);
+-
+-
+-                        }
+-                    });
+-                }else{
+-                    binding.storageImg.setImageResource(R.drawable.photo);
+-                    binding.recBot.setVisibility(View.GONE);
+-                }
++                ChatViewModel chatViewModel = new ChatViewModel();
++                chatViewModel.setContext(getActivity());
++                if (!chatViewModel.CheckPermission()) {
++                    if (binding.recBot.getVisibility() == View.GONE) {
++                        binding.storageImg.setImageResource(R.drawable.photoblue);
++                        binding.recBot.setVisibility(View.VISIBLE);
++                        chatViewModel.getArrayListGalleryLiveData().observe(getActivity(), new Observer<ArrayList<String>>() {
++                            @Override
++                            public void onChanged(ArrayList<String> strings) {
++                                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
++                                bottomgalleryAdapter galleryAdapter = new bottomgalleryAdapter(strings, getActivity());
++                                binding.recBot.setAdapter(galleryAdapter);
++                                binding.recBot.setLayoutManager(gridLayoutManager);
++
++
++                            }
++                        });
++                    } else {
++                        binding.storageImg.setImageResource(R.drawable.photo);
++                        binding.recBot.setVisibility(View.GONE);
++                    }
+ 
+ 
++                }
+             }
+         });
+-        loginViewModel.getLinkPhotoLiveData().observe(getActivity(), new Observer<Chat>() {
++        loginViewModel.getLinkPhotoLiveData(getActivity()).observe(getActivity(), new Observer<Chat>() {
+             @Override
+             public void onChanged(Chat s) {
+ 
+@@ -117,71 +106,9 @@ public class ChatFragment extends Fragment {
+                 binding.namefull.setText(s.getStatus()+"");
+             }
+         });
+-        checkpermission();
+-        return view;
+-    }
+-
+-    public void loadSavedImages() {
+-        StorageReference root = FirebaseStorage.getInstance().getReference();
+-        StorageReference fileref=root.child("Image/");
+-        Uri file = Uri.fromFile(new File("/storage/emulated/0/DCIM/Camera/IMG_20210806_084216.jpg"));
+-
+-        fileref.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+-            @Override
+-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+-                fileref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+-                    @Override
+-                    public void onSuccess(Uri uri) {
+-                        Log.d("abc", "onSuccess: "+uri.toString());
+-                    }
+-                });
+-                Log.d("abc", "onSuccess: ");
+-            }
+-        }).addOnFailureListener(new OnFailureListener() {
+-            @Override
+-            public void onFailure(@NonNull @NotNull Exception e) {
+-                Log.d("abc", "onFailure: "+e.toString());
+-            }
+-        });
+-
+ 
+-    }
+-    void checkpermission() {
+-        if (ContextCompat.checkSelfPermission(
+-                getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+-                PackageManager.PERMISSION_GRANTED) {
+-        Toast.makeText(getActivity(), "you have already granted this permission", Toast.LENGTH_SHORT).show();
+-        }else requestStoragePermission();
++        return view;
+     }
+ 
+-    private void requestStoragePermission() {
+-        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+-            builder.setMessage("Permission need")
+-                    .setTitle("that permission need because of this and that")
+-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+-                        @Override
+-                        public void onClick(DialogInterface dialogInterface, int i) {
+-                            ActivityCompat.requestPermissions(getActivity(),new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },STORAGE_PERMISSION_CODE);
+-                        }
+-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+-                @Override
+-                public void onClick(DialogInterface dialogInterface, int i) {
+-                    dialogInterface.dismiss();
+-                }
+-            }).create().show();
+-        }else{
+-            ActivityCompat.requestPermissions(getActivity(),new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },STORAGE_PERMISSION_CODE);
+-        }
+-    }
+ 
+-    @Override
+-    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
+-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+-        if(STORAGE_PERMISSION_CODE==requestCode) {
+-            if(grantResults.length>0 &&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+-                Toast.makeText(getActivity(), "Permission Grant", Toast.LENGTH_SHORT).show();
+-            }else Toast.makeText(getActivity(), "Permission denned", Toast.LENGTH_SHORT).show();
+-        }
+-    }
+ }
+diff --git a/app/src/main/java/com/example/appchatrealtime/views/CreateConversationFragment.java b/app/src/main/java/com/example/appchatrealtime/views/CreateConversationFragment.java
+index 1a81df4..d46fc7b 100644
+--- a/app/src/main/java/com/example/appchatrealtime/views/CreateConversationFragment.java
++++ b/app/src/main/java/com/example/appchatrealtime/views/CreateConversationFragment.java
+@@ -1,7 +1,6 @@
+ package com.example.appchatrealtime.views;
+ 
+ import android.os.Bundle;
+-import android.util.Log;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+@@ -11,28 +10,40 @@ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ import androidx.databinding.DataBindingUtil;
+ import androidx.fragment.app.Fragment;
++import androidx.fragment.app.FragmentTransaction;
+ import androidx.lifecycle.Observer;
+ import androidx.lifecycle.ViewModelProvider;
+ import androidx.recyclerview.widget.LinearLayoutManager;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
++import com.example.appchatrealtime.Choose_friendListerner;
+ import com.example.appchatrealtime.R;
+ import com.example.appchatrealtime.adapter.ChooseFriendAdapter;
+ import com.example.appchatrealtime.adapter.CreateConversationAdapter;
+ import com.example.appchatrealtime.databinding.CreateconversationFragmentBinding;
+-import com.example.appchatrealtime.respository.Choose_friendListerner;
++import com.example.appchatrealtime.model.CreateMessage;
++import com.example.appchatrealtime.model.Friend;
++import com.example.appchatrealtime.model.ItemCreateConversation;
++import com.example.appchatrealtime.model.SharedPreferencesModel;
++import com.example.appchatrealtime.model.firebase;
+ import com.example.appchatrealtime.viewmodels.CreateConversationViewModel;
+-import com.example.appchatrealtime.viewmodels.FriendViewModel;
++import com.google.firebase.database.DataSnapshot;
++import com.google.firebase.database.DatabaseError;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.ValueEventListener;
+ 
+ import org.jetbrains.annotations.NotNull;
+ 
+ import java.util.ArrayList;
+ 
+-public class CreateConversationFragment extends Fragment implements Choose_friendListerner {
++public class CreateConversationFragment extends Fragment  {
+     CreateConversationViewModel createConversationViewModel;
+     CreateConversationAdapter createConversationAdapter;
+     ChooseFriendAdapter createConversationAdapterChooseFriend;
+-    FriendViewModel friendViewModel  =new FriendViewModel();
++    ArrayList<Friend> arrayList=new ArrayList<>();
++    CreateMessage createMessage;
++    private int dem=0;
++    private int count=0;
+     public static CreateConversationFragment newInstance() {
+ 
+         Bundle args = new Bundle();
+@@ -49,19 +60,45 @@ public class CreateConversationFragment extends Fragment implements Choose_frien
+         CreateconversationFragmentBinding binding = DataBindingUtil.inflate(
+                 inflater, R.layout.createconversation_fragment, container, false);
+         View view = binding.getRoot();
++
+         binding.setLifecycleOwner(getActivity());
+         createConversationViewModel=new ViewModelProvider(getActivity()).get(CreateConversationViewModel.class);
+-        friendViewModel=new ViewModelProvider(getActivity()).get(FriendViewModel.class);
+         binding.setCreateconversation(createConversationViewModel);
+-
+         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+-        binding.recyclerview.setLayoutManager(mLayoutManager);
+-        createConversationViewModel.getArrayListMutableLiveData().observe(getActivity(), new Observer<ArrayList<CreateConversationViewModel>>() {
++        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
++        createConversationViewModel.getArrayListMutableLiveData().observe(getActivity(), new Observer<ArrayList<ItemCreateConversation>>()  {
+             @Override
+-            public void onChanged(ArrayList<CreateConversationViewModel> createConversationViewModels) {
+-                createConversationAdapter =new CreateConversationAdapter(createConversationViewModels,getActivity());
++            public void onChanged(ArrayList<ItemCreateConversation> itemCreateConversations) {
++                createConversationAdapter =new CreateConversationAdapter(itemCreateConversations,getActivity());
++                createConversationAdapterChooseFriend =new ChooseFriendAdapter(arrayList,getActivity());
++                binding.recyclerview2.setAdapter(createConversationAdapterChooseFriend);
++                binding.recyclerview2.setLayoutManager(mLayoutManager1);
++                createConversationAdapter.setChoose_friendListerner(new Choose_friendListerner() {
++                    @Override
++                    public void addFriend(Friend friend) {
++                        arrayList.add(friend);
++                        dem++;
++                        binding.relaBottom.setVisibility(View.VISIBLE);
++                        createConversationAdapterChooseFriend.notifyDataSetChanged();
++                    }
++
++                    @Override
++                    public void removeFriend(Friend friend) {
++                        for(int i=0;i<arrayList.size();i++){
++                            if(arrayList.get(i).getId().equals(friend.getId())){
++                                arrayList.remove(i);
++                                dem--;
++                                if(dem==0) binding.relaBottom.setVisibility(View.GONE);
++                                break;
++                            }
++                        }
++                        createConversationAdapterChooseFriend.notifyDataSetChanged();
++                    }
++
++                });
++
+                 binding.recyclerview.setAdapter(createConversationAdapter);
+-               
++                binding.recyclerview.setLayoutManager(mLayoutManager);
+                 binding.edtSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                     @Override
+                     public boolean onQueryTextSubmit(String s) {
+@@ -76,35 +113,67 @@ public class CreateConversationFragment extends Fragment implements Choose_frien
+                 });
+ 
+            }
+-
+         });
++        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(getActivity());
++        binding.btnOk.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                firebase fb=new firebase();
++                String id_receive="1";
++                DatabaseReference databaseReference =fb.getDatabaseReference().child("ListMessage");
+ 
+-        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+-        binding.recyclerview2.setLayoutManager(mLayoutManager1);
++                ValueEventListener postMessage=new ValueEventListener() {
++                    @Override
++                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
++                        count = (int) snapshot.getChildrenCount();
++                        String id_Sender=conversion(arrayList);
++                       createMessage=new CreateMessage(id_receive,id_Sender);
++                        sharedPreferencesModel.saveString("id_guest",id_Sender);
+ 
+-        friendViewModel.getArrayListMutableLiveData().observe(getActivity(), new Observer<ArrayList<FriendViewModel>>() {
+-            @Override
+-            public void onChanged(ArrayList<FriendViewModel> friendViewModels) {
+-                createConversationAdapterChooseFriend =new ChooseFriendAdapter(friendViewModels,getActivity());
+-                binding.recyclerview2.setAdapter(createConversationAdapterChooseFriend);
++                    }
++
++                    @Override
++                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
++
++                    }
++                };
++                databaseReference.addValueEventListener(postMessage);
++                databaseReference.child(String.valueOf(count)).setValue(createMessage);
++                Fragment fragment=TopicFragment.newInstance();
++                FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
++                transaction.add(R.id.frame,ChatFragment.newInstance(),"Chat_frag");
++                transaction.addToBackStack(null);
++                transaction.commit();
+ 
+             }
+         });
++        binding.txtHuy.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                arrayList.clear();
++                createConversationAdapter.notifyDataSetChanged();
++            }
++        });
++        binding.btnBack.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                Fragment fragment=CreateConversationFragment.newInstance();
++                FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
++                transaction.replace(R.id.frame,TopicFragment.newInstance(),"topic_frag");
++                transaction.addToBackStack(null);
++                transaction.commit();
++            }
++        });
+         return view;
+     }
+-
+-    @Override
+-    public void addFriend(CreateConversationViewModel createConversationViewModel) {
+-        Log.d("abc", "addFriend: "+createConversationViewModel.getLinkPhoto());
++    private String conversion( ArrayList<Friend> s){
++        StringBuilder sb=new StringBuilder();
++        for(int i=0;i<s.size();i++){
++            sb.append(s.get(i).getId()+",");
++        }
++        return sb.toString();
+     }
+ 
+-    @Override
+-    public void removeFriend(CreateConversationViewModel createConversationViewModel) {
+ 
+-    }
+-
+-    @Override
+-    public void a() {
+ 
+-    }
+ }
+diff --git a/app/src/main/java/com/example/appchatrealtime/views/InviteFragment.java b/app/src/main/java/com/example/appchatrealtime/views/InviteFragment.java
+new file mode 100644
+index 0000000..19d51d5
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/views/InviteFragment.java
+@@ -0,0 +1,71 @@
++package com.example.appchatrealtime.views;
++
++import android.os.Bundle;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++
++import androidx.annotation.NonNull;
++import androidx.annotation.Nullable;
++import androidx.databinding.DataBindingUtil;
++import androidx.fragment.app.Fragment;
++import androidx.lifecycle.Observer;
++import androidx.lifecycle.ViewModelProvider;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.appchatrealtime.R;
++import com.example.appchatrealtime.adapter.InviteReceiveAdapter;
++import com.example.appchatrealtime.databinding.InviteFragmentBinding;
++import com.example.appchatrealtime.model.ListFriend;
++import com.example.appchatrealtime.viewmodels.ListFriendViewModel;
++
++import org.jetbrains.annotations.NotNull;
++
++import java.util.ArrayList;
++
++public class InviteFragment  extends Fragment {
++    public static InviteFragment newInstance() {
++
++        Bundle args = new Bundle();
++
++        InviteFragment fragment = new InviteFragment();
++        fragment.setArguments(args);
++        return fragment;
++    }
++
++    @Nullable
++    @org.jetbrains.annotations.Nullable
++    @Override
++    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
++        InviteFragmentBinding binding = DataBindingUtil.inflate(
++                inflater, R.layout.invite_fragment, container, false);
++        View view = binding.getRoot();
++        ListFriendViewModel loginViewModel=new ViewModelProvider(getActivity()).get(ListFriendViewModel.class);
++        binding.setLifecycleOwner(getActivity());
++        binding.setViewmodel(loginViewModel);
++        loginViewModel.getListMutableLiveData2().observe(getActivity(), new Observer<ArrayList<ListFriend>>() {
++            @Override
++            public void onChanged(ArrayList<ListFriend> invites) {
++
++                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
++                InviteReceiveAdapter chatAdapter =new InviteReceiveAdapter(invites,getActivity());
++                binding.recInviteReceive.setAdapter(chatAdapter);
++                binding.recInviteReceive.setLayoutManager(mLayoutManager);
++
++            }
++        });
++        loginViewModel.getListMutableLiveData3().observe(getActivity(), new Observer<ArrayList<ListFriend>>() {
++            @Override
++            public void onChanged(ArrayList<ListFriend> invites) {
++
++                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
++                InviteReceiveAdapter chatAdapter =new InviteReceiveAdapter(invites,getActivity());
++                binding.recInviteSend.setAdapter(chatAdapter);
++                binding.recInviteSend.setLayoutManager(mLayoutManager);
++
++            }
++        });
++        return view;
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/views/ListChatFragment.java b/app/src/main/java/com/example/appchatrealtime/views/ListChatFragment.java
+new file mode 100644
+index 0000000..e2c0c3f
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/views/ListChatFragment.java
+@@ -0,0 +1,87 @@
++package com.example.appchatrealtime.views;
++
++import android.os.Bundle;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++
++import androidx.annotation.NonNull;
++import androidx.annotation.Nullable;
++import androidx.databinding.DataBindingUtil;
++import androidx.fragment.app.Fragment;
++import androidx.fragment.app.FragmentTransaction;
++import androidx.lifecycle.Observer;
++import androidx.lifecycle.ViewModelProvider;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.appchatrealtime.ChooseMessageListerner;
++import com.example.appchatrealtime.R;
++import com.example.appchatrealtime.adapter.TopicAdapter;
++import com.example.appchatrealtime.databinding.ListchatFragmentBinding;
++import com.example.appchatrealtime.model.SharedPreferencesModel;
++import com.example.appchatrealtime.model.TopicItem;
++import com.example.appchatrealtime.viewmodels.TopicViewModel;
++
++import org.jetbrains.annotations.NotNull;
++
++import java.util.ArrayList;
++
++public class ListChatFragment extends Fragment {
++    TopicViewModel topicViewModel;
++    TopicAdapter topicAdapter;
++
++    public static ListChatFragment newInstance() {
++
++        Bundle args = new Bundle();
++
++        ListChatFragment fragment = new ListChatFragment();
++        fragment.setArguments(args);
++        return fragment;
++    }
++
++    @Nullable
++    @org.jetbrains.annotations.Nullable
++    @Override
++    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
++        ListchatFragmentBinding binding = DataBindingUtil.inflate(
++                inflater, R.layout.listchat_fragment, container, false);
++        View view = binding.getRoot();
++        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(getActivity());
++        topicViewModel=new ViewModelProvider(getActivity(),getDefaultViewModelProviderFactory()).get(TopicViewModel.class);
++        binding.setLifecycleOwner(getActivity());
++        topicViewModel.getArrayListMutableLiveData().observe(getActivity(), new Observer<ArrayList<TopicItem>>() {
++            @Override
++            public void onChanged(ArrayList<TopicItem> topicViewModels) {
++                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
++                topicAdapter=new TopicAdapter(topicViewModels,getActivity());
++                binding.recyclListChat.setAdapter(topicAdapter);
++                binding.recyclListChat.setLayoutManager(mLayoutManager);
++                topicAdapter.setChooseMessageListerner(new ChooseMessageListerner() {
++                    @Override
++                    public void id_sender(String id) {
++                        Fragment fragment=TopicFragment.newInstance();
++                        FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
++                        transaction.add(R.id.frame,ChatFragment.newInstance(),"Chat_frag");
++                        transaction.addToBackStack(null);
++                        transaction.commit();
++                        sharedPreferencesModel.saveString("id_guest",id);
++                    }
++                });
++            }
++        });
++        topicViewModel.getTransitionData().observe(getActivity(), new Observer<String>() {
++            @Override
++            public void onChanged(String s) {
++                topicAdapter.getFilter().filter(s);
++            }
++        });
++
++
++
++        return view;
++
++    }
++
++
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/views/ListFriendFragment.java b/app/src/main/java/com/example/appchatrealtime/views/ListFriendFragment.java
+index fec09a2..25836cb 100644
+--- a/app/src/main/java/com/example/appchatrealtime/views/ListFriendFragment.java
++++ b/app/src/main/java/com/example/appchatrealtime/views/ListFriendFragment.java
+@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
+ import com.example.appchatrealtime.R;
+ import com.example.appchatrealtime.adapter.StikyHeaderAdapter;
+ import com.example.appchatrealtime.databinding.ListFriendFragmentBinding;
++import com.example.appchatrealtime.model.ListFriend;
+ import com.example.appchatrealtime.viewmodels.ListFriendViewModel;
+ 
+ import org.jetbrains.annotations.NotNull;
+@@ -43,10 +44,10 @@ public class ListFriendFragment extends Fragment {
+         ListFriendViewModel listFriendViewModel=new ViewModelProvider(getActivity()).get(ListFriendViewModel.class);
+         binding.setLifecycleOwner(getActivity());
+         binding.setViewmodel(listFriendViewModel);
+-        listFriendViewModel.getListMutableLiveData().observe(getActivity(), new Observer<ArrayList<ListFriendViewModel>>() {
++        listFriendViewModel.getListMutableLiveData().observe(getActivity(), new Observer<ArrayList<ListFriend>>() {
+             @Override
+-            public void onChanged(ArrayList<ListFriendViewModel> listFriendViewModels) {
+-                StickyListHeadersAdapter stickyListHeadersAdapter=new StikyHeaderAdapter(listFriendViewModels,listFriendViewModel.getArrlistName());
++            public void onChanged(ArrayList<ListFriend> listFriendViewModels) {
++                StickyListHeadersAdapter stickyListHeadersAdapter=new StikyHeaderAdapter(listFriendViewModels);
+                 binding.stickyListFriend.setAdapter(stickyListHeadersAdapter);
+             }
+         });
+diff --git a/app/src/main/java/com/example/appchatrealtime/views/Login_fragment.java b/app/src/main/java/com/example/appchatrealtime/views/LoginFragment.java
+similarity index 51%
+rename from app/src/main/java/com/example/appchatrealtime/views/Login_fragment.java
+rename to app/src/main/java/com/example/appchatrealtime/views/LoginFragment.java
+index 7509619..df8e3a2 100644
+--- a/app/src/main/java/com/example/appchatrealtime/views/Login_fragment.java
++++ b/app/src/main/java/com/example/appchatrealtime/views/LoginFragment.java
+@@ -9,23 +9,22 @@ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ import androidx.databinding.DataBindingUtil;
+ import androidx.fragment.app.Fragment;
++import androidx.lifecycle.Observer;
+ import androidx.lifecycle.ViewModelProvider;
+-import androidx.lifecycle.ViewModelProviders;
+ 
+ import com.example.appchatrealtime.R;
+ import com.example.appchatrealtime.databinding.LoginFragmentBinding;
+ import com.example.appchatrealtime.viewmodels.LoginViewModel;
+ 
+-
+ import org.jetbrains.annotations.NotNull;
+ 
+-public class Login_fragment extends Fragment {
+-
+-    public static Login_fragment newInstance() {
++public class LoginFragment extends Fragment {
++    private  LoginFragmentBinding binding;
++    public static LoginFragment newInstance() {
+ 
+         Bundle args = new Bundle();
+ 
+-        Login_fragment fragment = new Login_fragment();
++        LoginFragment fragment = new LoginFragment();
+         fragment.setArguments(args);
+         return fragment;
+     }
+@@ -35,16 +34,37 @@ public class Login_fragment extends Fragment {
+     @Override
+     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+         //set binding variables here
+-        LoginFragmentBinding binding = DataBindingUtil.inflate(
++        binding = DataBindingUtil.inflate(
+                 inflater, R.layout.login_fragment, container, false);
+         View view = binding.getRoot();
+-        LoginViewModel loginViewModel=new ViewModelProvider(getActivity()).get(LoginViewModel.class);
+-        binding.setLifecycleOwner(getActivity());
+-        binding.setViewmodel(loginViewModel);
++
+         return view;
+ 
+     }
+ 
++    @Override
++    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
++        super.onViewCreated(view, savedInstanceState);
++        LoginViewModel loginViewModel=new ViewModelProvider(getActivity()).get(LoginViewModel.class);
++        binding.setLifecycleOwner(getActivity());
++        binding.setViewmodel(loginViewModel);
++        loginViewModel.isShowMessage.observe(getActivity(), new Observer<Boolean>() {
++            @Override
++            public void onChanged(Boolean aBoolean) {
++                if(!aBoolean){
++                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame,TopicFragment.newInstance()).commit();
++                }
++            }
++        });
+ 
++        loginViewModel.isShowNotifica.observe(getActivity(), new Observer<Boolean>() {
++            @Override
++            public void onChanged(Boolean aBoolean) {
++                if(aBoolean) {
++                    getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("register").add(R.id.frame, RegisterFragment.newInstance()).commit();
+ 
++                }
++            }
++        });
++    }
+ }
+diff --git a/app/src/main/java/com/example/appchatrealtime/views/RegisterFragment.java b/app/src/main/java/com/example/appchatrealtime/views/RegisterFragment.java
+new file mode 100644
+index 0000000..371008a
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/views/RegisterFragment.java
+@@ -0,0 +1,73 @@
++package com.example.appchatrealtime.views;
++
++import android.os.Bundle;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++
++import androidx.annotation.NonNull;
++import androidx.annotation.Nullable;
++import androidx.databinding.DataBindingUtil;
++import androidx.fragment.app.Fragment;
++import androidx.lifecycle.Observer;
++import androidx.lifecycle.ViewModelProvider;
++
++import com.example.appchatrealtime.R;
++import com.example.appchatrealtime.databinding.RegisterFragmentBinding;
++import com.example.appchatrealtime.viewmodels.RegisterViewModel;
++
++import org.jetbrains.annotations.NotNull;
++
++public class RegisterFragment extends Fragment {
++    RegisterFragmentBinding binding;
++    public static RegisterFragment newInstance() {
++
++        Bundle args = new Bundle();
++
++        RegisterFragment fragment = new RegisterFragment();
++        fragment.setArguments(args);
++        return fragment;
++    }
++
++
++    @Override
++    public View onCreateView(@NonNull  LayoutInflater inflater, @Nullable  ViewGroup container, @Nullable  Bundle savedInstanceState) {
++         binding = DataBindingUtil.inflate(
++                inflater, R.layout.register_fragment, container, false);
++        View view = binding.getRoot();
++        binding.imgBack.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                getActivity().getSupportFragmentManager().popBackStack();
++
++            }
++        });
++        binding.txtNotifical1.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                getActivity().getSupportFragmentManager().popBackStack();
++            }
++        });
++        return view;
++    }
++
++    @Override
++    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
++        super.onViewCreated(view, savedInstanceState);
++        RegisterViewModel registerFragmentBinding=new ViewModelProvider(getActivity()).get(RegisterViewModel.class);
++        binding.setLifecycleOwner(getActivity());
++        binding.setRegister(registerFragmentBinding);
++
++        registerFragmentBinding.message.observe(getActivity(), new Observer<String>() {
++            @Override
++            public void onChanged(String s) {
++                if(s.equals("Register success")){
++                    binding.txtNotifical1.setTextColor(getResources().getColor(R.color.green));
++                }else if(s.equals("Email already exist")){
++                    binding.txtNotifical1.setTextColor(getResources().getColor(R.color.red));
++
++                }
++            }
++        });
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/views/Register_fragment.java b/app/src/main/java/com/example/appchatrealtime/views/Register_fragment.java
+deleted file mode 100644
+index baa0857..0000000
+--- a/app/src/main/java/com/example/appchatrealtime/views/Register_fragment.java
++++ /dev/null
+@@ -1,41 +0,0 @@
+-package com.example.appchatrealtime.views;
+-
+-import android.os.Bundle;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-
+-import androidx.annotation.NonNull;
+-import androidx.annotation.Nullable;
+-import androidx.databinding.DataBindingUtil;
+-import androidx.fragment.app.Fragment;
+-import androidx.lifecycle.ViewModelProvider;
+-
+-import com.example.appchatrealtime.R;
+-import com.example.appchatrealtime.databinding.LoginFragmentBinding;
+-import com.example.appchatrealtime.databinding.RegisterFragmentBinding;
+-import com.example.appchatrealtime.viewmodels.LoginViewModel;
+-import com.example.appchatrealtime.viewmodels.RegisterViewModel;
+-
+-public class Register_fragment extends Fragment {
+-    public static Register_fragment newInstance() {
+-
+-        Bundle args = new Bundle();
+-
+-        Register_fragment fragment = new Register_fragment();
+-        fragment.setArguments(args);
+-        return fragment;
+-    }
+-
+-
+-    @Override
+-    public View onCreateView(@NonNull  LayoutInflater inflater, @Nullable  ViewGroup container, @Nullable  Bundle savedInstanceState) {
+-        RegisterFragmentBinding binding = DataBindingUtil.inflate(
+-                inflater, R.layout.register_fragment, container, false);
+-        View view = binding.getRoot();
+-        RegisterViewModel registerFragmentBinding=new ViewModelProvider(getActivity()).get(RegisterViewModel.class);
+-        binding.setLifecycleOwner(getActivity());
+-        binding.setRegister(registerFragmentBinding);
+-        return view;
+-    }
+-}
+diff --git a/app/src/main/java/com/example/appchatrealtime/views/RequestFragment.java b/app/src/main/java/com/example/appchatrealtime/views/RequestFragment.java
+new file mode 100644
+index 0000000..41c8962
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/views/RequestFragment.java
+@@ -0,0 +1,54 @@
++package com.example.appchatrealtime.views;
++
++import android.os.Bundle;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++
++import androidx.annotation.NonNull;
++import androidx.annotation.Nullable;
++import androidx.databinding.DataBindingUtil;
++import androidx.fragment.app.Fragment;
++import androidx.lifecycle.Observer;
++import androidx.lifecycle.ViewModelProvider;
++
++import com.example.appchatrealtime.R;
++import com.example.appchatrealtime.adapter.RequestAdapter;
++import com.example.appchatrealtime.databinding.RequestFragmentBinding;
++import com.example.appchatrealtime.model.ListFriend;
++import com.example.appchatrealtime.viewmodels.ListFriendViewModel;
++
++import org.jetbrains.annotations.NotNull;
++
++import java.util.ArrayList;
++
++public class RequestFragment extends Fragment {
++    public static RequestFragment newInstance() {
++
++        Bundle args = new Bundle();
++
++        RequestFragment fragment = new RequestFragment();
++        fragment.setArguments(args);
++        return fragment;
++    }
++
++    @Nullable
++    @org.jetbrains.annotations.Nullable
++    @Override
++    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
++        RequestFragmentBinding binding = DataBindingUtil.inflate(
++                inflater, R.layout.request_fragment, container, false);
++        View view = binding.getRoot();
++        ListFriendViewModel listFriendViewModel=new ViewModelProvider(getActivity()).get(ListFriendViewModel.class);
++        binding.setLifecycleOwner(getActivity());
++        listFriendViewModel.getListMutableLiveData1().observe(getActivity(), new Observer<ArrayList<ListFriend>>() {
++            @Override
++            public void onChanged(ArrayList<ListFriend> listFriendViewModels) {
++                RequestAdapter stickyListHeadersAdapter=new RequestAdapter(listFriendViewModels);
++                binding.requestListFriend.setAdapter(stickyListHeadersAdapter);
++
++            }
++        });
++      return view;
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/views/TabLayoutFragment.java b/app/src/main/java/com/example/appchatrealtime/views/TabLayoutFragment.java
+new file mode 100644
+index 0000000..43d21e7
+--- /dev/null
++++ b/app/src/main/java/com/example/appchatrealtime/views/TabLayoutFragment.java
+@@ -0,0 +1,60 @@
++package com.example.appchatrealtime.views;
++
++import android.os.Bundle;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++
++import androidx.annotation.NonNull;
++import androidx.annotation.Nullable;
++import androidx.databinding.DataBindingUtil;
++import androidx.fragment.app.Fragment;
++
++import com.example.appchatrealtime.R;
++import com.example.appchatrealtime.adapter.TabLayoutAdapter;
++import com.example.appchatrealtime.databinding.TablayoutFragmentBinding;
++import com.google.android.material.tabs.TabLayout;
++import com.google.android.material.tabs.TabLayoutMediator;
++
++import org.jetbrains.annotations.NotNull;
++
++public class TabLayoutFragment  extends Fragment {
++    TabLayoutAdapter adapter;
++    public static TabLayoutFragment newInstance() {
++
++        Bundle args = new Bundle();
++
++        TabLayoutFragment fragment = new TabLayoutFragment();
++        fragment.setArguments(args);
++        return fragment;
++    }
++
++    @Nullable
++    @org.jetbrains.annotations.Nullable
++    @Override
++    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
++        TablayoutFragmentBinding binding = DataBindingUtil.inflate(
++                inflater, R.layout.tablayout_fragment, container, false);
++        View view = binding.getRoot();
++        adapter=new TabLayoutAdapter(getActivity());
++        binding.viewpagerTab.setAdapter(adapter);
++        new TabLayoutMediator(binding.tab, binding.viewpagerTab, new TabLayoutMediator.TabConfigurationStrategy() {
++            @Override
++            public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
++                switch (position){
++                    case 0:
++                        tab.setText("Bạn bè");
++                        break;
++                    case 1:
++                        tab.setText("Tất cả");
++                        break;
++                    case 2:
++                        tab.setText("Yêu cầu");
++                        break;
++
++                }
++            }
++        }).attach();
++        return view;
++    }
++}
+diff --git a/app/src/main/java/com/example/appchatrealtime/views/TopicFragment.java b/app/src/main/java/com/example/appchatrealtime/views/TopicFragment.java
+index 15554e4..e94184e 100644
+--- a/app/src/main/java/com/example/appchatrealtime/views/TopicFragment.java
++++ b/app/src/main/java/com/example/appchatrealtime/views/TopicFragment.java
+@@ -11,24 +11,26 @@ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ import androidx.databinding.DataBindingUtil;
+ import androidx.fragment.app.Fragment;
+-import androidx.lifecycle.Observer;
++import androidx.fragment.app.FragmentStatePagerAdapter;
++import androidx.fragment.app.FragmentTransaction;
+ import androidx.lifecycle.ViewModelProvider;
+-import androidx.recyclerview.widget.LinearLayoutManager;
+-import androidx.recyclerview.widget.RecyclerView;
+ 
++import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+ import com.example.appchatrealtime.R;
++import com.example.appchatrealtime.adapter.BottomNavigationAdapter;
+ import com.example.appchatrealtime.adapter.TopicAdapter;
+ import com.example.appchatrealtime.databinding.TopicFragmentBinding;
+ import com.example.appchatrealtime.viewmodels.TopicViewModel;
+ 
+ import org.jetbrains.annotations.NotNull;
+ 
+-import java.util.ArrayList;
+-
+ public class TopicFragment extends Fragment {
+     TopicViewModel topicViewModel;
+     TopicAdapter topicAdapter;
++    BottomNavigationAdapter viewpager;
++
++
+     public static TopicFragment newInstance() {
+ 
+         Bundle args = new Bundle();
+@@ -59,28 +61,39 @@ public class TopicFragment extends Fragment {
+         binding.bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F44336"));
+ // Add or remove notification for each item
+         binding.bottomNavigation.setNotification("1", 1);
++        viewpager=new BottomNavigationAdapter(getActivity().getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
++        binding.viewPager.setAdapter(viewpager);
++        binding.bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
++            @Override
++            public boolean onTabSelected(int position, boolean wasSelected) {
+ 
+-        topicViewModel.getArrayListMutableLiveData().observe(getActivity(), new Observer<ArrayList<TopicViewModel>>() {
++                binding.viewPager.setCurrentItem(position);
++                return true;
++            }
++        });
++        binding.edtSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+             @Override
+-            public void onChanged(ArrayList<TopicViewModel> topicViewModels) {
+-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+-                topicAdapter=new TopicAdapter(topicViewModels,getActivity());
+-                binding.edtSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+-                    @Override
+-                    public boolean onQueryTextSubmit(String s) {
+-                       
+-                        return false;
+-                    }
+-
+-                    @Override
+-                    public boolean onQueryTextChange(String s) {
+-                        topicAdapter.getFilter().filter(s);
+-                        return false;
+-                    }
+-                });
+-                binding.recyclerview.setAdapter(topicAdapter);
+-                binding.recyclerview.setLayoutManager(mLayoutManager);
++            public boolean onQueryTextSubmit(String s) {
+ 
++                return false;
++            }
++
++            @Override
++            public boolean onQueryTextChange(String s) {
++                topicViewModel.setTransitionData(s);
++                //topicAdapter.getFilter().filter(s);
++                return false;
++            }
++        });
++
++        binding.imgCreateMess.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                Fragment fragment=TopicFragment.newInstance();
++                FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
++                transaction.add(R.id.frame,CreateConversationFragment.newInstance(),"topic_frag");
++                transaction.addToBackStack(null);
++                transaction.commit();
+             }
+         });
+ 
+diff --git a/app/src/main/res/drawable/buttonhuy.xml b/app/src/main/res/drawable/buttonhuy.xml
+new file mode 100644
+index 0000000..15e150a
+--- /dev/null
++++ b/app/src/main/res/drawable/buttonhuy.xml
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:android="http://schemas.android.com/apk/res/android">
++    <corners android:radius="@dimen/_45sdp" />
++    <solid android:color="@color/white"/>
++    <stroke android:color="@color/blueDark" android:width="@dimen/_1sdp"/>
++</shape>
+diff --git a/app/src/main/res/layout/choose_friend.xml b/app/src/main/res/layout/choose_friend.xml
+index c47c313..b5492b0 100644
+--- a/app/src/main/res/layout/choose_friend.xml
++++ b/app/src/main/res/layout/choose_friend.xml
+@@ -3,8 +3,8 @@
+     xmlns:app="http://schemas.android.com/apk/res-auto">
+     <data>
+        <variable
+-            name="Fviewmodel"
+-            type="com.example.appchatrealtime.viewmodels.FriendViewModel" />
++            name="viewmodel"
++            type="com.example.appchatrealtime.model.Friend" />
+ 
+     </data>
+     <RelativeLayout
+@@ -14,7 +14,8 @@
+         <de.hdodenhof.circleimageview.CircleImageView
+             android:layout_width="@dimen/_35sdp"
+             android:layout_height="@dimen/_35sdp"
+-            app:imageUri="@{Fviewmodel.link}"
++            android:layout_centerVertical="true"
++            app:imageUri="@{viewmodel.link}"
+             android:id="@+id/img_friend"
+             />
+     </RelativeLayout>
+diff --git a/app/src/main/res/layout/createconversation_adapter.xml b/app/src/main/res/layout/createconversation_adapter.xml
+index bf2c108..9e3bf61 100644
+--- a/app/src/main/res/layout/createconversation_adapter.xml
++++ b/app/src/main/res/layout/createconversation_adapter.xml
+@@ -4,13 +4,16 @@
+     <data>
+ 
+         <variable
+-            name="viewmodel" type="com.example.appchatrealtime.viewmodels.CreateConversationViewModel"/>
++            name="viewmodel1" type="com.example.appchatrealtime.viewmodels.CreateConversationViewModel"/>
++       <variable
++            name="viewmodel" type="com.example.appchatrealtime.model.ItemCreateConversation"/>
+     </data>
+     <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_marginLeft="@dimen/_10sdp"
+         android:background="@drawable/topic_adap"
+-        android:layout_height="@dimen/_40sdp">
++        android:id="@+id/relative_create"
++         android:layout_height="@dimen/_40sdp">
+         <de.hdodenhof.circleimageview.CircleImageView
+             android:layout_width="@dimen/_27sdp"
+             android:layout_height= "@dimen/_27sdp"
+@@ -34,11 +37,10 @@
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentRight="true"
+-            android:checked="@{viewmodel.ischeck}"
++            android:checked="@{viewmodel.check}"
+             android:id="@+id/checkbox"
+             android:layout_centerVertical="true"
+             android:button="@drawable/checkbox"
+-            android:onClick="@{() -> viewmodel.addFriend(viewmodel)}"
+             />
+     </RelativeLayout>
+ </layout>
+diff --git a/app/src/main/res/layout/createconversation_fragment.xml b/app/src/main/res/layout/createconversation_fragment.xml
+index a482e13..eed724d 100644
+--- a/app/src/main/res/layout/createconversation_fragment.xml
++++ b/app/src/main/res/layout/createconversation_fragment.xml
+@@ -1,6 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <layout xmlns:android="http://schemas.android.com/apk/res/android">
+     <data>
++        <import type="android.view.View"/>
+         <variable
+             name="createconversation"
+             type="com.example.appchatrealtime.viewmodels.CreateConversationViewModel" />
+@@ -21,6 +22,7 @@
+                     android:layout_height="@dimen/_50sdp"
+                     android:src="@drawable/leftwhite"
+                     android:scaleType="fitStart"
++                  android:id="@+id/btn_back"
+                     android:layout_marginLeft="-10dp"
+                     />
+                 <TextView
+@@ -41,6 +43,7 @@
+                     android:gravity="center"
+                     android:textSize="@dimen/text"
+                     android:textColor="@color/white"
++                    android:id="@+id/txtHuy"
+                     />
+                 <SearchView
+                     android:layout_marginLeft="@dimen/_5sdp"
+@@ -90,22 +93,23 @@
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/_53sdp"
+             android:layout_alignParentBottom="true"
+-
++            android:visibility="gone"
++            android:background="@color/white"
+             android:padding="@dimen/_5sdp">
+ 
+             <androidx.recyclerview.widget.RecyclerView
+-                android:layout_width="wrap_content"
++                android:layout_width="match_parent"
+                 android:id="@+id/recyclerview2"
+                 android:layout_height="match_parent"
+-                android:layout_toRightOf="@id/btn_ok" />
++                android:layout_toLeftOf="@id/btn_ok" />
+ 
+             <ImageButton
+                 android:id="@+id/btn_ok"
+                 android:layout_width="@dimen/_40sdp"
+                 android:layout_height="match_parent"
++                android:onClick="@{()-> createconversation.btnCreate()}"
+                 android:layout_alignParentRight="true"
+                 android:background="@drawable/button_"
+-
+                 android:src="@drawable/ic_baseline_chevron_right_24" />
+         </RelativeLayout>
+     </RelativeLayout>
+diff --git a/app/src/main/res/layout/invite_fragment.xml b/app/src/main/res/layout/invite_fragment.xml
+new file mode 100644
+index 0000000..7f728c8
+--- /dev/null
++++ b/app/src/main/res/layout/invite_fragment.xml
+@@ -0,0 +1,38 @@
++<?xml version="1.0" encoding="utf-8"?>
++<layout xmlns:android="http://schemas.android.com/apk/res/android"
++  >
++    <data>
++        <variable
++            name="viewmodel"
++            type="com.example.appchatrealtime.viewmodels.ListFriendViewModel" />
++    </data>
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_margin="@dimen/_5sdp"
++        android:orientation="vertical"
++        android:layout_height="match_parent">
++        <TextView
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="@string/loibanketban"
++            android:textSize="@dimen/text"
++            />
++        <androidx.recyclerview.widget.RecyclerView
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:id="@+id/rec_invite_receive"
++            />
++        <TextView
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="@string/daguiketban"
++            android:textSize="@dimen/text"
++            />
++
++        <androidx.recyclerview.widget.RecyclerView
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:id="@+id/rec_invite_send"
++            />
++    </LinearLayout>
++</layout>
+\ No newline at end of file
+diff --git a/app/src/main/res/layout/item_invite.xml b/app/src/main/res/layout/item_invite.xml
+new file mode 100644
+index 0000000..59028eb
+--- /dev/null
++++ b/app/src/main/res/layout/item_invite.xml
+@@ -0,0 +1,55 @@
++<?xml version="1.0" encoding="utf-8"?>
++<layout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto">
++    <data>
++        <import type="android.view.View"/>
++        <variable
++            name="viewmodel"
++            type="com.example.appchatrealtime.model.ListFriend" />
++    </data>
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:orientation="horizontal"
++        android:layout_margin="@dimen/_5sdp"
++        android:layout_height="wrap_content">
++        <de.hdodenhof.circleimageview.CircleImageView
++            android:layout_width="@dimen/_33sdp"
++            android:layout_height="@dimen/_33sdp"
++            app:imageUri="@{viewmodel.linkPhoto}"
++            />
++        <TextView
++            android:layout_width="@dimen/_190sdp"
++            android:layout_height="match_parent"
++            android:text="@{viewmodel.nameFull}"
++            android:textStyle="bold"
++            android:textSize="@dimen/text"
++            android:gravity="center_vertical"
++            android:textColor="@color/black"
++            android:layout_marginLeft="@dimen/_5sdp"
++            />
++        <RelativeLayout
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content">
++            <Button
++                android:layout_width="@dimen/_70sdp"
++                android:layout_height="@dimen/_25sdp"
++                android:background="@drawable/button_"
++                android:layout_marginTop="@dimen/_2sdp"
++                android:text="@string/dongy"
++                android:id="@+id/dongy"
++                android:visibility="@{viewmodel.friend ? View.VISIBLE: View.GONE}"
++                android:textColor="@color/white"
++                />
++
++            <Button
++                android:id="@+id/huy"
++                android:layout_width="wrap_content"
++                android:layout_height="@dimen/_25sdp"
++                android:layout_marginTop="@dimen/_2sdp"
++                android:background="@drawable/buttonhuy"
++                android:text="@string/huy"
++                android:textColor="@color/blueDark"
++                android:visibility="@{viewmodel.friend ? View.GONE  : View.VISIBLE}" />
++        </RelativeLayout>
++    </LinearLayout>
++</layout>
+\ No newline at end of file
+diff --git a/app/src/main/res/layout/item_listfriend.xml b/app/src/main/res/layout/item_listfriend.xml
+index 02c5aab..844d92b 100644
+--- a/app/src/main/res/layout/item_listfriend.xml
++++ b/app/src/main/res/layout/item_listfriend.xml
+@@ -2,29 +2,37 @@
+ <layout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto">
+     <data>
++        <import type="android.view.View"/>
+         <variable
+             name="viewmodel"
+             type="com.example.appchatrealtime.viewmodels.ListFriendViewModel" />
++        <variable
++            name="viewmodel1"
++            type="com.example.appchatrealtime.model.ListFriend" />
++
+     </data>
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:orientation="horizontal"
+         android:layout_margin="@dimen/_5sdp"
+-        android:layout_height="wrap_content">
++        android:layout_height="@dimen/_50sdp">
+         <de.hdodenhof.circleimageview.CircleImageView
+-            android:layout_width="@dimen/_33sdp"
+-            android:layout_height="@dimen/_33sdp"
+-            app:imageUri="@{viewmodel.linkPhoto}"
++            android:layout_width="@dimen/_35sdp"
++            android:layout_height="@dimen/_35sdp"
++            android:layout_gravity="center"
++            app:imageUri="@{viewmodel1.linkPhoto}"
+             />
+         <TextView
+             android:layout_width="match_parent"
+-            android:layout_height="match_parent"
+-            android:text="@{viewmodel.nameFull}"
++            android:layout_height="wrap_content"
++            android:text="@{viewmodel1.nameFull}"
++            android:layout_gravity="center"
+             android:textStyle="bold"
+             android:textSize="@dimen/text"
+             android:gravity="center_vertical"
+             android:textColor="@color/black"
+             android:layout_marginLeft="@dimen/_5sdp"
+             />
++
+     </LinearLayout>
+ </layout>
+\ No newline at end of file
+diff --git a/app/src/main/res/layout/item_requestfriend.xml b/app/src/main/res/layout/item_requestfriend.xml
+new file mode 100644
+index 0000000..c4d33e6
+--- /dev/null
++++ b/app/src/main/res/layout/item_requestfriend.xml
+@@ -0,0 +1,50 @@
++<?xml version="1.0" encoding="utf-8"?>
++<layout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto">
++    <data>
++        <import type="android.view.View"/>
++        <variable
++            name="viewmodel"
++            type="com.example.appchatrealtime.viewmodels.ListFriendViewModel" />
++        <variable
++            name="viewmodel1"
++            type="com.example.appchatrealtime.model.ListFriend" />
++
++    </data>
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:orientation="horizontal"
++        android:layout_margin="@dimen/_5sdp"
++        android:layout_height="wrap_content">
++        <de.hdodenhof.circleimageview.CircleImageView
++            android:layout_width="@dimen/_33sdp"
++            android:layout_height="@dimen/_33sdp"
++            app:imageUri="@{viewmodel1.linkPhoto}"
++            />
++        <TextView
++            android:layout_width="@dimen/_190sdp"
++            android:layout_height="match_parent"
++            android:text="@{viewmodel1.nameFull}"
++            android:textStyle="bold"
++            android:textSize="@dimen/text"
++            android:gravity="center_vertical"
++            android:textColor="@color/black"
++            android:layout_marginLeft="@dimen/_5sdp"
++            />
++        <RelativeLayout
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content">
++            <Button
++                android:layout_width="@dimen/_70sdp"
++                android:layout_height="@dimen/_25sdp"
++                android:background="@drawable/button_"
++                android:layout_marginTop="@dimen/_2sdp"
++                android:text="@string/ketban"
++                android:id="@+id/ketban"
++                android:visibility="@{viewmodel1.friend ? View.VISIBLE: View.GONE}"
++                android:textColor="@color/white"
++                />
++
++        </RelativeLayout>
++    </LinearLayout>
++</layout>
+\ No newline at end of file
+diff --git a/app/src/main/res/layout/list_friend_fragment.xml b/app/src/main/res/layout/list_friend_fragment.xml
+index 48296b1..c1f3414 100644
+--- a/app/src/main/res/layout/list_friend_fragment.xml
++++ b/app/src/main/res/layout/list_friend_fragment.xml
+@@ -7,6 +7,7 @@
+             type="com.example.appchatrealtime.viewmodels.ListFriendViewModel" />
+     </data>
+     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
++        android:layout_marginTop="@dimen/_15sdp"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:id="@+id/sticky_listFriend"
+diff --git a/app/src/main/res/layout/listchat_fragment.xml b/app/src/main/res/layout/listchat_fragment.xml
+new file mode 100644
+index 0000000..3ddf28c
+--- /dev/null
++++ b/app/src/main/res/layout/listchat_fragment.xml
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<layout xmlns:android="http://schemas.android.com/apk/res/android"
++   >
++    <data></data>
++    <androidx.recyclerview.widget.RecyclerView
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:id="@+id/recycl_listChat"
++        />
++</layout>
+\ No newline at end of file
+diff --git a/app/src/main/res/layout/login_fragment.xml b/app/src/main/res/layout/login_fragment.xml
+index bf76f38..d7a1b85 100644
+--- a/app/src/main/res/layout/login_fragment.xml
++++ b/app/src/main/res/layout/login_fragment.xml
+@@ -121,7 +121,7 @@
+                 android:textSize="@dimen/button" />
+ 
+             <LinearLayout
+-                android:gravity="center"
++                android:gravity="bottom|center_horizontal"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:orientation="horizontal"
+@@ -135,9 +135,10 @@
+                     android:gravity="bottom"/>
+                 <TextView
+                     android:layout_width="wrap_content"
+-                    android:layout_height="match_parent"
++                    android:layout_height="wrap_content"
+                     android:text="@string/dkngay"
+                     android:textSize="@dimen/text"
++                    android:onClick="@{()-> viewmodel.onclickDK()}"
+                     android:textColor="@color/blueDark"
+                     android:gravity="bottom"/>
+ 
+diff --git a/app/src/main/res/layout/message_fragment.xml b/app/src/main/res/layout/message_fragment.xml
+index 5022cf2..5e88192 100644
+--- a/app/src/main/res/layout/message_fragment.xml
++++ b/app/src/main/res/layout/message_fragment.xml
+@@ -8,6 +8,7 @@
+     </data>
+     <RelativeLayout
+         android:layout_width="match_parent"
++        android:background="@color/white"
+         android:layout_height="match_parent">
+         <LinearLayout
+             android:layout_width="match_parent"
+diff --git a/app/src/main/res/layout/register_fragment.xml b/app/src/main/res/layout/register_fragment.xml
+index 684877d..7a63adf 100644
+--- a/app/src/main/res/layout/register_fragment.xml
++++ b/app/src/main/res/layout/register_fragment.xml
+@@ -2,7 +2,8 @@
+ <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+     <data>
+-        <import type="android.view.View"/>
++       <import type="android.view.View"/>
++
+         <variable
+             name="register"
+             type="com.example.appchatrealtime.viewmodels.RegisterViewModel" />
+@@ -13,11 +14,13 @@
+             android:layout_height="match_parent"
+             android:layout_marginLeft="@dimen/_21sdp"
+             android:layout_marginTop="@dimen/_20sdp"
++            android:background="#FAFAFA"
+             >
+             <ImageView
+                 android:layout_width="@dimen/_33sdp"
+                 android:layout_height="@dimen/_44sdp"
+                 android:src="@drawable/left"
++                android:id="@+id/img_back"
+                 />
+             <TextView
+                 android:layout_width="wrap_content"
+@@ -151,12 +154,11 @@
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:gravity="center"
++                        android:textColor="@color/red"
+                         android:layout_alignParentTop="true"
+                         android:text="@{register.message}"
+-                        android:visibility="@{register.isShowMessage ? View.VISIBLE: View.GONE}"
+-
+-                        android:textColor="@color/red"/>
+-                </RelativeLayout>
++                        android:visibility="@{register.isShowMessage ? View.VISIBLE: View.GONE}"/>
++                 </RelativeLayout>
+ 
+ 
+                 <LinearLayout
+@@ -169,15 +171,16 @@
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="match_parent"
+-                        android:text="@string/chuacotaikhoan"
++                        android:text="@string/dacotaikhoan"
+                         android:textSize="@dimen/text"
+                         android:gravity="bottom"/>
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="match_parent"
+-                        android:text="@string/dkngay"
++                        android:text="@string/dnngay"
+                         android:textSize="@dimen/text"
+                         android:textColor="@color/blueDark"
++                        android:id="@+id/txtdangnhap"
+                         android:gravity="bottom"/>
+ 
+ 
+diff --git a/app/src/main/res/layout/request_fragment.xml b/app/src/main/res/layout/request_fragment.xml
+index 77d9ef6..e6b6fc5 100644
+--- a/app/src/main/res/layout/request_fragment.xml
++++ b/app/src/main/res/layout/request_fragment.xml
+@@ -1,6 +1,14 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent">
+-
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++<layout xmlns:android="http://schemas.android.com/apk/res/android"
++    >
++    <data>
++    <variable
++        name="viewmodel"
++        type="com.example.appchatrealtime.viewmodels.ListFriendViewModel" />
++    </data>
++    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:id="@+id/request_listFriend"
++        />
++</layout>
+\ No newline at end of file
+diff --git a/app/src/main/res/layout/stickyheader_listfriend.xml b/app/src/main/res/layout/stickyheader_listfriend.xml
+index 82c5b6b..071e446 100644
+--- a/app/src/main/res/layout/stickyheader_listfriend.xml
++++ b/app/src/main/res/layout/stickyheader_listfriend.xml
+@@ -5,15 +5,22 @@
+         <variable
+             name="viewmodel"
+             type="com.example.appchatrealtime.viewmodels.ListFriendViewModel" />
++        <variable
++            name="viewmodel1"
++            type="com.example.appchatrealtime.model.ListFriend" />
++
+    </data>
+     <RelativeLayout
+         android:layout_width="match_parent"
+-        android:layout_margin="@dimen/_5sdp"
+-        android:layout_height="wrap_content">
++        android:layout_marginLeft="@dimen/_5sdp"
++        android:background="#F6F6F6"
++        android:layout_height="@dimen/_24sdp">
+         <TextView
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:text="@{viewmodel.stickHeader}"
++            android:layout_width="wrap_content"
++            android:layout_height="match_parent"
++            android:gravity="center"
++            android:layout_margin="@dimen/_2sdp"
++            android:text="@{viewmodel1.stickHeader}"
+             android:textStyle="bold"
+             android:textColor="@color/black"
+             android:background="#F6F6F6"
+diff --git a/app/src/main/res/layout/stickyheader_listfriendrequest.xml b/app/src/main/res/layout/stickyheader_listfriendrequest.xml
+new file mode 100644
+index 0000000..23b6c8c
+--- /dev/null
++++ b/app/src/main/res/layout/stickyheader_listfriendrequest.xml
+@@ -0,0 +1,29 @@
++<?xml version="1.0" encoding="utf-8"?>
++<layout xmlns:android="http://schemas.android.com/apk/res/android">
++
++   <data>
++        <variable
++            name="viewmodel"
++            type="com.example.appchatrealtime.viewmodels.ListFriendViewModel" />
++        <variable
++            name="viewmodel1"
++            type="com.example.appchatrealtime.model.Invite" />
++
++   </data>
++    <RelativeLayout
++        android:layout_width="match_parent"
++        android:layout_margin="@dimen/_5sdp"
++        android:background="#F6F6F6"
++        android:layout_height="@dimen/_24sdp">
++        <TextView
++            android:layout_width="wrap_content"
++            android:layout_height="match_parent"
++            android:gravity="center"
++            android:layout_margin="@dimen/_2sdp"
++            android:text="@{viewmodel1.stickHeader}"
++            android:textStyle="bold"
++            android:textColor="@color/black"
++            android:background="#F6F6F6"
++            />
++    </RelativeLayout>
++</layout>
+diff --git a/app/src/main/res/layout/tablayout_fragment.xml b/app/src/main/res/layout/tablayout_fragment.xml
+new file mode 100644
+index 0000000..e4ac4df
+--- /dev/null
++++ b/app/src/main/res/layout/tablayout_fragment.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8"?>
++<layout xmlns:android="http://schemas.android.com/apk/res/android"
++  >
++    <data></data>
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:orientation="vertical"
++        android:layout_height="match_parent">
++        <com.google.android.material.tabs.TabLayout
++            android:layout_width="match_parent"
++            android:id="@+id/tab"
++            android:layout_height="wrap_content"/>
++        <androidx.viewpager2.widget.ViewPager2
++            android:layout_marginTop="@dimen/_10sdp"
++            android:layout_width="match_parent"
++            android:id="@+id/viewpagerTab"
++            android:layout_height="match_parent"/>
++
++    </LinearLayout>
++</layout>
+\ No newline at end of file
+diff --git a/app/src/main/res/layout/topic_adapter.xml b/app/src/main/res/layout/topic_adapter.xml
+index ca24b75..439d491 100644
+--- a/app/src/main/res/layout/topic_adapter.xml
++++ b/app/src/main/res/layout/topic_adapter.xml
+@@ -5,8 +5,8 @@
+         <import type="android.graphics.Typeface"/>
+         <import type="android.view.View"/>
+         <variable
+-            name="itemClickListener"
+-            type="com.example.appchatrealtime.respository.CustomListerner" />
++            name="viewmodel1"
++            type="com.example.appchatrealtime.model.TopicItem" />
+         <variable
+             name="viewmodel"
+             type="com.example.appchatrealtime.viewmodels.TopicViewModel" />
+@@ -30,20 +30,20 @@
+                 android:src="@drawable/personal1"
+                 app:civ_border_color="@color/blueDark"
+                 app:civ_border_width="2dp"
+-                app:imageUri="@{viewmodel.imageUrl}" />
++                app:imageUri="@{viewmodel1.linkPhoto}" />
+ 
+             <RelativeLayout
+                 android:layout_width="@dimen/_21sdp"
+                 android:layout_height="@dimen/_21sdp"
+                 android:layout_marginLeft="@dimen/_50sdp"
+-                android:visibility="@{viewmodel.isBold ? View.VISIBLE : View.GONE}"
++                android:visibility="@{viewmodel1.bold ? View.VISIBLE : View.GONE}"
+                 android:layout_marginTop="@dimen/_5sdp"
+                 android:background="@drawable/button_mn"
+                 >
+                 <TextView
+                     android:layout_width="@dimen/_19sdp"
+                     android:layout_height="@dimen/_19sdp"
+-                    android:text="@{viewmodel.diem}"
++                    android:text="@{viewmodel1.diem}"
+                     android:textColor="@color/white"
+                     android:gravity="center"
+                     android:textSize="@dimen/text"
+@@ -66,7 +66,7 @@
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/edit"
+-                android:text="@{viewmodel.nameSend}"
++                android:text="@{viewmodel1.nameSend}"
+                 android:textStyle="bold"
+                 android:layout_toLeftOf="@id/time_adap"
+                 android:textColor="@color/black"
+@@ -77,8 +77,8 @@
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:textSize="@dimen/edit"
+-                android:text="@{viewmodel.tn}"
+-                android:typeface='@{viewmodel.isBold ? "bold" : "nomal"}'
++                android:text="@{viewmodel1.messages.message}"
++                android:typeface='@{viewmodel1.bold ? "bold" : "nomal"}'
+                 android:textColor="@color/black"
+                 android:layout_marginTop="@dimen/_7sdp"
+                 />
+@@ -87,7 +87,7 @@
+                 android:layout_height="wrap_content"
+                 android:textColor="@color/black"
+                 android:layout_alignParentRight="true"
+-                android:text="@{viewmodel.thoigian}"
++                android:text="@{viewmodel1.messages.time}"
+                 android:id="@+id/time_adap"
+                 />
+ 
+diff --git a/app/src/main/res/layout/topic_fragment.xml b/app/src/main/res/layout/topic_fragment.xml
+index df89a78..f99667f 100644
+--- a/app/src/main/res/layout/topic_fragment.xml
++++ b/app/src/main/res/layout/topic_fragment.xml
+@@ -31,6 +31,7 @@
+ 
+                 />
+             <ImageButton
++                android:id="@+id/imgCreateMess"
+                 android:layout_width="@dimen/_30sdp"
+                 android:layout_height="@dimen/_30sdp"
+                 android:layout_alignParentRight="true"
+@@ -52,14 +53,13 @@
+         </RelativeLayout>
+ 
+     </LinearLayout>
+-    <androidx.recyclerview.widget.RecyclerView
++    <com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_above="@id/rela_bottom"
+-        android:id="@+id/recyclerview"
+         android:layout_marginTop="@dimen/_120sdp"
+         android:background="@drawable/recyclerview"
+-
++        android:id="@+id/viewPager"
+         />
+     <RelativeLayout
+         android:id="@+id/rela_bottom"
+diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
+index de9e1b5..835210e 100644
+--- a/app/src/main/res/values/colors.xml
++++ b/app/src/main/res/values/colors.xml
+@@ -11,6 +11,7 @@
+     <color name="red">#F44336</color>
+     <color name="gray">#D2D2D2</color>
+     <color name="graylight">#F6F6F6</color>
++    <color name="green">#09E812</color>
+ 
+ 
+ </resources>
+\ No newline at end of file
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+index b94491b..c0d4f60 100644
+--- a/app/src/main/res/values/strings.xml
++++ b/app/src/main/res/values/strings.xml
+@@ -7,7 +7,9 @@
+     <string name="matkhau">MẬT KHẨU</string>
+     <string name="quenMk">Quên mật khẩu?</string>
+     <string name="chuacotaikhoan">Chưa có tài khoản?</string>
++    <string name="dacotaikhoan">Đã có tài khoản?</string>
+     <string name="dkngay">Đăng kí ngay</string>
++    <string name="dnngay">Đăng nhập ngay</string>
+     <string name="dk">Đăng kí</string>
+     <string name="toidongy">Tôi đồng ý với các</string>
+     <string name="chinhsach">chính sách</string>
+@@ -31,6 +33,12 @@
+ <string name="dsbanbe">Danh sách bạn bè</string>
+ <string name="homnay">Hôm nay</string>
+ <string name="time">10:08</string>
++<string name="dongy">Đồng ý</string>
++<string name="ketban">Kết bạn</string>
++<string name="loibanketban">LỜI MỜI KẾT BẠN</string>
++    <string name="daguiketban">ĐÃ GỬI KẾT BẠN</string>
++
++
+ 
+ 
+ 
+-- 
+2.24.1.windows.2
+

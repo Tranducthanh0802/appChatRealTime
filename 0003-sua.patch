@@ -1,0 +1,25 @@
+From c35e794fbed96d86f932c1e0326a1b43fa0cd08e Mon Sep 17 00:00:00 2001
+From: Tranducthanh0802 <49425285+Tranducthanh0802@users.noreply.github.com>
+Date: Sun, 15 Aug 2021 22:50:45 +0700
+Subject: [PATCH 3/3] sua
+
+Signed-off-by: Tranducthanh0802 <49425285+Tranducthanh0802@users.noreply.github.com>
+---
+ app/src/main/res/drawable/checktrue.xml | 5 +++++
+ 1 file changed, 5 insertions(+)
+ create mode 100644 app/src/main/res/drawable/checktrue.xml
+
+diff --git a/app/src/main/res/drawable/checktrue.xml b/app/src/main/res/drawable/checktrue.xml
+new file mode 100644
+index 0000000..d5f9d9f
+--- /dev/null
++++ b/app/src/main/res/drawable/checktrue.xml
+@@ -0,0 +1,5 @@
++<vector android:height="24dp" android:tint="@color/blueDark"
++    android:viewportHeight="24" android:viewportWidth="24"
++    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
++    <path android:fillColor="@android:color/white" android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM10,17l-5,-5 1.41,-1.41L10,14.17l7.59,-7.59L19,8l-9,9z"/>
++</vector>
+-- 
+2.24.1.windows.2
+

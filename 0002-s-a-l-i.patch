@@ -1,0 +1,62 @@
+From 07257ea8d434cbb3c5594eec3eece95ad7b367a9 Mon Sep 17 00:00:00 2001
+From: Tranducthanh0802 <49425285+Tranducthanh0802@users.noreply.github.com>
+Date: Sun, 15 Aug 2021 22:49:53 +0700
+Subject: [PATCH 2/3] =?UTF-8?q?s=E1=BB=ADa=20l=E1=BB=97i?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Tranducthanh0802 <49425285+Tranducthanh0802@users.noreply.github.com>
+---
+ .../example/appchatrealtime/viewmodels/ChatViewModel.java   | 6 ++++--
+ .../com/example/appchatrealtime/views/ChatFragment.java     | 4 ++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/app/src/main/java/com/example/appchatrealtime/viewmodels/ChatViewModel.java b/app/src/main/java/com/example/appchatrealtime/viewmodels/ChatViewModel.java
+index b7cc964..2764eb9 100644
+--- a/app/src/main/java/com/example/appchatrealtime/viewmodels/ChatViewModel.java
++++ b/app/src/main/java/com/example/appchatrealtime/viewmodels/ChatViewModel.java
+@@ -165,9 +165,10 @@ public class ChatViewModel extends ViewModel
+         this.arrayList = arrayList;
+     }
+ 
+-    SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
++
+     public MutableLiveData<Chat> getLinkPhotoLiveData(FragmentActivity context) {
+         firebase fb =new firebase();
++        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
+         String id_Guest=sharedPreferencesModel.getString("id_guest","");
+         DatabaseReference databaseReference=fb.getDatabaseReference();
+         ValueEventListener postMessage=new ValueEventListener() {
+@@ -188,8 +189,9 @@ public class ChatViewModel extends ViewModel
+         return linkPhotoLiveData;
+     }
+ 
+-    public MutableLiveData<ArrayList<ChatViewModel>> getArrayListLiveData() {
++    public MutableLiveData<ArrayList<ChatViewModel>> getArrayListLiveData(FragmentActivity context) {
+         firebase fb =new firebase();
++        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
+         String id_Guest=sharedPreferencesModel.getString("id_guest","");
+         DatabaseReference databaseReference=fb.getDatabaseReference();
+         ValueEventListener postMessage=new ValueEventListener() {
+diff --git a/app/src/main/java/com/example/appchatrealtime/views/ChatFragment.java b/app/src/main/java/com/example/appchatrealtime/views/ChatFragment.java
+index 9899ed3..aa0dc64 100644
+--- a/app/src/main/java/com/example/appchatrealtime/views/ChatFragment.java
++++ b/app/src/main/java/com/example/appchatrealtime/views/ChatFragment.java
+@@ -53,11 +53,11 @@ public class ChatFragment extends Fragment {
+         View view = binding.getRoot();
+         ChatViewModel loginViewModel=new ViewModelProvider(getActivity()).get(ChatViewModel.class);
+         loginViewModel.setContext(getActivity());
+-        chat=new Chat();
++         chat=new Chat();
+        // binding.setLifecycleOwner(getActivity());
+         binding.setViewmodel(loginViewModel);
+ 
+-        loginViewModel.getArrayListLiveData().observe(getActivity(), new Observer<ArrayList<ChatViewModel>>() {
++        loginViewModel.getArrayListLiveData(getActivity()).observe(getActivity(), new Observer<ArrayList<ChatViewModel>>() {
+             @Override
+             public void onChanged(ArrayList<ChatViewModel> chatViewModels) {
+                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+-- 
+2.24.1.windows.2
+
