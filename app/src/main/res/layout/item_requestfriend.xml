@@ -22,7 +22,7 @@
             app:imageUri="@{viewmodel1.linkPhoto}"
             />
         <TextView
-            android:layout_width="@dimen/_190sdp"
+            android:layout_width="@dimen/_180sdp"
             android:layout_height="match_parent"
             android:text="@{viewmodel1.nameFull}"
             android:textStyle="bold"
@@ -35,10 +35,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <Button
-                android:layout_width="@dimen/_70sdp"
-                android:layout_height="@dimen/_25sdp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:background="@drawable/button_"
                 android:layout_marginTop="@dimen/_2sdp"
+                app:backgroundTint="@null"
                 android:text="@string/ketban"
                 android:id="@+id/ketban"
                 android:visibility="@{viewmodel1.friend ? View.VISIBLE: View.GONE}"

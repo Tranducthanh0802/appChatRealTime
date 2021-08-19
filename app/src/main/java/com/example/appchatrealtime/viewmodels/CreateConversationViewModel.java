@@ -1,6 +1,5 @@
 package com.example.appchatrealtime.viewmodels;
 
-import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -59,23 +58,29 @@ public class CreateConversationViewModel extends ViewModel {
         String idHost=sharedPreferencesModel.getString("idHost","");
 
 
-        DatabaseReference databaseReference =fb.getDatabaseReference().child("User");
+        DatabaseReference databaseReference =fb.getDatabaseReference();
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 arrayList.clear();
                 ItemCreateConversation itemCreateConversation;
-                for (int i = 0; i < snapshot.getChildrenCount(); i++){
-                    if(snapshot.child(String.valueOf(i)).getValue().toString().equals(snapshot.child(idHost).getValue().toString()))
-                    {
-                        continue;
-                    }else{
-                        id_friend=String.valueOf(i);
-                        User user= snapshot.child(String.valueOf(i)).getValue(User.class);
-                        itemCreateConversation=new ItemCreateConversation(user.getFullName(),user.getLinkPhoto(),false,i);
-                        arrayList.add(itemCreateConversation);
-                    }
-
+                ArrayList<User> arrayListU=new ArrayList<>();
+                for (int i = 0; i < snapshot.child("User").getChildrenCount(); i++){
+                   arrayListU.add(snapshot.child("User").child(String.valueOf(i)).getValue(User.class));
+//                    if(snapshot.child("User").child(String.valueOf(i)).getValue().toString().equals(snapshot.child(idHost).getValue().toString()))
+//                    {
+//                        continue;
+//                    }else{
+//                        id_friend=String.valueOf(i);
+//                        User user= snapshot.child(String.valueOf(i)).getValue(User.class);
+//                        itemCreateConversation=new ItemCreateConversation(user.getFullName(),user.getLinkPhoto(),false,i);
+//                        arrayList.add(itemCreateConversation);
+//                    }
+                }
+                String[] arr=snapshot.child("Friend_User").child(idHost).getValue().toString().split(",");
+                for(int i=0;i<arr.length;i++){
+                    itemCreateConversation=new ItemCreateConversation(arrayListU.get(Integer.parseInt(arr[i])).getFullName(),arrayListU.get(Integer.parseInt(arr[i])).getLinkPhoto(),false,Integer.valueOf(arr[i]));
+                    arrayList.add(itemCreateConversation);
                 }
                 arrayListMutableLiveData.setValue(arrayList);
 
@@ -97,7 +102,7 @@ public class CreateConversationViewModel extends ViewModel {
     public void onClick(){
         Friend friend=new Friend();
         arrayList.get(0).getCheck();
-        Log.d("abc", "onClick: "+arrayList.size());
+
     }
 
     public MutableLiveData<Boolean> getIsback() {

@@ -112,7 +112,7 @@ public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeaders
                     constraint = constraint.toString().toLowerCase();
                     for (int i = 0; i < filteredGroups.size(); i++) {
                         String data = filteredGroups.get(i).getNameFull();
-                        if (data.toLowerCase().startsWith(constraint.toString())) {
+                        if (data.toLowerCase().contains(constraint.toString())) {
                             fGroups.add(filteredGroups.get(i));
                         }
                     }

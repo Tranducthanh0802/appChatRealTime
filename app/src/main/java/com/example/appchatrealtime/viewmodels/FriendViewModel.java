@@ -1,6 +1,5 @@
 package com.example.appchatrealtime.viewmodels;
 
-import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
@@ -40,7 +39,6 @@ public class FriendViewModel extends ViewModel  {
         FriendViewModel friendViewModel=new FriendViewModel(friend);
         arrayList.add(friendViewModel);
        arrayListMutableLiveData.setValue(arrayList);
-        Log.d("abc", "getArrayListMutableLiveData: "+arrayList.size());
         return arrayListMutableLiveData;
     }
 

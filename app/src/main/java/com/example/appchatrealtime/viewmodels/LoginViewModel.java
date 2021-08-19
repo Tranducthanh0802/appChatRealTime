@@ -60,6 +60,7 @@ public class LoginViewModel extends ViewModel   {
                         if(us.getEmail().equals(user.getEmail()) && us.getPassword().equals(user.getPassword())){
                             SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel((FragmentActivity) view.getContext());
                             sharedPreferencesModel.saveString("idHost", String.valueOf(j));
+                            sharedPreferencesModel.saveString("password",user.getPassword());
                             isShowMessage.setValue(false);
                             break;
                         }else {

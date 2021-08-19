@@ -17,12 +17,11 @@ import com.example.appchatrealtime.adapter.StikyHeaderAdapter;
 import com.example.appchatrealtime.databinding.ListFriendFragmentBinding;
 import com.example.appchatrealtime.model.ListFriend;
 import com.example.appchatrealtime.viewmodels.ListFriendViewModel;
+import com.example.appchatrealtime.viewmodels.TopicViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class ListFriendFragment extends Fragment {
     public static ListFriendFragment newInstance() {
@@ -43,14 +42,25 @@ public class ListFriendFragment extends Fragment {
         View view = binding.getRoot();
         ListFriendViewModel listFriendViewModel=new ViewModelProvider(getActivity()).get(ListFriendViewModel.class);
         binding.setLifecycleOwner(getActivity());
+        TopicViewModel topicViewModel=new ViewModelProvider(getActivity()).get(TopicViewModel.class);
+        binding.setViewmodel1(topicViewModel);
         binding.setViewmodel(listFriendViewModel);
         listFriendViewModel.getListMutableLiveData(getActivity()).observe(getActivity(), new Observer<ArrayList<ListFriend>>() {
             @Override
             public void onChanged(ArrayList<ListFriend> listFriendViewModels) {
-                StickyListHeadersAdapter stickyListHeadersAdapter=new StikyHeaderAdapter(listFriendViewModels);
+                StikyHeaderAdapter stickyListHeadersAdapter=new StikyHeaderAdapter(listFriendViewModels);
                 binding.stickyListFriend.setAdapter(stickyListHeadersAdapter);
+                topicViewModel.getTransitionData().observe(getActivity(), new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+                        stickyListHeadersAdapter.getFilter().filter(s);
+                    }
+                });
             }
         });
+
+
+
         return view;
     }
 }

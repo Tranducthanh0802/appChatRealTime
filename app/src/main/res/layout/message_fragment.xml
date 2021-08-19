@@ -23,6 +23,7 @@
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:src="@drawable/left"
+                android:onClick="@{(view)-> viewmodel.onBack(view)}"
                 android:layout_marginTop="@dimen/_5sdp"
                 />
             <de.hdodenhof.circleimageview.CircleImageView

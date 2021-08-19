@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="@dimen/_33sdp"
-            android:layout_height="@dimen/_33sdp"
+            android:layout_height="@dimen/_50sdp"
             app:imageUri="@{viewmodel.linkPhoto}"
             />
         <TextView
@@ -36,6 +36,7 @@
                 android:background="@drawable/button_"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:text="@string/dongy"
+                app:backgroundTint="@null"
                 android:id="@+id/dongy"
                 android:visibility="@{viewmodel.friend ? View.VISIBLE: View.GONE}"
                 android:textColor="@color/white"
@@ -48,7 +49,10 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:background="@drawable/buttonhuy"
                 android:text="@string/huy"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/text"
                 android:textColor="@color/blueDark"
+                app:backgroundTint="@null"
                 android:visibility="@{viewmodel.friend ? View.GONE  : View.VISIBLE}" />
         </RelativeLayout>
     </LinearLayout>

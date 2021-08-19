@@ -1,7 +1,6 @@
 package com.example.appchatrealtime.viewmodels;
 
 import android.graphics.Typeface;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -81,7 +80,6 @@ public class TopicViewModel extends ViewModel {
         arrayList = new ArrayList<>();
         topicItem=new TopicItem();
          initdata(context);
-        topicItem.setBold(false);
         //arrayListMutableLiveData.setValue(arrayList);
         return arrayListMutableLiveData;
     }
@@ -100,26 +98,33 @@ public class TopicViewModel extends ViewModel {
                     listUser.add(snapshot.child("User").child(String.valueOf(i)).getValue(User.class));
 
                 }
-                TopicItem item=new TopicItem();
+
                 for (int i = 0; i < snapshot.child("ListMessage").getChildrenCount(); i++){
+                    TopicItem item=new TopicItem();
                     Boolean status=snapshot.child("ListMessage").child(String.valueOf(i)).child("status").getValue(Boolean.class);
                     String id_re= AddId(String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue()+String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue())));
                     if(Check(id_re,idHost) && !String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue()).equals("")) {
 
                         String tinnhan= (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue();
-                        if(!processMessage(tinnhan)&& !status){
-                            item.setBold(true);
-                        }else{
-                            item.setBold(false);
-                        };
+                        item.setParagraph(tinnhan);
+
                         item.setDiem( String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("count").getValue()));
 //                        String id= String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue());
+                        Boolean bold= processMessage(tinnhan,idHost);
+
                         item = new TopicItem(
                                getLinkPhoto(id_re,idHost),
                                 getName(id_re,idHost),
                                 topicItem.getMessages()
                         );
                         item.setIdGuest(id_re);
+                        if(!bold && !status){
+                            item.setBold(true);
+
+                        }else{
+                            item.setBold(false);
+                        };
+                        item.setDiem(String.valueOf(Count(tinnhan,idHost)));
                         arrayList.add(item);
 
                     }
@@ -145,7 +150,7 @@ public class TopicViewModel extends ViewModel {
 
     }
 
-    private boolean processMessage(String tinnhan) {
+    private boolean processMessage(String tinnhan,String idHost) {
         if(tinnhan.equals("")){
             return false;
         }
@@ -162,11 +167,10 @@ public class TopicViewModel extends ViewModel {
          if(arrImage.length>=2){
              message.setMessage("[image]");
          }else  message.setMessage(arrCategory[0]);
-
         message.setTime(arrTime[1]);
         topicItem.setMessages(message);
 
-        if(arrCategory[1].equals("s")){
+        if(!arrCategory[1].equals(idHost)){
             return false;
         }else {
             return true;
@@ -235,7 +239,6 @@ public class TopicViewModel extends ViewModel {
     }
     Boolean Check(String s,String idHost) {
         String[] arr = s.split(",");
-        Log.d("abc", "ngay: "+s+idHost);
         for (int i = 0; i < arr.length; i++) {
             if (arr[i].trim().equals(idHost)) {
                 return true;
@@ -243,7 +246,25 @@ public class TopicViewModel extends ViewModel {
         }
         return false;
     }
-
+    int Count(String s,String idHost){
+        String[] arrSection=new String[s.split("--").length+1];
+        String[] arrTime=new String[3];
+        String[] arrCategory=new String[3];
+        String[] arrImage=new String[3];
+        arrSection=s.split("@@@@@");
+        arrTime=arrSection[arrSection.length-1].split("@@@@");
+        arrCategory=arrTime[0].split("@@@");
+        int count=0;
+        for (int i=0;i<arrSection.length;i++){
+            arrTime=arrSection[i].split("@@@@");
+            arrCategory=arrTime[0].split("@@@");
+            count++;
+            if(arrCategory[1].equals(idHost)){
+                count=0;
+            }
+        }
+        return count;
+    }
 
 
 }

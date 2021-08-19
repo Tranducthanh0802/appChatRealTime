@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-   >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
        <import type="android.view.View"/>
 
@@ -147,6 +147,7 @@
                         android:textSize="@dimen/button"
                         android:text="@string/dangnhap_Button"
                         android:background="@drawable/button_"
+                        app:backgroundTint="@null"
                         android:textColor="@color/white"
                         />
                     <TextView

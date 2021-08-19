@@ -52,6 +52,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
+       //arrayList.get(position).
         TopicItem listMessage=arrayList.get(position);
         holder.bind(listMessage);
        holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +61,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
                chooseMessageListerner.id_sender(arrayList.get(position).getIdGuest());
            }
        });
+
     }
 
     @Override

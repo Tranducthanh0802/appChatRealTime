@@ -26,6 +26,7 @@
                     android:src="@drawable/leftwhite"
                     android:scaleType="fitStart"
                     android:id="@+id/btn_back"
+                    android:onClick="@{(view)-> viewmodel.onBack(view)}"
                     android:layout_marginLeft="-10dp"
                     />
                 <TextView
@@ -44,6 +45,7 @@
                     android:layout_alignParentRight="true"
                     android:text="@string/luu"
                     android:gravity="center"
+                    android:onClick="@{(view)-> viewmodel.onClickSave(view,user)}"
                     android:textSize="@dimen/text"
                     android:textColor="@color/white"
                     android:id="@+id/txtHuy"

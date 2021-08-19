@@ -1,6 +1,7 @@
 package com.example.appchatrealtime.views;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,15 +144,16 @@ public class CreateConversationFragment extends Fragment  {
                 DatabaseReference databaseReference =fb.getDatabaseReference().child("ListMessage");
                 id_Sender=conversion(arrayList);
                 createMessage=new CreateMessage(id_Host,id_Sender);
+                Log.d("abc", "conversion: "+id_Host+id_Sender);
                 if(CheckCreate(id_Host,id_Sender)) {
                     databaseReference.child(String.valueOf(count)).setValue(createMessage);
+                    Log.d("abc", "conversion: "+createMessage.getId_receiver()+createMessage.getId_sender());
                 }
-
                 sharedPreferencesModel.saveString("id_guest",AddId(id_Host+","+id_Sender));
                 Fragment fragment=TopicFragment.newInstance();
                 FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.frame,ChatFragment.newInstance(),"Chat_frag");
-                transaction.addToBackStack(null);
+                transaction.replace(R.id.frame,ChatFragment.newInstance(),"Chat_frag");
+
                 transaction.commit();
 
             }
@@ -169,7 +171,6 @@ public class CreateConversationFragment extends Fragment  {
                 Fragment fragment=CreateConversationFragment.newInstance();
                 FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.frame,TopicFragment.newInstance(),"topic_frag");
-                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
@@ -178,6 +179,7 @@ public class CreateConversationFragment extends Fragment  {
     private String conversion( ArrayList<Friend> s){
         StringBuilder sb=new StringBuilder();
         for(int i=0;i<s.size();i++){
+
             sb.append(s.get(i).getId()+",");
         }
         return sb.toString();

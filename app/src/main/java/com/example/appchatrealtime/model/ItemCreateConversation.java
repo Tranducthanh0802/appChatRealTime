@@ -6,6 +6,7 @@ public class ItemCreateConversation {
     private Boolean isCheck;
     private int idFriend;
 
+
     public ItemCreateConversation(String nameFull, String linkPhoto, Boolean isCheck,Integer idFriend) {
         this.nameFull = nameFull;
         this.linkPhoto = linkPhoto;

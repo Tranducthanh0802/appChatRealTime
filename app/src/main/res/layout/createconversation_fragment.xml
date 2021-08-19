@@ -107,7 +107,6 @@
                 android:id="@+id/btn_ok"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="match_parent"
-                android:onClick="@{()-> createconversation.btnCreate()}"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/button_"
                 android:src="@drawable/ic_baseline_chevron_right_24" />

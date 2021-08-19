@@ -5,6 +5,10 @@
         <variable
             name="viewmodel"
             type="com.example.appchatrealtime.viewmodels.ListFriendViewModel" />
+        <variable
+            name="viewmodel1"
+            type="com.example.appchatrealtime.viewmodels.TopicViewModel" />
+
     </data>
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:layout_marginTop="@dimen/_15sdp"

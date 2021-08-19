@@ -62,8 +62,7 @@ public class ListChatFragment extends Fragment {
                     public void id_sender(String id) {
                         Fragment fragment=TopicFragment.newInstance();
                         FragmentTransaction transaction= getActivity().getSupportFragmentManager().beginTransaction();
-                        transaction.add(R.id.frame,ChatFragment.newInstance(),"Chat_frag");
-                        transaction.addToBackStack(null);
+                        transaction.replace(R.id.frame,ChatFragment.newInstance(),"Chat_frag");
                         transaction.commit();
                         sharedPreferencesModel.saveString("id_guest",id);
                     }
@@ -76,7 +75,6 @@ public class ListChatFragment extends Fragment {
                 topicAdapter.getFilter().filter(s);
             }
         });
-
 
 
         return view;

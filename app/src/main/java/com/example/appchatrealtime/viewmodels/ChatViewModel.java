@@ -12,10 +12,12 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -26,6 +28,7 @@ import com.example.appchatrealtime.model.ListChat;
 import com.example.appchatrealtime.model.SharedPreferencesModel;
 import com.example.appchatrealtime.model.User;
 import com.example.appchatrealtime.model.firebase;
+import com.example.appchatrealtime.views.TopicFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -65,6 +68,8 @@ public class ChatViewModel extends ViewModel
     private MutableLiveData<Chat> linkPhotoLiveData= new MutableLiveData<>();
     private ArrayList<String> listGallery=new ArrayList<>();
     private MutableLiveData<ArrayList<String>> arrayListGalleryLiveData= new MutableLiveData<>();
+    private MutableLiveData<Boolean> checkText= new MutableLiveData<>();
+
     private FragmentActivity context;
     private List<ListChat> listChats;
     private List<User> listUser;
@@ -205,16 +210,18 @@ public class ChatViewModel extends ViewModel
         databaseReference.addValueEventListener(postMessage);
         return linkPhotoLiveData;
     }
-
+    int j;
+    boolean a;
     public MutableLiveData<ArrayList<ChatViewModel>> getArrayListLiveData(FragmentActivity context) {
         firebase fb =new firebase();
         SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(context);
         String idHost=sharedPreferencesModel.getString("idHost","");
         String id_Guest=sharedPreferencesModel.getString("id_guest","");
         String[] arr =TransitionArr(id_Guest);
-
+        a=true;
 
         DatabaseReference databaseReference=fb.getDatabaseReference();
+
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -241,6 +248,11 @@ public class ChatViewModel extends ViewModel
                      ) {
                     if(listChats.get(i).getAddId().equals(id_Guest))
                     {
+                            if(a){
+                                databaseReference.child("ListMessage").child(String.valueOf(i)).child("status").setValue(true);
+                                Log.d("abc", "onDataChange: "+i);
+                                a=false;
+                            }
                             String getmessage=listChats.get(i).getMessage();
                             if(!getmessage.equals("")){
                             String[] arrtime =getTime(getmessage);
@@ -263,28 +275,29 @@ public class ChatViewModel extends ViewModel
                                     if (j == 0) {
                                         if ((j + 1) == status.length || status[j + 1].trim().equals(idHost)) {
 
-                                            chatViewModel = new ChatViewModel(arrtime[j].split(" ")[1], listUser.get(Integer.parseInt(status[i])).getLinkPhoto(), listUser.get(Integer.parseInt(status[i])).getFullName(), arr[j], false, true, true, isImage);
+                                            chatViewModel = new ChatViewModel(arrtime[j].split(" ")[1], listUser.get(Integer.parseInt(status[j])).getLinkPhoto(), listUser.get(Integer.parseInt(status[j])).getFullName(), arr[j], false, true, true, isImage);
 
                                         } else {
-                                            chatViewModel = new ChatViewModel(arrtime[j].split(" ")[1], listUser.get(Integer.parseInt(status[i])).getLinkPhoto(), listUser.get(Integer.parseInt(status[i])).getFullName(), arr[j], false, true, false, isImage);
+
+                                            chatViewModel = new ChatViewModel(arrtime[j].split(" ")[1], listUser.get(Integer.parseInt(status[j])).getLinkPhoto(), listUser.get(Integer.parseInt(status[j])).getFullName(), arr[j], false, true, false, isImage);
 
                                         }
                                     } else {
-                                        if (status[j - 1].trim().equals(idHost)) {
+                                        if (status[j - 1].trim().equals(idHost)|| !listUser.get(Integer.parseInt(status[j-1])).getLinkPhoto().equals( listUser.get(Integer.parseInt(status[j])).getLinkPhoto())) {
                                             if ((j + 1) == status.length || status[j + 1].trim().equals(idHost)) {
-                                                chatViewModel = new ChatViewModel(arrtime[j].split(" ")[1], listUser.get(Integer.parseInt(status[i])).getLinkPhoto(), listUser.get(Integer.parseInt(status[i])).getFullName(), arr[j], false, true, true, isImage);
+                                                chatViewModel = new ChatViewModel(arrtime[j].split(" ")[1], listUser.get(Integer.parseInt(status[j])).getLinkPhoto(), listUser.get(Integer.parseInt(status[j])).getFullName(), arr[j], false, true, true, isImage);
 
                                             } else {
-                                                chatViewModel = new ChatViewModel(arrtime[j].split(" ")[1], listUser.get(Integer.parseInt(status[i])).getLinkPhoto(), listUser.get(Integer.parseInt(status[i])).getFullName(), arr[j], false, true, false, isImage);
+                                                chatViewModel = new ChatViewModel(arrtime[j].split(" ")[1], listUser.get(Integer.parseInt(status[j])).getLinkPhoto(), listUser.get(Integer.parseInt(status[j])).getFullName(), arr[j], false, true, false, isImage);
 
                                             }
                                         } else {
                                             if ((j + 1) == status.length || status[j + 1].trim().equals(idHost)) {
-                                                chatViewModel = new ChatViewModel(arrtime[j].split(" ")[1], listUser.get(Integer.parseInt(status[i])).getLinkPhoto(), listUser.get(Integer.parseInt(status[i])).getFullName(), arr[j], false, false, true, isImage);
+                                                chatViewModel = new ChatViewModel(arrtime[j].split(" ")[1], listUser.get(Integer.parseInt(status[j])).getLinkPhoto(), listUser.get(Integer.parseInt(status[j])).getFullName(), arr[j], false, false, true, isImage);
 
                                             } else
 
-                                                chatViewModel = new ChatViewModel(arrtime[j].split(" ")[1], listUser.get(Integer.parseInt(status[i])).getLinkPhoto(), listUser.get(Integer.parseInt(status[i])).getFullName(), arr[j], false, false, false, isImage);
+                                                chatViewModel = new ChatViewModel(arrtime[j].split(" ")[1], listUser.get(Integer.parseInt(status[j])).getLinkPhoto(), listUser.get(Integer.parseInt(status[j])).getFullName(), arr[j], false, false, false, isImage);
                                         }
                                     }
 
@@ -381,8 +394,8 @@ public class ChatViewModel extends ViewModel
         Uri file = Uri.fromFile(new File(linkPhotoGallery));
         firebase fb=new firebase();
         String idHost=sharedPreferencesModel.getString("idHost","");
-        Log.d("abc", "onDataChange12: "+ idHost);
 
+        isClick=true;
         DatabaseReference databaseReference=fb.getDatabaseReference();
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
@@ -413,6 +426,11 @@ public class ChatViewModel extends ViewModel
                             @Override
                             public void onSuccess(Uri uri) {
                                 sb.append(uri+"@@image@@@"+idHost+"@@@@"+gettime()+"@@@@@");
+                                if(sb!=null && isClick){
+                                    databaseReference.child("ListMessage").child(String.valueOf(vitri)).child("message").setValue(sb+"");
+                                    databaseReference.child("ListMessage").child(String.valueOf(vitri)).child("status").setValue(false);
+                                    isClick=false;
+                                }
                             }
                         });
 
@@ -430,9 +448,7 @@ public class ChatViewModel extends ViewModel
 
             }
         };
-        if(sb!=null){
-            databaseReference.child("ListMessage").child(String.valueOf(vitri)).child("message").setValue(sb+"");
-        }
+
         databaseReference.addValueEventListener(postMessage);
 
 
@@ -461,8 +477,14 @@ public class ChatViewModel extends ViewModel
     public MutableLiveData<String> getTextEdit() {
         return textEdit;
     }
+    Boolean isClick;
+
+    public MutableLiveData<Boolean> getCheckText() {
+        return checkText;
+    }
 
     public void onclickSend(View view){
+         isClick=true;
         SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel((FragmentActivity) view.getContext());
         String id_Guest=sharedPreferencesModel.getString("id_guest","");
         String[] arr =TransitionArr(id_Guest);
@@ -494,6 +516,15 @@ public class ChatViewModel extends ViewModel
                     }
                      sb.append(textEdit.getValue()+"@@@"+idHost+"@@@@"+gettime()+"@@@@@");
 //                    databaseReference.child("ListMessage").child("0").child("message").setValue(sb+"");
+                    if(sb!=null && isClick){
+                        databaseReference.child("ListMessage").child(String.valueOf(vitri)).child("message").setValue(sb+"");
+                        databaseReference.child("ListMessage").child(String.valueOf(vitri)).child("status").setValue(false);
+                        textEdit.setValue("");
+                        if (checkText!=null|| checkText.getValue())
+                        checkText.setValue(false);
+                        else checkText.setValue(true);
+                        isClick=false;
+                    }
                 }
 
                 @Override
@@ -501,10 +532,7 @@ public class ChatViewModel extends ViewModel
 
                 }
             };
-            if(sb!=null){
-                databaseReference.child("ListMessage").child(String.valueOf(vitri)).child("message").setValue(sb+"");
-               textEdit.setValue("");
-            }
+
             databaseReference.addValueEventListener(postMessage);
 
         }
@@ -612,33 +640,14 @@ public class ChatViewModel extends ViewModel
         }
          return "";
     }
-//    private String getLinkPhoto(String s,String idHost){
-//
-//        String[] arr=s.split(",");
-//        if(arr.length==1)
-//            for(int i=0;i<arr.length;i++){
-//                if(arr[i]!=idHost){
-//                    return listUser.get(Integer.parseInt(arr[i])).getLinkPhoto();
-//                }
-//            }
-//        return "";
-//    }
-//    private String getName(String s,String idHost){
-//        String[] arr=s.split(",");
-//        String chuoi="";
-//        for(int i=0;i<arr.length;i++){
-//
-//            if(arr.length>1){
-//                String[] arr1=listUser.get(Integer.parseInt(arr[i])).getFullName().toString().split(" ");
-//                chuoi+= arr1[arr1.length-1];
-//                if(i<arr.length-1) chuoi+=",";
-//            }else {
-//                chuoi=listUser.get(Integer.parseInt(arr[i])).getFullName().toString();
-//            }
-//        }
-//        return chuoi;
-//
-//    }
+    public void onBack(View view){
+        if(view.getContext() instanceof AppCompatActivity) {
+            FragmentTransaction transaction= ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();;
+            transaction.replace(R.id.frame, TopicFragment.newInstance(),"topic_frag");
+            transaction.commit();
+
+        }
+    }
 
 
 }

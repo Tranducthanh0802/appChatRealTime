@@ -25,10 +25,8 @@ public class TabLayoutAdapter extends FragmentStateAdapter {
                 return ListFriendFragment.newInstance();
             case 1:
                 return RequestFragment.newInstance();
-            case 2:
-                return InviteFragment.newInstance();
             default:
-                return ListFriendFragment.newInstance();
+                return InviteFragment.newInstance();
         }
     }
 

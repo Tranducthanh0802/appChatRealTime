@@ -117,10 +117,10 @@ public class TopicItem implements Comparable<TopicItem> {
         if (getMessages().getTime() == null || o.getMessages().getTime() == null)
             return 0;
         String stringDate = "22/01/2016";
-        Date b = null;
-        Date a = null;
-        Date c = null;
-        Date d = null;
+        Date b = new Date();
+        Date a = new Date();
+        Date c = new Date();
+        Date d = new Date();
 
         try {
             a = new SimpleDateFormat("dd/MM/yyyy").parse(arrA[0]);

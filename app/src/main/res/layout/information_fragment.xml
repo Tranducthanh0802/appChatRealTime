@@ -15,6 +15,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
         <ImageView
@@ -88,7 +89,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     />
                 <TextView
-                    android:layout_width="@dimen/_190sdp"
+                    android:layout_width="@dimen/_170sdp"
                     android:layout_height="match_parent"
                     android:text="@string/ngongngu"
                     android:textColor="@color/black"
@@ -102,6 +103,8 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:text="@string/tiengviet"
+                    android:textColor="@color/black"
+                    app:backgroundTint="@null"
                     android:textSize="@dimen/text"
                     android:drawableRight="@drawable/right"
                     />
@@ -132,6 +135,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:drawableRight="@drawable/right"
+                    app:backgroundTint="@null"
                     />
             </LinearLayout>
             <LinearLayout
@@ -164,7 +168,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
-
+                android:onClick="@{(view)-> viewmodel.onClickOut(view)}"
                 android:layout_height="@dimen/_50sdp">
                 <ImageView
                     android:layout_width="@dimen/_30sdp"
@@ -176,6 +180,7 @@
                     android:layout_width="@dimen/_200sdp"
                     android:layout_height="match_parent"
                     android:text="@string/dangxuat"
+
                     android:textColor="@color/red"
                     android:textSize="@dimen/edit"
                     android:gravity="left|center"

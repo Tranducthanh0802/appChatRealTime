@@ -1,6 +1,7 @@
 package com.example.appchatrealtime.viewmodels;
 
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import com.example.appchatrealtime.model.SharedPreferencesModel;
 import com.example.appchatrealtime.model.User;
 import com.example.appchatrealtime.model.firebase;
 import com.example.appchatrealtime.views.EditFragment;
+import com.example.appchatrealtime.views.InformationFragment;
+import com.example.appchatrealtime.views.LoginFragment;
 import com.example.appchatrealtime.views.TopicFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -60,10 +63,41 @@ public class InformationViewmodel extends ViewModel {
         Fragment fragment= TopicFragment.newInstance();
         if(view.getContext() instanceof AppCompatActivity) {
             FragmentTransaction transaction= ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();;
-            transaction.add(R.id.frame, EditFragment.newInstance(),"Edit_frag");
-            transaction.addToBackStack(null);
+            transaction.replace(R.id.frame, EditFragment.newInstance(),"Edit_frag");
+
             transaction.commit();
+
         }
 
+    }
+    public void onClickOut(View view){
+        if(view.getContext() instanceof AppCompatActivity) {
+            SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel((FragmentActivity) view.getContext());
+            sharedPreferencesModel.saveString("idHost","");
+            FragmentTransaction transaction= ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();;
+            transaction.replace(R.id.frame, LoginFragment.newInstance(),"Login_frag");
+            transaction.commit();
+
+        }
+    }
+    public void onClickSave(View view,User user){
+        firebase fb=new firebase();
+        DatabaseReference databaseReference= fb.getDatabaseReference();
+        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel((FragmentActivity) view.getContext());
+        String idHost=sharedPreferencesModel.getString("idHost","");
+        String password=sharedPreferencesModel.getString("password","");
+        User user1=new User(user.getEmail(),password, user.getFullName(), user.getPhoneNumber(), user.getDate(), user.getLinkPhoto());
+        if(user.IsValidFUllName()){
+            databaseReference.child("User").child(idHost).setValue(user1);
+            Toast.makeText(view.getContext(), "Sua thanh cong", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void onBack(View view){
+        if(view.getContext() instanceof AppCompatActivity) {
+            FragmentTransaction transaction= ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();;
+            transaction.replace(R.id.frame, InformationFragment.newInstance(),"Info_frag");
+            transaction.commit();
+
+        }
     }
 }

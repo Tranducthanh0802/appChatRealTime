@@ -56,6 +56,7 @@ public class ChatFragment extends Fragment {
          chat=new Chat();
        // binding.setLifecycleOwner(getActivity());
         binding.setViewmodel(loginViewModel);
+        firebase firebase=new firebase();
 
         loginViewModel.getArrayListLiveData(getActivity()).observe(getActivity(), new Observer<ArrayList<ChatViewModel>>() {
             @Override
@@ -85,8 +86,6 @@ public class ChatFragment extends Fragment {
                                 bottomgalleryAdapter galleryAdapter = new bottomgalleryAdapter(strings, getActivity());
                                 binding.recBot.setAdapter(galleryAdapter);
                                 binding.recBot.setLayoutManager(gridLayoutManager);
-
-
                             }
                         });
                     } else {
@@ -96,6 +95,12 @@ public class ChatFragment extends Fragment {
 
 
                 }
+            }
+        });
+        loginViewModel.getCheckText().observe(getActivity(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                binding.edtInput.setText("");
             }
         });
         loginViewModel.getLinkPhotoLiveData(getActivity()).observe(getActivity(), new Observer<Chat>() {
