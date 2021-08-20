@@ -51,6 +51,9 @@ public class ListFriendViewModel  extends ViewModel {
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(context==null || snapshot == null||idHost.equals("")){
+                    return;
+                }
                 ArrayList<ListFriend> arrayList=new ArrayList<>();
                 String listfriend= (String) snapshot.child("Friend_User").child(String.valueOf(idHost)).getValue();
                 String[] arr=getlistFriend(listfriend);

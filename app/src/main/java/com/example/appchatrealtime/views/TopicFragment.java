@@ -69,13 +69,17 @@ public class TopicFragment extends Fragment {
         binding.bottomNavigation.setInactiveColor(R.color.blueDark);
         binding.bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F44336"));
 // Add or remove notification for each item
-        firebase fb=new firebase();
         SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(getActivity());
-        String idHost=sharedPreferencesModel.getString("idHost","");
+
+        firebase fb=new firebase();
+         String idHost=sharedPreferencesModel.getString("idHost","");
         DatabaseReference databaseReference =fb.getDatabaseReference().child("ListMessage");
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (getActivity() == null) {
+                    return;
+                }
                 int dem=0;
                 for (int i=0;i<snapshot.getChildrenCount();i++){
                   Boolean status= snapshot.child(String.valueOf(i)).child("status").getValue(Boolean.class);

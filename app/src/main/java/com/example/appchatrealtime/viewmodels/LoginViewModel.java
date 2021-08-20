@@ -1,5 +1,6 @@
 package com.example.appchatrealtime.viewmodels;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -54,12 +55,13 @@ public class LoginViewModel extends ViewModel   {
                     for (int i = 0; i < snapshot.getChildrenCount(); i++)
                         mListUser.add(snapshot.child(String.valueOf(i)).getValue(User.class));
                     listMutableLiveData.setValue(mListUser);
-                    int j;
-                    for (User us:mListUser) {
-                        j=0;
-                        if(us.getEmail().equals(user.getEmail()) && us.getPassword().equals(user.getPassword())){
+
+                    for (int i=0;i<mListUser.size() ;i++) {
+
+                        if(mListUser.get(i).getEmail().equals(user.getEmail()) && mListUser.get(i).getPassword().equals(user.getPassword())){
                             SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel((FragmentActivity) view.getContext());
-                            sharedPreferencesModel.saveString("idHost", String.valueOf(j));
+                            sharedPreferencesModel.saveString("idHost", String.valueOf(i));
+                            Log.d("abc", "onDataChange: "+String.valueOf(i));
                             sharedPreferencesModel.saveString("password",user.getPassword());
                             isShowMessage.setValue(false);
                             break;
@@ -67,7 +69,7 @@ public class LoginViewModel extends ViewModel   {
                             message.setValue("Login Fail");
                             isShowMessage.setValue(true);
                         }
-                        j++;
+
                     }
                 }
 

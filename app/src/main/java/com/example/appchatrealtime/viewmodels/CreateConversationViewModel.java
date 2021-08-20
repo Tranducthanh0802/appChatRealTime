@@ -62,6 +62,9 @@ public class CreateConversationViewModel extends ViewModel {
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (context == null) {
+                    return;
+                }
                 arrayList.clear();
                 ItemCreateConversation itemCreateConversation;
                 ArrayList<User> arrayListU=new ArrayList<>();

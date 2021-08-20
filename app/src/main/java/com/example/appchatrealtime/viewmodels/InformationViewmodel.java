@@ -1,5 +1,7 @@
 package com.example.appchatrealtime.viewmodels;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -11,13 +13,12 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.appchatrealtime.MainActivity;
 import com.example.appchatrealtime.R;
 import com.example.appchatrealtime.model.SharedPreferencesModel;
 import com.example.appchatrealtime.model.User;
 import com.example.appchatrealtime.model.firebase;
 import com.example.appchatrealtime.views.EditFragment;
-import com.example.appchatrealtime.views.InformationFragment;
-import com.example.appchatrealtime.views.LoginFragment;
 import com.example.appchatrealtime.views.TopicFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -74,10 +75,12 @@ public class InformationViewmodel extends ViewModel {
         if(view.getContext() instanceof AppCompatActivity) {
             SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel((FragmentActivity) view.getContext());
             sharedPreferencesModel.saveString("idHost","");
-            FragmentTransaction transaction= ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();;
-            transaction.replace(R.id.frame, LoginFragment.newInstance(),"Login_frag");
-            transaction.commit();
-
+//                       FragmentTransaction transaction= ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();;
+//            transaction.replace(R.id.frame, LoginFragment.newInstance(),"Login_frag");
+//            transaction.commit();
+            Intent i = new Intent(view.getContext(), MainActivity.class);
+            view.getContext().startActivity(i);
+            ((Activity) view.getContext()).overridePendingTransition(0, 0);
         }
     }
     public void onClickSave(View view,User user){
@@ -95,7 +98,9 @@ public class InformationViewmodel extends ViewModel {
     public void onBack(View view){
         if(view.getContext() instanceof AppCompatActivity) {
             FragmentTransaction transaction= ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();;
-            transaction.replace(R.id.frame, InformationFragment.newInstance(),"Info_frag");
+            transaction.replace(R.id.frame, TopicFragment.newInstance(),"Info_frag");
+            SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel((FragmentActivity) view.getContext()
+            );
             transaction.commit();
 
         }

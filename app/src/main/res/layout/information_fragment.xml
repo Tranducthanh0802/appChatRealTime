@@ -180,7 +180,6 @@
                     android:layout_width="@dimen/_200sdp"
                     android:layout_height="match_parent"
                     android:text="@string/dangxuat"
-
                     android:textColor="@color/red"
                     android:textSize="@dimen/edit"
                     android:gravity="left|center"

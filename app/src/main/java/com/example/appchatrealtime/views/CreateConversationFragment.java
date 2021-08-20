@@ -125,6 +125,9 @@ public class CreateConversationFragment extends Fragment  {
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (getActivity() == null) {
+                    return;
+                }
                 count = (int) snapshot.getChildrenCount();
             }
 
@@ -201,6 +204,9 @@ public class CreateConversationFragment extends Fragment  {
         ValueEventListener postMessage=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (getActivity() == null) {
+                    return;
+                }
                 arr.clear();
                 for (int i = 0; i < snapshot.child("ListMessage").getChildrenCount(); i++
                 ) {

@@ -67,6 +67,9 @@ public class TabLayoutFragment  extends Fragment {
                         ValueEventListener postMessage=new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                if (getActivity() == null) {
+                                    return;
+                                }
                                 String s= String.valueOf(snapshot.child(idHost).child("invite_receive").getValue());
                                 int dem=Count(s);
                                 BadgeDrawable badgeDrawable2 = tab.getOrCreateBadge();

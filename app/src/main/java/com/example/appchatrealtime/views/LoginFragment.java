@@ -53,6 +53,7 @@ public class LoginFragment extends Fragment {
             public void onChanged(Boolean aBoolean) {
                 if(!aBoolean){
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame,TopicFragment.newInstance()).commit();
+
                 }
             }
         });

@@ -117,6 +117,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
                         android:id="@+id/img_send"
+                        android:visibility="gone"
                         android:onClick="@{(view)-> viewmodel.onclickSend(view)}"
                         />
 

@@ -1,9 +1,12 @@
 package com.example.appchatrealtime.views;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +38,7 @@ public class ChatFragment extends Fragment {
     Chat chat;
     firebase fb =new firebase();
     DatabaseReference databaseReference=fb.getDatabaseReference();
+    int max=0;
     public static ChatFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -66,7 +70,7 @@ public class ChatFragment extends Fragment {
                 binding.recyclerviewmessage.setAdapter(chatAdapter);
                 binding.recyclerviewmessage.setLayoutManager(mLayoutManager);
                 binding.recyclerviewmessage.scrollToPosition(chatViewModels.size()-1);
-
+                max=chatViewModels.size()-1;
            }
         });
 
@@ -101,18 +105,39 @@ public class ChatFragment extends Fragment {
             @Override
             public void onChanged(Boolean aBoolean) {
                 binding.edtInput.setText("");
+                binding.imgSend.setVisibility(View.GONE);
+            }
+        });
+        binding.edtInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                binding.recyclerviewmessage.scrollToPosition(max);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if(s.equals("")){
+                        binding.imgSend.setVisibility(View.GONE);
+                        InputMethodManager inputMethodManager=(InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(binding.edtInput.getWindowToken(),0);
+                    }else  binding.imgSend.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
         loginViewModel.getLinkPhotoLiveData(getActivity()).observe(getActivity(), new Observer<Chat>() {
             @Override
             public void onChanged(Chat s) {
-
+                if (getActivity() == null) {
+                    return;
+                }
                 Glide.with(getActivity()).load(s.getLinkphoto()).placeholder(R.drawable.personal1).into(binding.imgAvataTop);
                 binding.namefull.setText(s.getStatus()+"");
             }
         });
-
-
         return view;
     }
 
