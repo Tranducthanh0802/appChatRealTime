@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Appchatrealtime</string>
+    <string name="tittle">" Awesome chat experience"</string>
+    <string name="dangnhap">"Log in "</string>
+    <string name="dangnhap_Button">"Log in "</string>
+    <string name="matkhau">PASSWORD</string>
+    <string name="quenMk">"Forgot password? "</string>
+    <string name="chuacotaikhoan">" No account? "</string>
+    <string name="dacotaikhoan">"Already have an account? "</string>
+    <string name="dkngay">"Register now "</string>
+    <string name="dnngay">"log in now "</string>
+    <string name="dk">"Register "</string>
+    <string name="toidongy">"I agree with the "</string>
+    <string name="chinhsach">policy</string>
+    <string name="va">and</string>
+    <string name="dieukhoan">rules</string>
+    <string name="hovaten">FullName</string>
+    <string name="hinthovaten">David Jone</string>
+    <string name="luu">Save</string>
+    <string name="chinhsualuutt">"Edit save information "</string>
+    <string name="tinnhan">Message</string>
+    <string name="tktinnhan">"Search messages.. "</string>
+    <string name="banbe">Friend</string>
+    <string name="trangcanhan">"Personal page "</string>
+    <string name="nhaptinnhan">"Enter a message "</string>
+    <string name="taotinnhan">Tạo tin nhắn</string>
+    <string name="tatca">All</string>
+    <string name="yeucau">request</string>
+    <string name="huy">Cancel</string>
+    <string name="dsbanbe">List Friend</string>
+    <string name="homnay">Today</string>
+    <string name="dongy">Agree</string>
+    <string name="ketban">Make friend</string>
+    <string name="loibanketban">FRIEND REQUEST</string>
+    <string name="daguiketban">TO SEND FRIENDS</string>
+    <string name="thongbao">Notify</string>
+    <string name="ngongngu">Language</string>
+    <string name="phienbanungdung">App version</string>
+    <string name="dangxuat">Log out</string>
+    <string name="tiengviet">English</string>
+    <string name="sdt">Phone Number</string>
+    <string name="ngaysinh">Date</string>
+    <string name="khongcoketnoi">Internet disconnect</string>
+    <string name="lanlientiep">Press back again to exit the applicaition</string>
+</resources>

@@ -59,7 +59,7 @@ public class InviteReceiveAdapter extends RecyclerView.Adapter<InviteReceiveAdap
         });
         return new InviteReceiveAdapter.ViewHolder(binding);
     }
-
+    Boolean isClick;
     @Override
     public void onBindViewHolder(@NonNull @NotNull InviteReceiveAdapter.ViewHolder holder, int position) {
         ListFriend invite=arrayList.get(position);
@@ -68,7 +68,7 @@ public class InviteReceiveAdapter extends RecyclerView.Adapter<InviteReceiveAdap
         addFriend();
         SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel((FragmentActivity) context);
         String idHost=sharedPreferencesModel.getString("idHost","");
-
+        isClick=true;
         holder.inviteBinding.dongy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,14 +84,14 @@ public class InviteReceiveAdapter extends RecyclerView.Adapter<InviteReceiveAdap
                 DatabaseReference databaseReference =fb.getDatabaseReference().child("Invite");
                 DatabaseReference databaseReference1 =fb.getDatabaseReference().child("Friend_User");
 
-                if(s!=null && r!=null){
+                if(s!=null && r!=null && isClick){
                     databaseReference.child(idHost).child("invite_receive").setValue(r+"");
                     databaseReference.child(arrayList.get(position).getId()).child("invite_send").setValue(s+"");
                     frGuest.append(idHost+",");
                     frHost.append(arrayList.get(position).getId()+",");
                     databaseReference1.child(idHost).setValue(frHost+"");
                     databaseReference1.child(arrayList.get(position).getId()).setValue(frGuest+"");
-
+                    isClick=false;
                 }else {
                     databaseReference.child(idHost).child("invite_receive").setValue("");
                     databaseReference.child(arrayList.get(position).getId()).child("invite_send").setValue("");

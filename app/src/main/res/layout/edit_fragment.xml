@@ -8,6 +8,9 @@
         <variable
             name="user"
             type="com.example.appchatrealtime.model.User" />
+        <variable
+            name="frag"
+            type="com.example.appchatrealtime.views.EditFragment" />
     </data>
         <RelativeLayout
         android:layout_width="match_parent"
@@ -77,6 +80,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:background="@drawable/image_camera"
                 android:src="@drawable/camera"
+                android:id="@+id/img_pick"
                 android:padding="@dimen/_4sdp"
                android:layout_marginLeft="@dimen/_180sdp"
                 android:layout_marginTop="@dimen/_85sdp"

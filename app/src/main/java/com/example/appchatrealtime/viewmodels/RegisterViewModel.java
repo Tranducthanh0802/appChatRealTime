@@ -52,7 +52,7 @@ public class RegisterViewModel extends ViewModel {
                         mListUser.add(snapshot.child(String.valueOf(i)).getValue(User.class));
                     listMutableLiveData.setValue(mListUser);
                     for (User us:mListUser) {
-                        if(us.getEmail().equals(user.getEmail()) ){
+                        if(us.getEmail().toLowerCase().equals(user.getEmail().toLowerCase()) ){
                             isShowMessage.setValue(true);
 
                             break;

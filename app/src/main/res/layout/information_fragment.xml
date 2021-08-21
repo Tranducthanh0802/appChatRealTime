@@ -21,6 +21,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="@dimen/_150sdp"
+            android:scaleType="fitXY"
             app:imageUri="@{user.linkPhoto}"
             />
         <LinearLayout
@@ -130,11 +131,11 @@
                     android:gravity="left|center"
                     android:layout_marginLeft="@dimen/_10sdp"
                     />
-                <Button
+                <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
-                    android:drawableRight="@drawable/right"
+                    android:src="@drawable/right"
                     app:backgroundTint="@null"
                     />
             </LinearLayout>
@@ -158,7 +159,12 @@
                     android:textSize="@dimen/edit"
                     android:gravity="left|center"
                     />
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="1.0.0"
+                    android:gravity="center"
+                    />
             </LinearLayout>
             <View
                 android:layout_width="match_parent"

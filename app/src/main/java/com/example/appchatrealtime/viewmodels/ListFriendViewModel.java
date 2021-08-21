@@ -96,18 +96,22 @@ public class ListFriendViewModel  extends ViewModel {
                 ArrayList<ListFriend> arrayList=new ArrayList<>();
                 String listfriend= (String) snapshot.child("Friend_User").child(String.valueOf(idHost)).getValue();
                 String listRequest= (String) snapshot.child("Invite").child(String.valueOf(idHost)).child("invite_send").getValue();
+                String listInvite= (String) snapshot.child("Invite").child(String.valueOf(idHost)).child("invite_receive").getValue();
+
                 String[] arr=getlistFriend(listfriend);
                 String[] arr1=getlistFriend(listRequest);
+                String[] arr2=getlistFriend(listInvite);
                 int size= (int) snapshot.child("User").getChildrenCount();
                 ArrayList<String> list = new ArrayList<String>(Arrays.asList(arr));
                 ArrayList<String> list1 = new ArrayList<String>(Arrays.asList(arr1));
+                ArrayList<String> list2 = new ArrayList<String>(Arrays.asList(arr2));
 
                 for(int i=0,j=0;i<size;i++){
                     if(i!= Integer.valueOf(idHost)) {
                         ListFriend fr =new ListFriend(
                                 (String) snapshot.child("User").child(String.valueOf(i)).child("linkPhoto").getValue(),
                                 (String) snapshot.child("User").child(String.valueOf(i)).child("fullName").getValue());
-                        if (list.contains(String.valueOf(i)) || list1.contains(String.valueOf(i))) {
+                        if (list.contains(String.valueOf(i)) || list1.contains(String.valueOf(i)) || list2.contains(String.valueOf(i))) {
                             fr.setFriend( false);
                         } else fr.setFriend(true);
                         fr.setId(String.valueOf(i));

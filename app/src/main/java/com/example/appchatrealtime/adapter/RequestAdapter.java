@@ -37,7 +37,7 @@ public class RequestAdapter extends BaseAdapter implements StickyListHeadersAdap
         this.arrLisName = arrLisName;
         notifyDataSetChanged();
     }
-
+    Boolean isClick;
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
 
@@ -105,6 +105,7 @@ public class RequestAdapter extends BaseAdapter implements StickyListHeadersAdap
         }
         addInvite();
         itemBinding.setViewmodel1(arrLisName.get(i));
+        isClick=true;
         itemBinding.ketban.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,9 +118,10 @@ public class RequestAdapter extends BaseAdapter implements StickyListHeadersAdap
                 invite_receive=  arrInvite.get(i).getInvite_receive()+""+idHost+",";
                 invite_send=  arrInvite.get(Integer.parseInt(idHost)).getInvite_send()+""+arrLisName.get(i).getId()+",";
                 Log.d("abc", "ketban: "+invite_send+invite_receive);
-                if(invite_receive.toString()!="" &&invite_receive.toString()!=""){
+                if(invite_receive.toString()!="" &&invite_receive.toString()!="" &&isClick){
                     databaseReference.child(idHost).child("invite_send").setValue(invite_send+"");
                     databaseReference.child(arrLisName.get(i).getId()).child("invite_receive").setValue(invite_receive+"");
+                    isClick=false;
                 }
             }
         });

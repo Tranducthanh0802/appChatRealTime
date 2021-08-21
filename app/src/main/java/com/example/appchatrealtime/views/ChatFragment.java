@@ -1,11 +1,14 @@
 package com.example.appchatrealtime.views;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
@@ -35,6 +38,7 @@ import java.util.ArrayList;
 public class ChatFragment extends Fragment {
     private static final int STORAGE_PERMISSION_CODE = 1;
     ChatAdapter chatAdapter;
+    MessageFragmentBinding binding;
     Chat chat;
     firebase fb =new firebase();
     DatabaseReference databaseReference=fb.getDatabaseReference();
@@ -52,7 +56,7 @@ public class ChatFragment extends Fragment {
     @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        MessageFragmentBinding binding = DataBindingUtil.inflate(
+         binding = DataBindingUtil.inflate(
                 inflater, R.layout.message_fragment, container, false);
         View view = binding.getRoot();
         ChatViewModel loginViewModel=new ViewModelProvider(getActivity()).get(ChatViewModel.class);
@@ -77,6 +81,13 @@ public class ChatFragment extends Fragment {
         binding.storageImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try {
+                    InputMethodManager inputMethodManager=(InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),0);
+
+                }catch (NullPointerException e){
+
+                }
                 ChatViewModel chatViewModel = new ChatViewModel();
                 chatViewModel.setContext(getActivity());
                 if (!chatViewModel.CheckPermission()) {
@@ -108,18 +119,32 @@ public class ChatFragment extends Fragment {
                 binding.imgSend.setVisibility(View.GONE);
             }
         });
+        binding.edtInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkKeyBoard();
+                binding.storageImg.setImageResource(R.drawable.photo);
+                binding.recBot.setVisibility(View.GONE);
+            }
+        });
         binding.edtInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                binding.recyclerviewmessage.scrollToPosition(max);
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if(s.equals("")){
+                    if(count==0){
                         binding.imgSend.setVisibility(View.GONE);
+
+                    try {
                         InputMethodManager inputMethodManager=(InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
-                        inputMethodManager.hideSoftInputFromWindow(binding.edtInput.getWindowToken(),0);
+                        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),0);
+
+                    }catch (NullPointerException e){
+
+                    }
                     }else  binding.imgSend.setVisibility(View.VISIBLE);
             }
 
@@ -128,6 +153,7 @@ public class ChatFragment extends Fragment {
 
             }
         });
+
         loginViewModel.getLinkPhotoLiveData(getActivity()).observe(getActivity(), new Observer<Chat>() {
             @Override
             public void onChanged(Chat s) {
@@ -139,6 +165,23 @@ public class ChatFragment extends Fragment {
             }
         });
         return view;
+    }
+    private void checkKeyBoard(){
+        binding.messageRoot.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r=new Rect();
+                Log.d("abc", "onGlobalLayout: "+max);
+                binding.messageRoot.getWindowVisibleDisplayFrame(r);
+                int heightDiff=binding.messageRoot.getRootView().getHeight()-r.height();
+                if(heightDiff>0.25*binding.messageRoot.getRootView().getHeight()){
+                    if(max+1>0){
+                        binding.recyclerviewmessage.scrollToPosition(max);
+                        binding.messageRoot.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                       }
+                }
+            }
+        });
     }
 
 
