@@ -17,6 +17,7 @@ public class ListMessageDB {
     private String message;
     private Boolean status;
     private String addId;
+    private String idbold;
 
     public String getAddId() {
         return addId;
@@ -26,7 +27,7 @@ public class ListMessageDB {
         this.addId = addId;
     }
 
-    public ListMessageDB(int id, String count, String id_receiver, String id_sender, String message, Boolean status) {
+    public ListMessageDB(int id, String count, String id_receiver, String id_sender, String message, Boolean status,String idbold) {
         this.id=id;
         this.count = count;
         this.id_receiver = id_receiver;
@@ -34,6 +35,15 @@ public class ListMessageDB {
         this.message = message;
         this.status = status;
         this.addId = AddId(id_receiver+","+ id_sender);
+        this.idbold=idbold;
+    }
+
+    public String getIdbold() {
+        return idbold;
+    }
+
+    public void setIdbold(String idbold) {
+        this.idbold = idbold;
     }
 
     public int getId() {

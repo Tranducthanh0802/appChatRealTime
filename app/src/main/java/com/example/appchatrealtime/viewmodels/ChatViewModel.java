@@ -310,8 +310,8 @@ public class ChatViewModel extends ViewModel {
                 ) {
                     if (listChats.get(i).getAddId().equals(id_Guest)) {
                         if (a) {
-                            databaseReference.child("ListMessage").child(String.valueOf(i)).child("status").setValue(true);
-
+                            String minusID=process((String)snapshot.child("ListMessage").child(String.valueOf(i)).child("addId").getValue(),idHost);
+                            databaseReference.child("ListMessage").child(String.valueOf(i)).child("addId").setValue(minusID+"");
                             a = false;
                         }
                         String getmessage = listChats.get(i).getMessage();
@@ -381,6 +381,20 @@ public class ChatViewModel extends ViewModel {
             }
         };
         databaseReference.addValueEventListener(postMessage);
+    }
+
+    private String process(String value, String idHost) {
+        if(value.equals("")) return "";
+        String[] arr =new String[value.split(",").length+1];
+        arr=value.split(",");
+        ArrayList<String> list = new ArrayList<String>(Arrays.asList(arr));
+       String s="";
+        for(int i=0;i<list.size();i++){
+            if(!list.get(i).equals(idHost)){
+                s+=list.get(i)+",";
+            }
+        }
+        return s;
     }
 
     private void innit1(FragmentActivity context) {
@@ -574,6 +588,8 @@ public class ChatViewModel extends ViewModel {
                                 if (sb != null && isClick) {
                                     databaseReference.child("ListMessage").child(String.valueOf(vitri)).child("message").setValue(sb + "");
                                     databaseReference.child("ListMessage").child(String.valueOf(vitri)).child("status").setValue(false);
+                                    databaseReference.child("ListMessage").child(String.valueOf(vitri)).child("addId").setValue(id_Guest+"");
+
                                     isClick = false;
                                 }
                             }
@@ -670,6 +686,7 @@ public class ChatViewModel extends ViewModel {
                     if (sb != null && isClick) {
                         databaseReference.child("ListMessage").child(String.valueOf(vitri)).child("message").setValue(sb + "");
                         databaseReference.child("ListMessage").child(String.valueOf(vitri)).child("status").setValue(false);
+                        databaseReference.child("ListMessage").child(String.valueOf(vitri)).child("addId").setValue(id_Guest+"");
                         textEdit.setValue("");
                         if (checkText != null || checkText.getValue())
                             checkText.setValue(false);

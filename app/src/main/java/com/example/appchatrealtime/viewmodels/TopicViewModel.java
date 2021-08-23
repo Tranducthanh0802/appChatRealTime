@@ -1,7 +1,6 @@
 package com.example.appchatrealtime.viewmodels;
 
 import android.graphics.Typeface;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -126,10 +125,10 @@ public class TopicViewModel extends ViewModel {
                     if (Check(id_re, idHost) && !String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue()).equals("")) {
 
                         String tinnhan = (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue();
-
+                        String idBold=(String) snapshot.child("ListMessage").child(String.valueOf(i)).child("addId").getValue();
                         item.setDiem(String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("count").getValue()));
 //                        String id= String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue());
-                        Boolean bold = processMessage(tinnhan, idHost);
+                        Boolean bold = processMessage(tinnhan, idHost,idBold);
 
                         item = new TopicItem(
                                 getLinkPhoto(id_re, idHost),
@@ -138,7 +137,7 @@ public class TopicViewModel extends ViewModel {
                         );
                         item.setParagraph(tinnhan);
                         item.setIdGuest(id_re);
-                        if (!bold && !status) {
+                        if (!bold ) {
                             item.setBold(true);
 
                         } else {
@@ -146,7 +145,7 @@ public class TopicViewModel extends ViewModel {
                         }
                         ;
                         item.setDiem(String.valueOf(Count(tinnhan, idHost)));
-                        ListMessageDB listMessageDB = new ListMessageDB(i, item.getDiem(), (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue(), (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue(), tinnhan, status);
+                        ListMessageDB listMessageDB = new ListMessageDB(i, item.getDiem(), (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("id_receiver").getValue(), (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue(), tinnhan, status,idBold);
                         CreateDatabase.getInstance(context).listMessageDAO().InsertUser(listMessageDB);
                         arrayList.add(item);
 
@@ -182,13 +181,13 @@ public class TopicViewModel extends ViewModel {
             TopicItem item = new TopicItem();
             Boolean status = listMessageDB.get(i).getStatus();
             String id_re = AddId(listMessageDB.get(i).getId_sender() + listMessageDB.get(i).getId_receiver());
-            Log.d("abc", "initdata1: "+listMessageDB.get(i).getId_sender()+"abc" + listMessageDB.get(i).getId_receiver());
+            String idBold=listMessageDB.get(i).getIdbold();
             if (Check(id_re, idHost) && !String.valueOf(listMessageDB.get(i).getMessage().toString()).equals("")) {
                 String tinnhan = (String) listMessageDB.get(i).getMessage();
                 item.setParagraph(tinnhan);
                 item.setDiem(listMessageDB.get(i).getCount());
 //                        String id= String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue());
-                Boolean bold = processMessage(tinnhan, idHost);
+                Boolean bold = processMessage(tinnhan, idHost,idBold);
 
                 item = new TopicItem(
                         getLinkPhoto1(id_re, idHost, listUser),
@@ -196,7 +195,7 @@ public class TopicViewModel extends ViewModel {
                         topicItem.getMessages()
                 );
                 item.setIdGuest(id_re);
-                if (!bold && !status) {
+                if (!bold ) {
                     item.setBold(true);
 
                 } else {
@@ -221,7 +220,7 @@ public class TopicViewModel extends ViewModel {
 
     }
 
-    private boolean processMessage(String tinnhan, String idHost) {
+    private boolean processMessage(String tinnhan, String idHost,String addid) {
         if (tinnhan.equals("")) {
             return false;
         }
@@ -240,13 +239,13 @@ public class TopicViewModel extends ViewModel {
         } else message.setMessage(arrCategory[0]);
         message.setTime(arrTime[1]);
         topicItem.setMessages(message);
-
-        if (!arrCategory[1].equals(idHost)) {
-            return false;
-        } else {
-            return true;
+        String[] arradId=addid.split(",");
+        for(int i=0;i<arradId.length;i++){
+            if(arradId[i].equals(idHost)&&!arrCategory[1].equals(idHost)){
+                return false;
+            }
         }
-
+        return true;
     }
 
     void ngay() {
