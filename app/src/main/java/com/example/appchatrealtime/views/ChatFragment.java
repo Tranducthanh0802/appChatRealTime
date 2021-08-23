@@ -150,7 +150,7 @@ public class ChatFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-             
+
                 if(s.length()==0){
                         binding.imgSend.setVisibility(View.GONE);
                         binding.recyclerviewmessage.scrollToPosition(max);
