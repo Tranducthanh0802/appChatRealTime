@@ -6,6 +6,7 @@ public class CreateMessage {
     private String id_sender;
     private String message;
     private Boolean status;
+    private String addId;
 
     public CreateMessage(String id_receiver, String id_sender) {
         this.id_receiver = id_receiver;
@@ -13,6 +14,7 @@ public class CreateMessage {
         this.count=0;
         this.message="";
         this.status=false;
+        this.addId="";
     }
 
     public CreateMessage() {
