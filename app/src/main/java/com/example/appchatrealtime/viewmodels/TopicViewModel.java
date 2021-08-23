@@ -55,7 +55,7 @@ public class TopicViewModel extends ViewModel {
     }
 
     public void setTransitionData(String s) {
-        transitionData.setValue(s);
+        transitionData.postValue(s);
     }
 
     public TopicViewModel() {
@@ -126,7 +126,6 @@ public class TopicViewModel extends ViewModel {
                     if (Check(id_re, idHost) && !String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue()).equals("")) {
 
                         String tinnhan = (String) snapshot.child("ListMessage").child(String.valueOf(i)).child("message").getValue();
-                        item.setParagraph(tinnhan);
 
                         item.setDiem(String.valueOf(snapshot.child("ListMessage").child(String.valueOf(i)).child("count").getValue()));
 //                        String id= String.valueOf( snapshot.child("ListMessage").child(String.valueOf(i)).child("id_sender").getValue());
@@ -137,6 +136,7 @@ public class TopicViewModel extends ViewModel {
                                 getName(id_re, idHost),
                                 topicItem.getMessages()
                         );
+                        item.setParagraph(tinnhan);
                         item.setIdGuest(id_re);
                         if (!bold && !status) {
                             item.setBold(true);
@@ -155,7 +155,7 @@ public class TopicViewModel extends ViewModel {
                 if (arrayList.size() != 0) {
                     Collections.sort(arrayList);
                 }
-                arrayListMutableLiveData.setValue(arrayList);
+                arrayListMutableLiveData.postValue(arrayList);
 
             }
 
@@ -211,7 +211,7 @@ public class TopicViewModel extends ViewModel {
         if (arrayList.size() != 0) {
             Collections.sort(arrayList);
         }
-        arrayListMutableLiveData.setValue(arrayList);
+        arrayListMutableLiveData.postValue(arrayList);
 
 
         return arrayListMutableLiveData;

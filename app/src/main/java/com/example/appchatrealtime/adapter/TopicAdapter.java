@@ -47,6 +47,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
         TopicAdapterBinding binding= DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
                 R.layout.topic_adapter, parent, false);
+
         return new ViewHolder(binding);
     }
 
@@ -82,20 +83,30 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
                 FilterResults results = new FilterResults();
                 List<TopicItem> fGroups = new ArrayList<>();
                 if (constraint == null || constraint.length() == 0) {
-                    // set the Original result to return
+                    for (int i = 0; i < filteredGroups.size(); i++) {
+                        //  String data = filteredGroups.get(i).getMessages().getMessage();
+                       filteredGroups.get(i).setIsShow(Boolean.TRUE);
+
+                    }
                     results.count = filteredGroups.size();
                     results.values = filteredGroups;
                 } else {
-                    constraint = constraint.toString().toLowerCase();
+                    constraint = constraint.toString().trim().toLowerCase();
                     for (int i = 0; i < filteredGroups.size(); i++) {
-                        String data = filteredGroups.get(i).getMessages().getMessage();
-                        if (data.toLowerCase().startsWith(constraint.toString())) {
+                      //  String data = filteredGroups.get(i).getMessages().getMessage();
+                        int count =NumberSame(constraint.toString(),filteredGroups.get(i).getParagraph());
+                        if(filteredGroups.get(i)!=null) {
+                            filteredGroups.get(i).setNotifical(count + " " + context.getString(R.string.tinnhanphuhop));
+                        }
+                        filteredGroups.get(i).setIsShow(Boolean.FALSE);
+                        if (count>0) {
                             fGroups.add(filteredGroups.get(i));
                         }
                     }
                     // set the Filtered result to return
                     results.count = fGroups.size();
                     results.values = fGroups;
+
                 }
 
                 return results;
@@ -103,11 +114,16 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
+                if(results.count==0) chooseMessageListerner.find(0);
+                else chooseMessageListerner.find(1);
                 arrayList = (ArrayList<TopicItem>) results.values;
                 notifyDataSetChanged();
             }
+
         };
     }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TopicAdapterBinding topicAdapterBinding;
@@ -124,6 +140,21 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
         public TopicAdapterBinding getAdapterBinding(){
             return topicAdapterBinding;
         }
+    }
+    int NumberSame(String s,String message){
+        String[] arrSection = new String[message.split("@@@@@").length + 1];
+        String[] arrTime = new String[3];
+        String[] arrCategory = new String[3];
+        int count=0;
+        arrSection = message.split("@@@@@");
+        for (int i = 0; i < message.split("@@@@@").length; i++) {
+            arrTime = arrSection[i].split("@@@@");
+            arrCategory = arrTime[0].split("@@@");
+            if(arrCategory[0].toString().trim().toLowerCase().contains(s.trim().toLowerCase())) {
+                count++;
+            }
+        }
+        return count;
     }
 
 

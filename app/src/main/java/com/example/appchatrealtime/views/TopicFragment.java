@@ -2,10 +2,10 @@ package com.example.appchatrealtime.views;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -109,13 +109,21 @@ public class TopicFragment extends Fragment {
             public boolean onTabSelected(int position, boolean wasSelected) {
                 if(position==2){
                     binding.viewTop.setVisibility(View.GONE);
-                    Log.d("abc", "onTabSelected12: ");
+
                 }else
                 binding.viewTop.setVisibility(View.VISIBLE);
                 if(position==0){
+                    binding.txtTitleTopic.setText(getActivity().getString(R.string.tinnhan));
                     binding.edtSearch.setQueryHint("Tìm kiếm tin nhắn");
-                }else binding.edtSearch.setQueryHint("Tìm kiếm bạn bè");
-
+                    binding.edtSearch.setQuery("", false);
+                    binding.edtSearch.clearFocus();
+                }
+                if(position==1){
+                    binding.txtTitleTopic.setText(getActivity().getString(R.string.banbe));
+                    binding.edtSearch.setQuery("", false);
+                    binding.edtSearch.clearFocus();
+                    binding.edtSearch.setQueryHint("Tìm kiếm bạn bè");
+                }
                 binding.viewPager.setCurrentItem(position);
                 return true;
             }
@@ -135,6 +143,22 @@ public class TopicFragment extends Fragment {
                 return false;
             }
         });
+        int a= binding.edtSearch.getContext().getResources().getIdentifier("android:id/search_close_btn",null,null);
+        binding.edtSearch.findViewById(a).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.edtSearch.clearFocus();
+                binding.edtSearch.setQuery("", false);
+                try {
+                    InputMethodManager inputMethodManager=(InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),0);
+
+                }catch (NullPointerException e){
+
+                }
+            }
+        });
+
 
         binding.imgCreateMess.setOnClickListener(new View.OnClickListener() {
             @Override

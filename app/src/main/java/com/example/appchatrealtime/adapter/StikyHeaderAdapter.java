@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import com.example.appchatrealtime.ChooseMessageListerner;
 import com.example.appchatrealtime.databinding.ItemListfriendBinding;
 import com.example.appchatrealtime.databinding.StickyheaderListfriendBinding;
 import com.example.appchatrealtime.model.ListFriend;
@@ -21,6 +22,11 @@ public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeaders
     private ArrayList<ListFriend> arrLisName;
     private ArrayList<ListFriend> filteredGroups;
     private LayoutInflater mLayoutInflater;
+    ChooseMessageListerner chooseMessageListerner;
+
+    public void setChooseMessageListerner(ChooseMessageListerner chooseMessageListerner) {
+        this.chooseMessageListerner = chooseMessageListerner;
+    }
 
     public StikyHeaderAdapter(ArrayList<ListFriend> arrLisName) {
         this.arrLisName = arrLisName;
@@ -109,10 +115,10 @@ public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeaders
                     results.count = filteredGroups.size();
                     results.values = filteredGroups;
                 } else {
-                    constraint = constraint.toString().toLowerCase();
+                    constraint = constraint.toString().trim().toLowerCase();
                     for (int i = 0; i < filteredGroups.size(); i++) {
                         String data = filteredGroups.get(i).getNameFull();
-                        if (data.toLowerCase().contains(constraint.toString())) {
+                        if (data.toLowerCase().trim().contains(constraint.toString())) {
                             fGroups.add(filteredGroups.get(i));
                         }
                     }
@@ -126,6 +132,8 @@ public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeaders
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
+                if(results.count==0) chooseMessageListerner.find(0);
+                else chooseMessageListerner.find(1);
                 arrLisName = (ArrayList<ListFriend>) results.values;
                 notifyDataSetChanged();
             }
@@ -148,5 +156,6 @@ public class StikyHeaderAdapter extends BaseAdapter implements StickyListHeaders
             this.view = binding.getRoot();
         }
     }
+
 
 }

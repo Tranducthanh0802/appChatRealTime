@@ -78,8 +78,21 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/edit"
                 android:text="@{viewmodel1.messages.message}"
+                android:visibility="@{viewmodel1.isShow ? View.VISIBLE: View.GONE}"
                 android:typeface='@{viewmodel1.bold ? "bold" : "nomal"}'
                 android:textColor="@color/black"
+                android:id="@+id/txtmessage"
+                android:layout_marginTop="@dimen/_7sdp"
+                />
+            <TextView
+                android:layout_below="@id/hovaten_adap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/edit"
+                android:text="@{viewmodel1.notifical}"
+                android:visibility="@{viewmodel1.isShow ? View.GONE : View.VISIBLE}"
+                android:textColor="@color/black"
+                android:id="@+id/txtnotifical_count"
                 android:layout_marginTop="@dimen/_7sdp"
                 />
             <TextView

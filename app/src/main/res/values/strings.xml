@@ -45,7 +45,10 @@
 <string name="sdt">Số điện thoại</string>
    <string name="ngaysinh">Ngày sinh</string>
    <string name="khongcoketnoi">Không có kết nối</string>
-<string name="outmanhinh">Bấm thêm lần nữa để thoát</string>
+    <string name="khongtimthay">Không tìm thấy kết quả phù hợp</string>
+ <string name="tinnhanphuhop">tin nhắn phù hợp</string>
+
+<string name="bamthemlannua">Bấm thêm lần nữa để thoát</string>
 
 
 

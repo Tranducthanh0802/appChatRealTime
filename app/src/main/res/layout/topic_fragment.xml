@@ -29,6 +29,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/sizeNameFrag"
                 android:textStyle="bold"
+                android:id="@+id/txt_Title_topic"
 
                 />
             <ImageButton
@@ -49,6 +50,8 @@
                 android:layout_marginBottom="@dimen/_40sdp"
                 android:drawableLeft="@drawable/find"
                 android:id="@+id/edtSearch"
+
+
                 />
 
         </RelativeLayout>
@@ -68,6 +71,7 @@
         android:background="@drawable/recyclerview"
         android:id="@+id/viewPager"
         />
+
     <RelativeLayout
         android:id="@+id/rela_bottom"
         android:background="@color/graylight"

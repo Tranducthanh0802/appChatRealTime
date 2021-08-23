@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.appchatrealtime.ChooseMessageListerner;
 import com.example.appchatrealtime.R;
 import com.example.appchatrealtime.adapter.StikyHeaderAdapter;
 import com.example.appchatrealtime.databinding.ListFriendFragmentBinding;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ListFriendFragment extends Fragment {
+    StikyHeaderAdapter stickyListHeadersAdapter;
     public static ListFriendFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -48,19 +50,31 @@ public class ListFriendFragment extends Fragment {
         listFriendViewModel.getListMutableLiveData(getActivity()).observe(getActivity(), new Observer<ArrayList<ListFriend>>() {
             @Override
             public void onChanged(ArrayList<ListFriend> listFriendViewModels) {
-                StikyHeaderAdapter stickyListHeadersAdapter=new StikyHeaderAdapter(listFriendViewModels);
+                stickyListHeadersAdapter=new StikyHeaderAdapter(listFriendViewModels);
                 binding.stickyListFriend.setAdapter(stickyListHeadersAdapter);
-                topicViewModel.getTransitionData().observe(getActivity(), new Observer<String>() {
+                stickyListHeadersAdapter.setChooseMessageListerner(new ChooseMessageListerner() {
                     @Override
-                    public void onChanged(String s) {
-                        stickyListHeadersAdapter.getFilter().filter(s);
+                    public void id_sender(String id) {
+
+                    }
+
+                    @Override
+                    public void find(int count) {
+                        if(count==0){
+                            binding.findErr.setVisibility(View.VISIBLE);
+                        }else     binding.findErr.setVisibility(View.GONE);
                     }
                 });
             }
         });
+        topicViewModel.getTransitionData().observe(getActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                stickyListHeadersAdapter.getFilter().filter(s);
 
 
-
+            }
+        });
         return view;
     }
 }

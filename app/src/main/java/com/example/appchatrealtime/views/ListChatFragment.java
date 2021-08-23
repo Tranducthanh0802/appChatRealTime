@@ -27,10 +27,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class ListChatFragment extends Fragment {
+public class ListChatFragment extends Fragment  {
     TopicViewModel topicViewModel;
     TopicAdapter topicAdapter;
-
+    SharedPreferencesModel sharedPreferencesModel;
     public static ListChatFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -47,14 +47,14 @@ public class ListChatFragment extends Fragment {
         ListchatFragmentBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.listchat_fragment, container, false);
         View view = binding.getRoot();
-        SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(getActivity());
+        sharedPreferencesModel=new SharedPreferencesModel(getActivity());
         topicViewModel=new ViewModelProvider(getActivity(),getDefaultViewModelProviderFactory()).get(TopicViewModel.class);
         binding.setLifecycleOwner(getActivity());
         topicViewModel.getArrayListMutableLiveData(getActivity()).observe(getActivity(), new Observer<ArrayList<TopicItem>>() {
             @Override
             public void onChanged(ArrayList<TopicItem> topicViewModels) {
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-                topicAdapter=new TopicAdapter(topicViewModels,getActivity());
+                topicAdapter = new TopicAdapter(topicViewModels, getActivity());
                 binding.recyclListChat.setAdapter(topicAdapter);
                 binding.recyclListChat.setLayoutManager(mLayoutManager);
                 topicAdapter.setChooseMessageListerner(new ChooseMessageListerner() {
@@ -66,20 +66,32 @@ public class ListChatFragment extends Fragment {
                         transaction.commit();
                         sharedPreferencesModel.saveString("id_guest",id);
                     }
+
+                    @Override
+                    public void find(int count) {
+                        if(count>=1 ){
+                            binding.findErr.setVisibility(View.GONE);
+                        }else {
+                            binding.findErr.setVisibility(View.VISIBLE);
+                        }
+                    }
                 });
+
             }
         });
         topicViewModel.getTransitionData().observe(getActivity(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 topicAdapter.getFilter().filter(s);
+
+
             }
         });
-
 
         return view;
 
     }
 
 
-}
+        }
+

@@ -42,5 +42,7 @@
     <string name="sdt">Phone Number</string>
     <string name="ngaysinh">Date</string>
     <string name="khongcoketnoi">Internet disconnect</string>
-    <string name="lanlientiep">Press back again to exit the applicaition</string>
+    <string name="bamthemlannua">Press back again to exit the applicaition</string>
+    <string name="khongtimthay">"No matching results were found "</string>
+    <string name="tinnhanphuhop">suitable message</string>
 </resources>

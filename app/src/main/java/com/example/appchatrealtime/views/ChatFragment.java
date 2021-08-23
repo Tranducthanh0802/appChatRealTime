@@ -75,10 +75,31 @@ public class ChatFragment extends Fragment {
                 binding.recyclerviewmessage.setLayoutManager(mLayoutManager);
                 binding.recyclerviewmessage.scrollToPosition(chatViewModels.size()-1);
                 max=chatViewModels.size()-1;
-           }
+                checkKeyBoard(chatViewModels.size()-1);
+                binding.edtInput.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        checkKeyBoard(chatViewModels.size()-1);
+                        binding.storageImg.setImageResource(R.drawable.photo);
+                        binding.recBot.setVisibility(View.GONE);
+                    }
+                });
+                binding.recyclerviewmessage.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        LinearLayoutManager myLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                        int scrollPosition = myLayoutManager.findFirstVisibleItemPosition();
+                        binding.txtCalendar.setText(chatViewModels.get(scrollPosition).getFulltime());
+
+                    }
+                });
+
+            }
         });
 
-        binding.storageImg.setOnClickListener(new View.OnClickListener() {
+
+         binding.storageImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -119,25 +140,20 @@ public class ChatFragment extends Fragment {
                 binding.imgSend.setVisibility(View.GONE);
             }
         });
-        binding.edtInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkKeyBoard();
-                binding.storageImg.setImageResource(R.drawable.photo);
-                binding.recBot.setVisibility(View.GONE);
-            }
-        });
+
         binding.edtInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                binding.recyclerviewmessage.scrollToPosition(max);
 
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if(count==0){
+             
+                if(s.length()==0){
                         binding.imgSend.setVisibility(View.GONE);
-
+                        binding.recyclerviewmessage.scrollToPosition(max);
                     try {
                         InputMethodManager inputMethodManager=(InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
                         inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),0);
@@ -166,17 +182,17 @@ public class ChatFragment extends Fragment {
         });
         return view;
     }
-    private void checkKeyBoard(){
+    private void checkKeyBoard(int count){
         binding.messageRoot.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 Rect r=new Rect();
-                Log.d("abc", "onGlobalLayout: "+max);
+
                 binding.messageRoot.getWindowVisibleDisplayFrame(r);
                 int heightDiff=binding.messageRoot.getRootView().getHeight()-r.height();
                 if(heightDiff>0.25*binding.messageRoot.getRootView().getHeight()){
-                    if(max+1>0){
-                        binding.recyclerviewmessage.scrollToPosition(max);
+                    if(count+1>0){
+                        binding.recyclerviewmessage.scrollToPosition(count);
                         binding.messageRoot.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                        }
                 }

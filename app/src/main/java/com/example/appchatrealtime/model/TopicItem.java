@@ -19,6 +19,8 @@ public class TopicItem implements Comparable<TopicItem> {
     private String diem="0";
     private String paragraph;
     private String idGuest;
+    private Boolean isShow;
+    private String notifical;
 
 
     @BindingAdapter({"bind:imageUri"})
@@ -32,6 +34,23 @@ public class TopicItem implements Comparable<TopicItem> {
         this.linkPhoto = linkPhoto;
         this.nameSend = nameSend;
         this.messages = messages;
+        this.isShow=true;
+    }
+
+    public String getNotifical() {
+        return notifical;
+    }
+
+    public void setNotifical(String notifical) {
+        this.notifical = notifical;
+    }
+
+    public Boolean getIsShow() {
+        return isShow;
+    }
+
+    public void setIsShow(Boolean isShow) {
+        this.isShow = isShow;
     }
 
     public TopicItem(String linkPhoto, String nameSend) {
@@ -80,15 +99,15 @@ public class TopicItem implements Comparable<TopicItem> {
     }
 
     public String getNameSend() {
-        if(nameSend.length()>25){
+        if(nameSend.length()>10){
             char[] arr = nameSend.toCharArray();
-            char[] arr1=new char[28];
-            for(int i=0;i<25;i++){
+            char[] arr1=new char[13];
+            for(int i=0;i<10;i++){
                 arr1[i]=arr[i];
             }
-            arr1[26]='.';
-            arr1[27]='.';
-            arr1[28]='.';
+            arr1[10]='.';
+            arr1[11]='.';
+            arr1[12]='.';
 
             return String.valueOf(arr1);
         }

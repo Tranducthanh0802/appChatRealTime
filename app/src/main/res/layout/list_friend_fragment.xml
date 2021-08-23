@@ -10,10 +10,38 @@
             type="com.example.appchatrealtime.viewmodels.TopicViewModel" />
 
     </data>
-    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
-        android:layout_marginTop="@dimen/_15sdp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/sticky_listFriend"
-        />
+        android:layout_height="match_parent">
+        <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/sticky_listFriend"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:id="@+id/find_err"
+            android:layout_height="wrap_content">
+            <ImageView
+
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_80sdp"
+                android:src="@drawable/searcherro"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/text"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/black"
+                android:text="@string/khongtimthay"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
 </layout>

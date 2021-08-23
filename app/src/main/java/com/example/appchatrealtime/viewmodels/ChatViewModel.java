@@ -60,6 +60,7 @@ public class ChatViewModel extends ViewModel {
     private String nameFull;
     private String messag;
     private String time;
+    private String fulltime;
     private String id_Sender;
     private String id_receive;
     private Boolean isshowavatar;
@@ -127,6 +128,14 @@ public class ChatViewModel extends ViewModel {
         this.isshowavatar = isshowavatar;
         this.isshowtime = isshowtime;
         this.isImage = isImage;
+    }
+
+    public String getFulltime() {
+        return fulltime;
+    }
+
+    public void setFulltime(String fulltime) {
+        this.fulltime = fulltime;
     }
 
     public String getTime() {
@@ -308,6 +317,7 @@ public class ChatViewModel extends ViewModel {
                         String getmessage = listChats.get(i).getMessage();
                         if (!getmessage.equals("")) {
                             String[] arrtime = getTime(getmessage);
+
                             String[] arr = getMessage(getmessage);
                             String[] status = getStatus(getmessage);
                             ChatViewModel chatViewModel = new ChatViewModel();
@@ -354,6 +364,7 @@ public class ChatViewModel extends ViewModel {
                                     }
 
                                 }
+                                chatViewModel.setFulltime(arrtime[j].split(" ")[0]);
                                 arrayList.add(chatViewModel);
                             }
                         }

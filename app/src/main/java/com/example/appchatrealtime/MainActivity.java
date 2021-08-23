@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         if(backPressTimes+2000>System.currentTimeMillis()){
             super.onBackPressed();
         }else {
-            Toast.makeText(this, this.getString(R.string.outmanhinh)+"", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, this.getString(R.string.bamthemlannua)+"", Toast.LENGTH_SHORT).show();
         }
         backPressTimes=System.currentTimeMillis();
     }
