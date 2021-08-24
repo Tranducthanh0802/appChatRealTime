@@ -4,7 +4,7 @@
         <import type="android.view.View"/>
         <variable
             name="createconversation"
-            type="com.example.appchatrealtime.viewmodels.CreateConversationViewModel" />
+            type="com.example.appchatrealtime.createmessage.viewmodel.CreateConversationViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

@@ -5,7 +5,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewmodel"
-            type="com.example.appchatrealtime.model.ListFriend" />
+            type="com.example.appchatrealtime.bottomnavigation.tablayout.listfriend.ListFriend" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"

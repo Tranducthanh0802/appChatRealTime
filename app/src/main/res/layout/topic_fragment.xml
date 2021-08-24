@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="topic"
-            type="com.example.appchatrealtime.viewmodels.TopicViewModel" />
+            type="com.example.appchatrealtime.bottomnavigation.listmessage.model.TopicViewModel" />
 
     </data>
 <RelativeLayout
@@ -78,7 +78,7 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_margin="@dimen/_5sdp"
-        android:layout_height="110dp">
+        android:layout_height="80dp">
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                 android:id="@+id/bottom_navigation"
                 android:layout_margin="@dimen/_10sdp"
                 android:layout_width="match_parent"
-                android:background="@color/white"
+                android:background="@null"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 />

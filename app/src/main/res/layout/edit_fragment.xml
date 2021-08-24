@@ -4,13 +4,13 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.example.appchatrealtime.viewmodels.InformationViewmodel" />
+            type="com.example.appchatrealtime.bottomnavigation.personal.InformationViewmodel" />
         <variable
             name="user"
-            type="com.example.appchatrealtime.model.User" />
+            type="com.example.appchatrealtime.login.User" />
         <variable
             name="frag"
-            type="com.example.appchatrealtime.views.EditFragment" />
+            type="com.example.appchatrealtime.bottomnavigation.personal.editinformtion.EditFragment" />
     </data>
         <RelativeLayout
         android:layout_width="match_parent"

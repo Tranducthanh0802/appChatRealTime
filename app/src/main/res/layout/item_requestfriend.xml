@@ -5,10 +5,10 @@
         <import type="android.view.View"/>
         <variable
             name="viewmodel"
-            type="com.example.appchatrealtime.viewmodels.ListFriendViewModel" />
+            type="com.example.appchatrealtime.bottomnavigation.tablayout.ListFriendViewModel" />
         <variable
             name="viewmodel1"
-            type="com.example.appchatrealtime.model.ListFriend" />
+            type="com.example.appchatrealtime.bottomnavigation.tablayout.listfriend.ListFriend" />
 
     </data>
     <LinearLayout

@@ -5,10 +5,10 @@
         <import type="android.view.View"/>
         <variable
             name="viewmodel"
-            type="com.example.appchatrealtime.viewmodels.ChatViewModel" />
+            type="com.example.appchatrealtime.bottomnavigation.listmessage.viewmodel.ChatViewModel" />
         <variable
             name="fragment"
-            type="com.example.appchatrealtime.views.ChatFragment" />
+            type="com.example.appchatrealtime.bottomnavigation.listmessage.view.chat.ChatFragment" />
     </data>
     <RelativeLayout
         android:layout_width="wrap_content"

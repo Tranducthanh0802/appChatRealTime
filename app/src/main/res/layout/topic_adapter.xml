@@ -6,10 +6,10 @@
         <import type="android.view.View"/>
         <variable
             name="viewmodel1"
-            type="com.example.appchatrealtime.model.TopicItem" />
+            type="com.example.appchatrealtime.bottomnavigation.listmessage.model.TopicItem" />
         <variable
             name="viewmodel"
-            type="com.example.appchatrealtime.viewmodels.TopicViewModel" />
+            type="com.example.appchatrealtime.bottomnavigation.listmessage.model.TopicViewModel" />
 
     </data>
     <LinearLayout

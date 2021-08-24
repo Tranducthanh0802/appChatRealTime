@@ -4,13 +4,13 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.example.appchatrealtime.viewmodels.InformationViewmodel" />
+            type="com.example.appchatrealtime.bottomnavigation.personal.InformationViewmodel" />
        <variable
             name="user"
-            type="com.example.appchatrealtime.model.User" />
+            type="com.example.appchatrealtime.login.User" />
         <variable
             name="fragment"
-            type="com.example.appchatrealtime.views.InformationFragment" />
+            type="com.example.appchatrealtime.bottomnavigation.personal.information.InformationFragment" />
     </data>
 
     <RelativeLayout

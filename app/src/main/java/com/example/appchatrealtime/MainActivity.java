@@ -13,11 +13,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.appchatrealtime.connectservice.ConnectionReceiver;
 import com.example.appchatrealtime.databinding.ActivityMainBinding;
 import com.example.appchatrealtime.model.SharedPreferencesModel;
 import com.example.appchatrealtime.model.firebase;
-import com.example.appchatrealtime.views.LoginFragment;
-import com.example.appchatrealtime.views.TopicFragment;
+import com.example.appchatrealtime.login.LoginFragment;
+import com.example.appchatrealtime.bottomnavigation.BottomFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
@@ -33,14 +34,14 @@ public class MainActivity extends AppCompatActivity {
 
        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        Fragment fragment=TopicFragment.newInstance();
+        Fragment fragment= BottomFragment.newInstance();
         FragmentTransaction transaction= getSupportFragmentManager().beginTransaction();
         SharedPreferencesModel sharedPreferencesModel=new SharedPreferencesModel(this);
         String idHost=sharedPreferencesModel.getString("idHost","");
         if(idHost.equals("")){
             transaction.replace(R.id.frame, LoginFragment.newInstance(),"login_frag");
         }else {
-            transaction.replace(R.id.frame, TopicFragment.newInstance(),"Top_frag");
+            transaction.replace(R.id.frame, BottomFragment.newInstance(),"Top_frag");
         }
         transaction.commit();
 

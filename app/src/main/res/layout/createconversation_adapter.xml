@@ -4,9 +4,9 @@
     <data>
 
         <variable
-            name="viewmodel1" type="com.example.appchatrealtime.viewmodels.CreateConversationViewModel"/>
+            name="viewmodel1" type="com.example.appchatrealtime.createmessage.viewmodel.CreateConversationViewModel"/>
        <variable
-            name="viewmodel" type="com.example.appchatrealtime.model.ItemCreateConversation"/>
+            name="viewmodel" type="com.example.appchatrealtime.createmessage.model.ItemCreateConversation"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

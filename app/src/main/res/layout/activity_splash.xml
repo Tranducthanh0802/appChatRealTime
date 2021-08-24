@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:weightSum="2.5"
     android:background="@drawable/splash_background"
-    tools:context=".Splash_Activity">
+    tools:context=".SplashActivity">
     <RelativeLayout
         android:layout_weight="1.2"
         android:layout_width="match_parent"

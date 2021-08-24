@@ -4,7 +4,7 @@
    <data>
         <variable
             name="viewmodel"
-            type="com.example.appchatrealtime.viewmodels.ListFriendViewModel" />
+            type="com.example.appchatrealtime.listfriend.ListFriendViewModel" />
         <variable
             name="viewmodel1"
             type="com.example.appchatrealtime.model.Invite" />
