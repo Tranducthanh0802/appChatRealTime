@@ -4,7 +4,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewmodel"
-            type="com.example.appchatrealtime.bottomnavigation.listmessage.viewmodel.ChatViewModel" />
+            type="com.example.appchatrealtime.UI.listChatScreen.ChatViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

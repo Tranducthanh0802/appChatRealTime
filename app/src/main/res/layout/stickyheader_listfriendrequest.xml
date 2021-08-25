@@ -4,10 +4,10 @@
    <data>
         <variable
             name="viewmodel"
-            type="com.example.appchatrealtime.bottomnavigation.tablayout.ListFriendViewModel" />
+            type="com.example.appchatrealtime.UI.tabLayoutScreen.ListFriendViewModel" />
         <variable
             name="viewmodel1"
-            type="com.example.appchatrealtime.model.Invite" />
+            type="com.example.appchatrealtime.service.model.Invite" />
 
    </data>
     <RelativeLayout

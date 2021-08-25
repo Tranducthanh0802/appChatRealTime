@@ -4,10 +4,10 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.example.appchatrealtime.bottomnavigation.listmessage.viewmodel.ChatViewModel" />
+            type="com.example.appchatrealtime.UI.listChatScreen.ChatViewModel" />
         <variable
             name="fragment"
-            type="com.example.appchatrealtime.bottomnavigation.listmessage.view.chat.ChatFragment" />
+            type="com.example.appchatrealtime.UI.chatScreen.ChatFragment" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

@@ -4,7 +4,7 @@
         <import type="android.view.View"/>
         <variable
             name="createconversation"
-            type="com.example.appchatrealtime.createmessage.viewmodel.CreateConversationViewModel" />
+            type="com.example.appchatrealtime.UI.creaeteMessageScreen.CreateConversationViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -94,7 +94,7 @@
             android:layout_height="@dimen/_53sdp"
             android:layout_alignParentBottom="true"
             android:visibility="gone"
-            android:background="@color/white"
+            android:background="#F6F6F6"
             android:padding="@dimen/_5sdp">
 
             <androidx.recyclerview.widget.RecyclerView

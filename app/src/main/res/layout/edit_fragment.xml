@@ -4,13 +4,13 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.example.appchatrealtime.bottomnavigation.personal.InformationViewmodel" />
+            type="com.example.appchatrealtime.UI.informatinScreen.InformationViewmodel" />
         <variable
             name="user"
-            type="com.example.appchatrealtime.login.User" />
+            type="com.example.appchatrealtime.service.model.User" />
         <variable
             name="frag"
-            type="com.example.appchatrealtime.bottomnavigation.personal.editinformtion.EditFragment" />
+            type="com.example.appchatrealtime.UI.editInformationScreen.EditFragment" />
     </data>
         <RelativeLayout
         android:layout_width="match_parent"
@@ -88,9 +88,10 @@
         </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_margin="@dimen/_10sdp"
                 android:background="@drawable/topic_adap"
-                android:layout_height="@dimen/_70sdp">
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_height="@dimen/_60sdp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -100,8 +101,7 @@
                 <EditText
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_height="@dimen/_43sdp"
                     android:drawableRight="@drawable/personal1"
                     android:text="@={user.fullName}"
                     android:background="@color/white"
@@ -110,9 +110,9 @@
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_margin="@dimen/_10sdp"
+                android:layout_margin="@dimen/_5sdp"
                 android:background="@drawable/topic_adap"
-                android:layout_height="@dimen/_70sdp">
+                android:layout_height="@dimen/_50sdp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -120,10 +120,10 @@
                     android:textSize="@dimen/text"
                     />
                 <EditText
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:drawableRight="@drawable/personal1"
+                    android:layout_height="@dimen/_43sdp"
+                    android:drawableRight="@drawable/phone"
                     android:text="@={user.phoneNumber}"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@color/white"
@@ -132,9 +132,9 @@
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_margin="@dimen/_10sdp"
+                android:layout_margin="@dimen/_5sdp"
                 android:background="@drawable/topic_adap"
-                android:layout_height="@dimen/_70sdp">
+                android:layout_height="@dimen/_60sdp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -144,11 +144,10 @@
                 <EditText
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:drawableRight="@drawable/personal1"
+                    android:layout_height="@dimen/_43sdp"
+                    android:drawableRight="@drawable/date"
                     android:text="@={user.date}"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:background="@color/white"
+                     android:background="@color/white"
                     android:textColor="@color/black"
                     />
             </RelativeLayout>

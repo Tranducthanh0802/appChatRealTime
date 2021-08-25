@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="topic"
-            type="com.example.appchatrealtime.bottomnavigation.listmessage.model.TopicViewModel" />
+            type="com.example.appchatrealtime.UI.bottomScreen.BottomViewModel" />
 
     </data>
 <RelativeLayout
@@ -88,7 +88,6 @@
 
             <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
                 android:id="@+id/bottom_navigation"
-                android:layout_margin="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:background="@null"
                 android:layout_height="match_parent"

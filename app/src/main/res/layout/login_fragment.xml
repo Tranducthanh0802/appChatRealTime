@@ -6,10 +6,10 @@
         <import type="android.view.View"/>
         <variable
             name="viewmodel"
-            type="com.example.appchatrealtime.login.LoginViewModel" />
+            type="com.example.appchatrealtime.UI.loginScreen.LoginViewModel" />
         <variable
             name="frag"
-            type="com.example.appchatrealtime.login.LoginFragment" />
+            type="com.example.appchatrealtime.UI.loginScreen.LoginFragment" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
